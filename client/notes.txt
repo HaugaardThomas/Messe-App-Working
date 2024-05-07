@@ -1,0 +1,8 @@
+Kan lave en function til at købe tickets/billeter. 
+billeter kan så vises i appen og blive scannet med en stregkode eller andet 
+(en hel screen/side der kun viser billet med stregkode nederest)
+
+
+Skal laves en hjemmeside så standejere kan ligge data/info om deres stand.
+
+Hver stand ejer skal have en profil på hjemmesiden. 

@@ -12,8 +12,8 @@ import { useLogin } from "../context/LoginProvider";
 import HomeScreen from "../screens/HomeScreen";
 import StandScreen from "../screens/StandScreen";
 import KortScreen from "../screens/KortScreen";
-import ProfileScreen from "../screens/ProfileScreen";
-import LoginScreen from "../screens/LoginScreen";
+import LoginRegisterScreen from "../screens/LoginRegisterScreen";
+
 
 // Colors
 import Colors from "../colors/Colors";
@@ -86,7 +86,7 @@ const TabNavigator = () => {
           ),
         }}
         />
-         <Tab.Screen name="ProfileScreen" component={ProfileScreen} 
+         <Tab.Screen name="LoginRegisterScreen" component={LoginRegisterScreen} 
         options={{
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => (
@@ -98,13 +98,6 @@ const TabNavigator = () => {
           ),
         }}
         />
-        <Tab.Screen name="LoginScreen" component={LoginScreen} 
-        options={{ 
-          tabBarButton: () => null,
-          tabBarVisible: false,
-          headerShown: false,
-          }} 
-          />
       </Tab.Navigator>
 
    

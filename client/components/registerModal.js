@@ -14,6 +14,8 @@ import {
 
 import axios from "axios";
 
+import { useNavigation } from "@react-navigation/native";
+
 // Images
 import arrowCloseButton from "../assets/images/Arrow_close_button.png";
 
@@ -53,7 +55,7 @@ const Notification = ({ message, duration = 3000, onHide }) => {
   );
 };
 
-const RegistrationModal = ({ modalVisible, setModalVisible, onSuccess }) => {
+const RegistrationModal = ({ modalRegisterVisible, setModalRegisterVisible, onSuccess }) => {
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -62,7 +64,7 @@ const RegistrationModal = ({ modalVisible, setModalVisible, onSuccess }) => {
 
   const [error, setError] = useState(null);
 
-  
+  const navigation = useNavigation();
 
 
   const handleRegister = async () => {
@@ -77,8 +79,8 @@ const RegistrationModal = ({ modalVisible, setModalVisible, onSuccess }) => {
         }
       );
 
-      setModalVisible(false);
-      onSuccess("Registration successful!");
+      setModalRegisterVisible(false);
+      navigation.navigate("HomeScreen");
     }  catch (error) {
         if (error.response) {
           if (error.response.status === 401) {
@@ -101,16 +103,16 @@ const RegistrationModal = ({ modalVisible, setModalVisible, onSuccess }) => {
     <Modal
       animationType="slide"
       transparent={true}
-      visible={modalVisible}
+      visible={modalRegisterVisible}
       onRequestClose={() => {
-        setModalVisible(!modalVisible);
+        setModalRegisterVisible(!modalRegisterVisible);
       }}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <TouchableOpacity
             style={styles.modalCloseButton}
-            onPress={() => setModalVisible(!modalVisible)}
+            onPress={() => setModalRegisterVisible(!modalRegisterVisible)}
           >
             <Image source={arrowCloseButton} />
           </TouchableOpacity>

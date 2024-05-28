@@ -16,8 +16,12 @@ import axios from "axios";
 
 import { useNavigation } from "@react-navigation/native";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 // Images
 import arrowCloseButton from "../assets/images/Arrow_close_button.png";
+
+import { useLogin } from "../context/LoginProvider";
 
 const { width } = Dimensions.get("window");
 
@@ -25,24 +29,41 @@ const { width } = Dimensions.get("window");
 const LoginModal = ({ modalLoginVisible, setModalLoginVisible }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState("");
+  const { login, isLoggedIn } = useLogin();
 
   const [error, setError] = useState(null);
 
   const navigation = useNavigation();
 
+  useEffect(() => {
+    console.log("Is Logged In:", isLoggedIn); // Log the value of isLoggedIn
+    if (isLoggedIn) {
+      // If user is already logged in, navigate them to ProfileScreen
+      navigation.navigate("ProfileScreen");
+    }
+  }, [isLoggedIn, navigation]);
+
 
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/users/login",
+        "https://messe-app-server.onrender.com/users/login",
         {
           username,
           password,
         }
       );
 
+      // Gem user 
+      await AsyncStorage.setItem("access_token", response.data.token);
+      await AsyncStorage.setItem("userID", response.data.userID.toString());
+      await AsyncStorage.setItem("username", response.data.username);
+
+      login();
+
       setModalLoginVisible(false);
-      navigation.navigate("HomeScreen");
+      navigation.navigate("ProfileScreen");
     } catch (error) {
       if (error.response.status === 401) {
         setError(error.response.data.message);

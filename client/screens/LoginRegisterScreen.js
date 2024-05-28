@@ -23,11 +23,22 @@ import arrowCloseButton from "../assets/images/Arrow_close_button.png";
 // Icon
 import { Feather, AntDesign } from "@expo/vector-icons";
 
+import { useLogin } from "../context/LoginProvider";
+
 const LoginRegisterScreen = () => {
   const navigation = useNavigation();
 
   const [modalRegisterVisible, setModalRegisterVisible] = useState(false);
   const [modalLoginVisible, setModalLoginVisible] = useState(false);
+  const { login, isLoggedIn } = useLogin();
+
+  useEffect(() => {
+    console.log("Is Logged In:", isLoggedIn); // Log the value of isLoggedIn
+    if (isLoggedIn) {
+      // If user is already logged in, navigate them to ProfileScreen
+      navigation.navigate("ProfileScreen");
+    }
+  }, [isLoggedIn, navigation]);
 
   const goBackButton = () => {
     navigation.goBack();

@@ -13,6 +13,7 @@ import HomeScreen from "../screens/HomeScreen";
 import StandScreen from "../screens/StandScreen";
 import KortScreen from "../screens/KortScreen";
 import LoginRegisterScreen from "../screens/LoginRegisterScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 
 // Colors
@@ -25,8 +26,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign, Ionicons, Feather } from '@expo/vector-icons';
 
 
-
 const TabNavigator = () => {
+  const { login, isLoggedIn } = useLogin();
   const Tab = createBottomTabNavigator();
 
   return (
@@ -86,18 +87,33 @@ const TabNavigator = () => {
           ),
         }}
         />
-         <Tab.Screen name="LoginRegisterScreen" component={LoginRegisterScreen} 
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ focused, color, size }) => (
-              <View style={focused ? styles.iconBackground : {}}>
-                 <Feather name="user" size={22} color="white"
-                style={styles.tabIcon}
-                />
+          {isLoggedIn ? (
+          <Tab.Screen name="ProfileScreen" component={ProfileScreen}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ focused, color, size }) => (
+                <View style={focused ? styles.iconBackground : {}}>
+                  <Feather name="user" size={22} color="white"
+                    style={styles.tabIcon}
+                  />
                 </View>
-          ),
-        }}
-        />
+              ),
+            }}
+          />
+        ) : (
+          <Tab.Screen name="LoginRegisterScreen" component={LoginRegisterScreen}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ focused, color, size }) => (
+                <View style={focused ? styles.iconBackground : {}}>
+                  <Feather name="user" size={22} color="white"
+                    style={styles.tabIcon}
+                  />
+                </View>
+              ),
+            }}
+          />
+        )}
       </Tab.Navigator>
 
    

@@ -20,6 +20,9 @@ import { useNavigation } from '@react-navigation/native';
 import img1 from "../assets/images/Shop_transparent.png";
 import arrowCloseButton from "../assets/images/Arrow_close_button.png";
 
+// Modal
+import StandeModal from "../components/standeModal";
+
 const categories = ["All", "test1", "test2", "test3"];
 
 const HomeScreen = () => {
@@ -34,7 +37,6 @@ const HomeScreen = () => {
   const [filteredData, setFilteredData] = useState(data);
   const [loading, setLoading] = useState(true);
 
-  const [isFullTextShown, setIsFullTextShown] = useState(false);
 
   useEffect(() => {
     fetch("https://messe-app-server.onrender.com/messer/getAllMesser", {
@@ -60,23 +62,6 @@ const HomeScreen = () => {
     );
   }
 
-  const SendUserToStandScreen = () => {
-    navigation.navigate('StandScreen');
-    setModalVisible(!modalVisible);
-  };
-
-  const renderTextBody = (text) => {
-    if (isFullTextShown || !text) {
-      return text;
-    }
-
-    const words = text.split(" ");
-    if (words.length > 35) {
-      return words.slice(0, 35).join(" ") + "...";
-    }
-
-    return text;
-  };
 
   const handleSearch = (text) => {
     setQuery(text);
@@ -178,51 +163,7 @@ const HomeScreen = () => {
             numColumns={2}
             contentContainerStyle={styles.list}
           /> 
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              setModalVisible(!modalVisible);
-            }}
-          >
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <TouchableOpacity
-                  style={styles.modalCloseButton}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                  <Image source={arrowCloseButton}/>
-                </TouchableOpacity>
-                <View style={styles.modalImageContainer}>
-                  <Image source={img1} style={styles.modalImage} />
-                </View>
-                <Text style={styles.modalTextTitle}>{selectedItem.title}</Text>
-                <View style={styles.textContainer}>
-                  <Text style={styles.modalTextBody}>
-                    {renderTextBody(selectedItem.body)}
-                  </Text>
-                  {selectedItem.body &&
-                    selectedItem.body.split(" ").length > 35 && (
-                      <TouchableOpacity
-                        onPress={() => setIsFullTextShown(!isFullTextShown)}
-                      >
-                        <Text style={styles.readMoreText}>
-                          {isFullTextShown ? "Vis Mindre" : "Læs Mere"}
-                        </Text>
-                      </TouchableOpacity>
-                    )}
-                </View>
-                <View style={styles.standRedirectKnapContainer}>
-                  <TouchableOpacity style={styles.standRedirectKnapOuterBorder}>
-                  <TouchableOpacity style={styles.standRedirectKnapTouch} onPress={SendUserToStandScreen}>
-                    <Text style={styles.standRedirectKnapText}>Find Stand</Text>
-                  </TouchableOpacity>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          </Modal>
+         <StandeModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
         </View>
       </SafeAreaView>
     </>

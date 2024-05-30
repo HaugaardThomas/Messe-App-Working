@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     Modal,
     Dimensions,
-    StatusBar
+    StatusBar,
+    Button
   } from "react-native";
   import React, { useState, useEffect } from "react";
 

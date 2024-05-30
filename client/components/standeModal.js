@@ -30,6 +30,11 @@ const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedIt
         navigation.navigate('StandScreen');
         setModalVisible(!modalVisible);
       };
+
+      const SendTilBookStand = () => {
+        navigation.navigate('BookStandScreen');
+        setModalVisible(!modalVisible);
+      }
     
       const renderTextBody = (text) => {
         if (isFullTextShown || !text) {
@@ -84,6 +89,13 @@ const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedIt
               <TouchableOpacity style={styles.standRedirectKnapOuterBorder}>
               <TouchableOpacity style={styles.standRedirectKnapTouch} onPress={SendUserToStandScreen}>
                 <Text style={styles.standRedirectKnapText}>Find Stand</Text>
+              </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.standBookContainer}>
+              <TouchableOpacity style={styles.standBookOuterBorder}>
+              <TouchableOpacity style={styles.standBookKnapTouch} onPress={SendTilBookStand}>
+                <Text style={styles.standBookText}>Book</Text>
               </TouchableOpacity>
               </TouchableOpacity>
             </View>
@@ -237,6 +249,25 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 25,
   },
-
+  // BOOK KNAP
+  standBookContainer: {
+    alignItems: 'center',
+    marginTop: 25,
+  },
+  standBookOuterBorder: {
+    borderRadius: 25,
+    padding: 2,
+    borderWidth: 3,
+  },
+  standBookKnapTouch: {
+    backgroundColor: 'black',
+    borderRadius: 25,
+  },
+  standBookText: {
+    color: 'white',
+  fontWeight: 'bold',
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+  },
 
 })

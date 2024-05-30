@@ -14,6 +14,7 @@ import StandScreen from "../screens/StandScreen";
 import KortScreen from "../screens/KortScreen";
 import LoginRegisterScreen from "../screens/LoginRegisterScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import BookStandScreen from "../screens/BookStandScreen";
 
 
 // Colors
@@ -51,43 +52,43 @@ const TabNavigator = () => {
         }}
       >
         <Tab.Screen name="HomeScreen" component={HomeScreen}
-            options={{
-             headerShown: false, // fjerner header
-              tabBarIcon: ({ focused, color, size }) => (
-                <View style={focused ? styles.iconBackground : {}}>
-                <AntDesign name="home" size={22} color="white" 
-                style={styles.tabIcon}
-                />
-                </View>
-              ),
-            }}
-            
-        />
-        <Tab.Screen name="StandScreen" component={StandScreen} 
-        options={{
-                headerShown: false, // fjerner header
-          tabBarIcon: ({ focused, color, size }) => (
-            <View style={focused ? styles.iconBackground : {}}>
-            <AntDesign name="scan1" size={22} color="white" 
-            style={styles.tabIcon}
-            />
-            </View>
-          ),
-        }}
-        />
-        <Tab.Screen name="KortScreen" component={KortScreen} 
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ focused, color, size }) => (
+          options={{
+            headerShown: false, // fjerner header
+            tabBarIcon: ({ focused, color, size }) => (
               <View style={focused ? styles.iconBackground : {}}>
-                 <Ionicons name="map-outline" size={22} color="white"
-                style={styles.tabIcon}
+                <AntDesign name="home" size={22} color="white"
+                  style={styles.tabIcon}
                 />
-                </View>
-          ),
-        }}
+              </View>
+            ),
+          }}
+
         />
-          {isLoggedIn ? (
+        <Tab.Screen name="StandScreen" component={StandScreen}
+          options={{
+            headerShown: false, // fjerner header
+            tabBarIcon: ({ focused, color, size }) => (
+              <View style={focused ? styles.iconBackground : {}}>
+                <AntDesign name="scan1" size={22} color="white"
+                  style={styles.tabIcon}
+                />
+              </View>
+            ),
+          }}
+        />
+        <Tab.Screen name="KortScreen" component={KortScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ focused, color, size }) => (
+              <View style={focused ? styles.iconBackground : {}}>
+                <Ionicons name="map-outline" size={22} color="white"
+                  style={styles.tabIcon}
+                />
+              </View>
+            ),
+          }}
+        />
+        {isLoggedIn ? (
           <Tab.Screen name="ProfileScreen" component={ProfileScreen}
             options={{
               headerShown: false,
@@ -114,9 +115,17 @@ const TabNavigator = () => {
             }}
           />
         )}
+
+        <Tab.Screen name="BookStandScreen" component={BookStandScreen}
+          options={{
+            tabBarButton: () => null,
+            tabBarVisible: false,
+            headerShown: false,
+          }}
+        />
       </Tab.Navigator>
 
-   
+
     </>
   );
 };
@@ -130,9 +139,9 @@ const styles = StyleSheet.create({
   },
   iconBackground: {
     width: 40,
-    height: 40, 
-    borderRadius: 50, 
-    backgroundColor: '#474954', 
+    height: 40,
+    borderRadius: 50,
+    backgroundColor: '#474954',
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1,

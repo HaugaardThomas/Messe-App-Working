@@ -57,7 +57,7 @@ const ProfileScreen = () => {
     <SafeAreaView style={styles.safeAreaViewContainer}>
     <View style={styles.mainContainer}>
       <View>
-        <Text>Velkommen - {user}</Text>
+        <Text>Hey {user}</Text>
       </View>
 
       <View style={styles.logoutButtonContainer}>

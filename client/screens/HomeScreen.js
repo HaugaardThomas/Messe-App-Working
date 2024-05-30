@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
   },
   categoryButtonText: {
     color: "lightgrey",
-    fontSize: 16,
+    fontSize: 17,
   },
   categoryButtonTextSelected: {
     color: "black",

@@ -97,7 +97,7 @@ const HomeScreen = () => {
       <SafeAreaView style={styles.safeAreaViewContainer}>
         <View style={styles.mainContainer}>
           <View>
-            <Text>Velkommen 👋</Text>
+            <Text style={styles.velkommenText}>Velkommen 👋</Text>
             <Text style={styles.messeNavn}>Navn Messe</Text>
           </View>
           <TextInput
@@ -181,13 +181,16 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   mainContainer: {
-    paddingTop: 50,
+    paddingTop: 100,
     paddingLeft: 35,
     paddingRight: 35,
   },
+  velkommenText: {
+    fontSize: 24,
+  },
   messeNavn: {
     fontWeight: "bold",
-    fontSize: 24,
+    fontSize: 32,
     marginTop: 5,
   },
   searchInput: {

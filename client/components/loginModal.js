@@ -57,8 +57,9 @@ const LoginModal = ({ modalLoginVisible, setModalLoginVisible }) => {
 
       // Gem user 
       await AsyncStorage.setItem("access_token", response.data.token);
-      await AsyncStorage.setItem("userID", response.data.userID.toString());
+      await AsyncStorage.setItem("userID", response.data.userID);
       await AsyncStorage.setItem("username", response.data.username);
+
 
       login();
 

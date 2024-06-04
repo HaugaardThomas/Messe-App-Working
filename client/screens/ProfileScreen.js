@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     Modal,
     Dimensions,
-    StatusBar
+    StatusBar,
+    Switch
   } from "react-native";
   import React, { useState, useEffect } from "react";
 
@@ -18,11 +19,58 @@ import {
   import axios from "axios";
   import { useLogin } from "../context/LoginProvider";
 
+  import ProfilePic from '../assets/images/profile_pic.png';
+
+  import { Ionicons, FontAwesome, Octicons } from '@expo/vector-icons';
+
+
 
 const ProfileScreen = () => {
   const [user, setUser] = useState('');
   const navigation = useNavigation();
   const { login, logout, isLoggedIn } = useLogin();
+  const [userData, setUserData] = useState([]);
+  const [userId, setUserId] = useState('');
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+
+   // Hent username
+   useEffect(() => {
+    const fetchUserId = async () => {
+      try {
+        const storedUserId = await AsyncStorage.getItem("userID");
+        if (storedUserId) {
+          setUserId(storedUserId);
+        }
+      } catch (error) {
+        console.error("Error fetching username:", error);
+      }
+    };
+    fetchUserId();
+  }, []);
+
+
+  useEffect(() => {
+    if (userId) {
+        fetch(`https://messe-app-server.onrender.com/users/user/${userId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setUserData(data);
+            })
+            .catch((error) => console.error("Error:", error));
+    }
+}, [userId]);
 
   // Hent username
   useEffect(() => {
@@ -55,9 +103,88 @@ const ProfileScreen = () => {
     <>
     <StatusBar style="dark" />
     <SafeAreaView style={styles.safeAreaViewContainer}>
-    <View style={styles.mainContainer}>
-      <View>
-        <Text>Hey {user}</Text>
+
+
+    <View style={styles.profilePictureBackgroundContainer}>
+      <View style={styles.profilePicContainer}>
+        <View style={styles.profilePicBackgroundCircle}>
+        <Image style={styles.profilePicImage} source={ProfilePic} />
+        </View>
+      </View>
+      </View>
+
+      <View style={styles.mainContainer}>
+
+ 
+      <View style={styles.usernameContainer}>
+        <Text style={styles.usernameText}>{user}</Text>
+      </View>
+
+   
+
+      <View key={user._id} style={styles.phoneContainer}>
+        <View style={styles.phoneTextContainer}>
+            <Text style={styles.phoneText}>Phone</Text>
+        </View>
+        <View style={styles.phoneDataContainer}>
+          <Text style={styles.phoneDataText}>{userData.phone}</Text>
+        </View>
+      </View>
+    
+
+
+      <View style={styles.emailContainer}>
+        <View style={styles.emailTextContainer}>
+            <Text style={styles.emailText}>Email</Text>
+        </View>
+        <View style={styles.emailDataContainer}>
+          <Text style={styles.emailDataText}>{userData.email}</Text>
+        </View>
+      </View>
+  </View> 
+  <View style={styles.viewLine}></View>
+  <View style={styles.secondMainContainer}>
+
+      <View style={styles.darkModeContainer}>
+        <View style={styles.darkModeIconTextContainer}>
+        <Ionicons name="moon" size={24} color="black" />
+          <Text style={styles.darkModeText}>Dark mode</Text>
+        </View>
+
+        <View style={styles.darkModeToggle}>
+        <Switch
+        trackColor={{false: '#767577', true: '#4BB543'}}
+        thumbColor={isEnabled ? 'white' : 'white'}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+        style={styles.darkModeSwitchToggle}
+      />
+        </View>
+      </View>
+
+      <View style={styles.viewLineSmall}></View>
+
+      <View style={styles.cardContainer}>
+        <View style={styles.cardIconTextContainer}>
+        <FontAwesome name="credit-card" size={24} color="black" />
+          <Text style={styles.cardText}>Card</Text>
+        </View>
+        <View style={styles.cardArrowContainer}>
+        <Octicons name="chevron-right" size={24} color="grey" />
+        </View>
+      </View>
+
+      <View style={styles.viewLineSmall}></View>
+
+      <View style={styles.profileDetailsContainer}>
+        <View style={styles.profileDetailsIconTextContainer}>
+        <FontAwesome name="credit-card" size={24} color="black" />
+          <Text style={styles.profileDetailsText}>Card</Text>
+        </View>
+        <View style={styles.profileDetailsArrowContainer}>
+        <Octicons name="chevron-right" size={24} color="grey" />
+        </View>
       </View>
 
       <View style={styles.logoutButtonContainer}>
@@ -76,9 +203,14 @@ export default ProfileScreen;
 const styles = StyleSheet.create({
   safeAreaViewContainer: {
     flex: 1,
-    backgroundColor: "f4f4f4",
+    backgroundColor: "white",
   },
   mainContainer: {
+    paddingTop: 50,
+    paddingLeft: 35,
+    paddingRight: 35,
+  },
+  secondMainContainer: {
     paddingTop: 50,
     paddingLeft: 35,
     paddingRight: 35,
@@ -101,5 +233,132 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  // PROFILE PICTURE
+  profilePictureBackgroundContainer: {
+    backgroundColor: '#F4F4F4',
+    height: 170,
+    paddingTop: 100,
+
+  },
+  profilePicContainer: {
+    alignItems: 'center',
+  },
+  profilePicBackgroundCircle: {
+    backgroundColor: 'white',
+    borderRadius: 200,
+    width: 130,
+    height: 130,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 10,
+  },
+  profilePicImage: {
+    width: 120,
+    height: 120,
+  },
+  // PROFILE NAME
+  usernameContainer: {
+    marginTop: 32,
+    alignItems: 'center',
+  },
+  usernameText: {
+    fontSize: 32,
+    fontWeight: 'bold'
+  },
+  // PHONE
+  phoneContainer: {
+    marginTop: 16,
+    flexDirection: 'row',
+    justifyContent: "space-between",
+  },
+  phoneTextContainer: {
+  
+  },
+  phoneText: {
+    fontSize: 18,
+    color: '#696969',
+  },
+  phoneDataContainer: {
+  
+  },
+  phoneDataText: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  // EMAIL
+  emailContainer: {
+    marginTop: 14,
+    flexDirection: 'row',
+    justifyContent: "space-between",
+  },
+  emailTextContainer: {},
+  emailText: {
+    color: '#696969',
+    fontSize: 18,
+  },
+  emailDataContainer: {},
+  emailDataText: {
+    fontWeight: '600',
+    fontSize: 18,
+  },
+  // LINE
+  viewLine: {
+    marginTop: 40,
+    height: 0.3,
+    backgroundColor: '#696969',
+    width: '100%',
+    opacity: 1,
+  },
+  viewLineSmall: {
+    height: 0.3,
+    backgroundColor: '#696969',
+    width: '100%',
+    opacity: 1,
+    marginBottom: 10,
+  },
+  // DARKMODE
+  darkModeContainer: {
+    flexDirection: 'row',
+    justifyContent: "space-between",
+  },
+  darkModeIconTextContainer: {
+    flexDirection: 'row',
+  },
+  darkModeText: {
+    marginLeft: 10,
+  },
+  darkModeToggle: {
+    padding: 0,
+    marginTop: -10,
+  },
+  darkModeSwitchToggle: {
+
+  },
+  // CARD
+  cardContainer: {
+    paddingRight: 10,
+    flexDirection: 'row',
+    justifyContent: "space-between",
+  },
+  cardIconTextContainer: {
+    flexDirection: 'row',
+  },
+  cardText: {
+    marginLeft: 10,
+  },
+  cardArrowContainer: {},
+  // PROFILE DETAILS
+  profileDetailsContainer: {
+    paddingRight: 10,
+    flexDirection: 'row',
+    justifyContent: "space-between",
+  },
+  profileDetailsIconTextContainer: {
+    flexDirection: 'row',
+  },
+  profileDetailsText: {
+    marginLeft: 10,
+  },
+  profileDetailsArrowContainer: {},
 
 });

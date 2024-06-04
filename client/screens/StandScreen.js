@@ -5,6 +5,9 @@ import {useState} from 'react';
 
 import BottomSheet from "../components/bottomSheet";
 
+import { Ionicons } from '@expo/vector-icons';
+
+
 
 
 const StandScreen = () => {
@@ -20,6 +23,9 @@ const StandScreen = () => {
 
         <BottomSheet>
         <View style={styles.bottomSheetMainContainer}>
+          <View style={styles.handleContainer}>
+            <Image style={styles.handleImage} />
+          </View>
           <View style={styles.bottomSheetTitleContainer}>
             <Text style={styles.bottomSheetTextTitle}>CONSECTETUR ADISCIPIT</Text>
           </View>
@@ -42,8 +48,18 @@ const styles = StyleSheet.create({
 
     // BOTTOM SHEET
     bottomSheetMainContainer: {
-        padding: 15,
-        paddingTop: 50,
+      paddingTop: 10
     },
+    handleContainer: {
+      alignItems: 'center',
+      paddingBottom: 20
+    },
+    handleImage: {
+      width: 50,
+      height: 7,
+      backgroundColor: 'black',
+      borderRadius: 30
+    }
+ 
 
 });

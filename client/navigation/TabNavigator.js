@@ -24,7 +24,7 @@ import Colors from "../colors/Colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Icon
-import { AntDesign, Ionicons, Feather } from '@expo/vector-icons';
+import { AntDesign, Ionicons, Feather} from '@expo/vector-icons';
 
 
 const TabNavigator = () => {

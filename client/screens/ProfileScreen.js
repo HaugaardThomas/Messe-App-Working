@@ -23,7 +23,10 @@ import {
 
   import { Ionicons, FontAwesome, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
+  // MODALS
   import CardModal from '../components/cardModal';
+  import ProfileDetailModal from "../components/profileDetail";
+  import SettingsModal from "../components/settingsModal";
 
 
 
@@ -35,7 +38,11 @@ const ProfileScreen = () => {
   const [userId, setUserId] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  const [modalVisible, setModalVisible] = useState(false);
+
+  // Modals
+  const [cardModalVisible, setCardModalVisible] = useState(false);
+  const [profileDetailModalVisible, setProfileDetailModalVisible] = useState(false);
+  const [settingsModalVisible, setSettingsModalVisible] = useState(false);
 
 
    // Hent username
@@ -169,7 +176,7 @@ const ProfileScreen = () => {
       <View style={styles.viewLineSmall}></View>
 
   <TouchableOpacity onPress={() => {
-       setModalVisible(true);
+       setCardModalVisible(true);
   }}>
       <View style={styles.cardContainer}>
         <View style={styles.cardIconTextContainer}>
@@ -184,7 +191,9 @@ const ProfileScreen = () => {
 
       <View style={styles.viewLineSmall}></View>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => {
+       setProfileDetailModalVisible(true);
+  }}>
       <View style={styles.profileDetailsContainer}>
         <View style={styles.profileDetailsIconTextContainer}>
         <MaterialCommunityIcons name="account" size={24} color="black" />
@@ -198,7 +207,9 @@ const ProfileScreen = () => {
 
       <View style={styles.viewLineSmall}></View>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => {
+       setSettingsModalVisible(true);
+  }}>
 <View style={styles.settingsContainer}>
   <View style={styles.settingsIconTextContainer}>
   <Ionicons name="settings-sharp" size={24} color="black" />
@@ -216,7 +227,9 @@ const ProfileScreen = () => {
             </TouchableOpacity>
           </View>
 
-          <CardModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
+          <CardModal cardModalVisible={cardModalVisible} setCardModalVisible={setCardModalVisible} />
+          <ProfileDetailModal profileDetailModalVisible={profileDetailModalVisible} setProfileDetailModalVisible={setProfileDetailModalVisible} />
+          <SettingsModal settingsModalVisible={settingsModalVisible} setSettingsModalVisible={setSettingsModalVisible}/>
     </View>
     </SafeAreaView>
     </>

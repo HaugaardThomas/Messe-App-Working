@@ -23,7 +23,7 @@ import {
   
 
 
-const CardModal = ({cardModalVisible, setCardModalVisible }) => {
+const SettingsModal = ({settingsModalVisible, setSettingsModalVisible }) => {
     const navigation = useNavigation();
   
 
@@ -34,13 +34,13 @@ const CardModal = ({cardModalVisible, setCardModalVisible }) => {
      animationIn="slideInRight"
      animationInTiming={800}
      animationOut="slideOutRight"
-     animationOutTiming={700}
+     animationOutTiming={800}
      backdropTransitionInTiming={800}
-     backdropTransitionOutTiming={700}
+     backdropTransitionOutTiming={800}
      swipeDirection="right"
-        isVisible={cardModalVisible}
+        isVisible={settingsModalVisible}
         onRequestClose={() => {
-          setCardModalVisible(!cardModalVisible);
+            setSettingsModalVisible(!settingsModalVisible);
         }}
         style={styles.cardModal}
       >
@@ -48,7 +48,7 @@ const CardModal = ({cardModalVisible, setCardModalVisible }) => {
           <View style={styles.modalView}>
             <TouchableOpacity
               style={styles.modalCloseButton}
-              onPress={() => setCardModalVisible(!cardModalVisible)}
+              onPress={() => setSettingsModalVisible(!settingsModalVisible)}
             >
               <Image source={arrowCloseButton}/>
             </TouchableOpacity>
@@ -62,7 +62,7 @@ const CardModal = ({cardModalVisible, setCardModalVisible }) => {
 
 }
 
-export default CardModal;
+export default SettingsModal;
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;

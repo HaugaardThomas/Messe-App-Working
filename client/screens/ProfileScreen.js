@@ -8,7 +8,8 @@ import {
     Modal,
     Dimensions,
     StatusBar,
-    Switch
+    Switch,
+    Pressable
   } from "react-native";
   import React, { useState, useEffect } from "react";
 
@@ -21,7 +22,7 @@ import {
 
   import ProfilePic from '../assets/images/profile_pic.png';
 
-  import { Ionicons, FontAwesome, Octicons } from '@expo/vector-icons';
+  import { Ionicons, FontAwesome, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 
@@ -165,6 +166,7 @@ const ProfileScreen = () => {
 
       <View style={styles.viewLineSmall}></View>
 
+  <TouchableOpacity>
       <View style={styles.cardContainer}>
         <View style={styles.cardIconTextContainer}>
         <FontAwesome name="credit-card" size={24} color="black" />
@@ -174,18 +176,35 @@ const ProfileScreen = () => {
         <Octicons name="chevron-right" size={24} color="grey" />
         </View>
       </View>
+ </TouchableOpacity>
 
       <View style={styles.viewLineSmall}></View>
 
+      <TouchableOpacity>
       <View style={styles.profileDetailsContainer}>
         <View style={styles.profileDetailsIconTextContainer}>
-        <FontAwesome name="credit-card" size={24} color="black" />
-          <Text style={styles.profileDetailsText}>Card</Text>
+        <MaterialCommunityIcons name="account" size={24} color="black" />
+          <Text style={styles.profileDetailsText}>Profile Details</Text>
         </View>
         <View style={styles.profileDetailsArrowContainer}>
         <Octicons name="chevron-right" size={24} color="grey" />
         </View>
       </View>
+      </TouchableOpacity>
+
+      <View style={styles.viewLineSmall}></View>
+
+      <TouchableOpacity>
+<View style={styles.settingsContainer}>
+  <View style={styles.settingsIconTextContainer}>
+  <Ionicons name="settings-sharp" size={24} color="black" />
+    <Text style={styles.settingsText}>Settings</Text>
+  </View>
+  <View style={styles.settingsArrowContainer}>
+  <Octicons name="chevron-right" size={24} color="grey" />
+  </View>
+</View>
+</TouchableOpacity>
 
       <View style={styles.logoutButtonContainer}>
             <TouchableOpacity onPress={logoutHandle} style={styles.loginButton}>
@@ -211,7 +230,7 @@ const styles = StyleSheet.create({
     paddingRight: 35,
   },
   secondMainContainer: {
-    paddingTop: 50,
+    paddingTop: 10,
     paddingLeft: 35,
     paddingRight: 35,
   },
@@ -272,7 +291,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   phoneTextContainer: {
-  
+    
   },
   phoneText: {
     fontSize: 18,
@@ -314,12 +333,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#696969',
     width: '100%',
     opacity: 1,
-    marginBottom: 10,
+    marginTop: 1,
+    marginBottom: 1,
+
   },
   // DARKMODE
   darkModeContainer: {
     flexDirection: 'row',
     justifyContent: "space-between",
+    height: 50,
+    alignItems: 'center',
+  },
+  darkModeTouchable: {
+    
   },
   darkModeIconTextContainer: {
     flexDirection: 'row',
@@ -329,7 +355,7 @@ const styles = StyleSheet.create({
   },
   darkModeToggle: {
     padding: 0,
-    marginTop: -10,
+    // marginTop: -10,
   },
   darkModeSwitchToggle: {
 
@@ -339,6 +365,8 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     flexDirection: 'row',
     justifyContent: "space-between",
+    height: 50,
+    alignItems: 'center',
   },
   cardIconTextContainer: {
     flexDirection: 'row',
@@ -352,6 +380,8 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     flexDirection: 'row',
     justifyContent: "space-between",
+    height: 50,
+    alignItems: 'center',
   },
   profileDetailsIconTextContainer: {
     flexDirection: 'row',
@@ -360,5 +390,19 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   profileDetailsArrowContainer: {},
-
+  // SETTINGS
+  settingsContainer: {
+    paddingRight: 10,
+    flexDirection: 'row',
+    justifyContent: "space-between",
+    height: 50,
+    alignItems: 'center',
+  },
+  settingsIconTextContainer: {
+    flexDirection: 'row',
+  },
+  settingsText: {
+    marginLeft: 10,
+  },
+  settingsArrowContainer: {},
 });

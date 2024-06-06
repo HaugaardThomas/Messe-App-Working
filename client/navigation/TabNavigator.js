@@ -16,6 +16,8 @@ import LoginRegisterScreen from "../screens/LoginRegisterScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import BookStandScreen from "../screens/BookStandScreen";
 
+import ProfileScreen2 from '../screens/ProfileScreen2';
+
 
 // Colors
 import Colors from "../colors/Colors";
@@ -88,6 +90,19 @@ const TabNavigator = () => {
             ),
           }}
         />
+
+<Tab.Screen name="ProfileScreen2" component={ProfileScreen2}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ focused, color, size }) => (
+                <View style={focused ? styles.iconBackground : {}}>
+                  <Feather name="user" size={22} color="white"
+                    style={styles.tabIcon}
+                  />
+                </View>
+              ),
+            }}
+          />
         {isLoggedIn ? (
           <Tab.Screen name="ProfileScreen" component={ProfileScreen}
             options={{
@@ -101,6 +116,8 @@ const TabNavigator = () => {
               ),
             }}
           />
+
+          
         ) : (
           <Tab.Screen name="LoginRegisterScreen" component={LoginRegisterScreen}
             options={{
@@ -124,6 +141,10 @@ const TabNavigator = () => {
           }}
         />
       </Tab.Navigator>
+
+
+   
+    
 
 
     </>

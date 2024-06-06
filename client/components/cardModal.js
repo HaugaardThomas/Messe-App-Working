@@ -25,6 +25,11 @@ import {
 
 const CardModal = ({cardModalVisible, setCardModalVisible }) => {
     const navigation = useNavigation();
+
+
+    const addNewCard = () => {
+
+    }
   
 
     return ( 
@@ -46,6 +51,7 @@ const CardModal = ({cardModalVisible, setCardModalVisible }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+       
             <TouchableOpacity
               style={styles.modalCloseButton}
               onPress={() => setCardModalVisible(!cardModalVisible)}
@@ -53,9 +59,23 @@ const CardModal = ({cardModalVisible, setCardModalVisible }) => {
               <Image source={arrowCloseButton}/>
             </TouchableOpacity>
            
+           <View style={styles.modalContentContainer}>
+              <View style={styles.modalCardContainer}>
+
+              </View>
+           </View> 
+
+           <View style={styles.newCardButtonContainer}>
+              <TouchableOpacity style={styles.newCardButtonOuterBorder}>
+              <TouchableOpacity style={styles.newCardButtonInnerButton} onPress={addNewCard}>
+                <Text style={styles.newCardButtonText}>Tilføj nyt kort</Text>
+              </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
     
           </View>
-        </View>
+          </View>
+
       </Modal>
       </>
     )
@@ -93,6 +113,68 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  secondContainer: {
+    paddingLeft: 35,
+    paddingRight: 35,
+  },
+  modalContentContainer: {
+    paddingTop: 50,
+   alignItems: 'center',
+  },
+  modalCardContainer: {
+    backgroundColor: '#F4F4F4', 
+    width: '100%',
+    height: 200,
+    borderRadius: 25,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+   
+  },
+   // LINE
+   viewLine: {
+    marginTop: 40,
+    height: 0.3,
+    backgroundColor: '#696969',
+    width: 400,
+    opacity: 1,
+  },
+  viewLineSmall: {
+    height: 0.3,
+    backgroundColor: '#696969',
+    width: '100%',
+    opacity: 1,
+    marginTop: 1,
+    marginBottom: 1,
+
+  },
+  // BUTTON
+  newCardButtonContainer: {
+    marginTop: 50,
+    alignItems: 'center',
+    marginTop: 25,
+    
+  },
+  newCardButtonOuterBorder: {
+    borderRadius: 25,
+    padding: 2,
+    borderWidth: 3,
+  },
+  newCardButtonInnerButton: {
+    backgroundColor: 'black',
+   borderRadius: 25,
+  },
+  newCardButtonText: {
+  color: 'white',
+  fontWeight: 'bold',
+    paddingVertical: 10,
+    paddingHorizontal: 25,
   },
 
 

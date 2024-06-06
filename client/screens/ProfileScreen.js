@@ -9,7 +9,6 @@ import {
     Dimensions,
     StatusBar,
     Switch,
-    Pressable
   } from "react-native";
   import React, { useState, useEffect } from "react";
 
@@ -24,6 +23,8 @@ import {
 
   import { Ionicons, FontAwesome, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
+  import CardModal from '../components/cardModal';
+
 
 
 const ProfileScreen = () => {
@@ -34,6 +35,7 @@ const ProfileScreen = () => {
   const [userId, setUserId] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const [modalVisible, setModalVisible] = useState(false);
 
 
    // Hent username
@@ -166,7 +168,9 @@ const ProfileScreen = () => {
 
       <View style={styles.viewLineSmall}></View>
 
-  <TouchableOpacity>
+  <TouchableOpacity onPress={() => {
+       setModalVisible(true);
+  }}>
       <View style={styles.cardContainer}>
         <View style={styles.cardIconTextContainer}>
         <FontAwesome name="credit-card" size={24} color="black" />
@@ -211,6 +215,8 @@ const ProfileScreen = () => {
               <Text style={styles.textLoginButton}>Log out</Text>
             </TouchableOpacity>
           </View>
+
+          <CardModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
     </View>
     </SafeAreaView>
     </>

@@ -1,3 +1,5 @@
 Profile 2 skal være det nye layout 
 profile (old/1) skal bruges til når indstillinger er trykket på (oppe højre hjørne). Profil billedet skal fjernes og så skal alle settings
 der skal være være der inde i (samme layout, så det vil sige setting 1, streg, setting 2, streg)
+
+Show/hide funktion på password?

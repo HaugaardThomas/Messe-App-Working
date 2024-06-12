@@ -32,6 +32,7 @@
       "eas": {
         "projectId": "17d1ea66-c1fd-4614-b9e0-734fb99e38ab"
       }
-    }
+    },
+    "plugins": ["@reactvision/react-viro"]
   }
 }

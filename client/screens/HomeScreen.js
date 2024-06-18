@@ -176,7 +176,7 @@ const windowHeight = Dimensions.get("window").height;
 const styles = StyleSheet.create({
   safeAreaViewContainer: {
     flex: 1,
-    backgroundColor: "white",
+    // backgroundColor: "white",
   },
   mainContainer: {
     paddingTop: 100,

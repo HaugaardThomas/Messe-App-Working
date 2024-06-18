@@ -121,7 +121,8 @@ const ProfileScreen = () => {
     <>
     <SafeAreaView style={[styles.safeAreaViewContainer, {backgroundColor: theme.backgroundColor}]}>
 
-    <View style={[styles.profilePictureBackgroundContainer, {backgroundColor: theme.subBackgroundColor}]}>
+    {/* <View style={[styles.profilePictureBackgroundContainer, {backgroundColor: theme.subBackgroundColor}]}> */}
+    <View style={styles.profilePictureBackgroundContainer}>
       <View style={styles.profilePicContainer}>
         <View style={styles.profilePicBackgroundCircle}>
         <Image style={styles.profilePicImage} source={ProfilePic} />
@@ -133,17 +134,17 @@ const ProfileScreen = () => {
 
  
       <View style={styles.usernameContainer}>
-        <Text style={styles.usernameText}>{user}</Text>
+        <Text style={[styles.usernameText, {color: theme.textColor}]}>{user}</Text>
       </View>
 
    
 
       <View key={user._id} style={styles.phoneContainer}>
         <View style={styles.phoneTextContainer}>
-            <Text style={styles.phoneText}>Phone</Text>
+            <Text style={[styles.phoneText, {color: theme.textColor}]}>Phone</Text>
         </View>
         <View style={styles.phoneDataContainer}>
-          <Text style={styles.phoneDataText}>{userData.phone}</Text>
+          <Text style={[styles.phoneDataText, {color: theme.textColor}]}>{userData.phone}</Text>
         </View>
       </View>
     
@@ -151,10 +152,10 @@ const ProfileScreen = () => {
 
       <View style={styles.emailContainer}>
         <View style={styles.emailTextContainer}>
-            <Text style={styles.emailText}>Email</Text>
+            <Text style={[styles.emailText, {color: theme.textColor}]}>Email</Text>
         </View>
         <View style={styles.emailDataContainer}>
-          <Text style={styles.emailDataText}>{userData.email}</Text>
+          <Text style={[styles.emailDataText, {color: theme.textColor}]}>{userData.email}</Text>
         </View>
       </View>
   </View> 
@@ -227,7 +228,7 @@ const ProfileScreen = () => {
 </TouchableOpacity>
 
       <View style={styles.logoutButtonContainer}>
-            <TouchableOpacity onPress={logoutHandle} style={styles.loginButton}>
+            <TouchableOpacity onPress={logoutHandle} style={[styles.loginButton, {backgroundColor: theme.backgroundColor}]}>
               <Text style={styles.textLoginButton}>Log out</Text>
             </TouchableOpacity>
           </View>
@@ -262,15 +263,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   loginButton: {
-    backgroundColor: "white",
     borderRadius: 5,
     borderWidth: 2,
-    borderColor: "green",
+    borderColor: "red",
   },
   textLoginButton: {
     textTransform: "uppercase",
     textAlign: "center",
-    color: "green",
+    color: "red",
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,

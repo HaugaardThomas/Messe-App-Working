@@ -12,7 +12,6 @@ import {
   
     Dimensions,
   } from "react-native";
-  import { StatusBar } from "expo-status-bar";
   import React, { useState, useEffect } from "react";
   import { useNavigation } from '@react-navigation/native';
   import Modal from 'react-native-modal';
@@ -29,7 +28,6 @@ const ProfileDetailModal = ({profileDetailModalVisible, setProfileDetailModalVis
 
     return ( 
         <>
-        <StatusBar />
         <Modal
      animationIn="slideInRight"
      animationInTiming={800}

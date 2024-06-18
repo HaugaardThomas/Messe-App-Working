@@ -1,5 +1,4 @@
 import { View, Text, StyleSheet, Image } from "react-native";
-import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 
 // Navigation
@@ -36,8 +35,6 @@ const TabNavigator = () => {
 
   return (
     <>
-      <StatusBar style="dark" />
-
       <Tab.Navigator
         screenOptions={{
           tabBarShowLabel: false,

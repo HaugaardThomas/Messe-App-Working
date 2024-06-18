@@ -12,7 +12,6 @@ import {
   Modal,
   Dimensions,
 } from "react-native";
-import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from '@react-navigation/native';
 
@@ -93,7 +92,6 @@ const HomeScreen = () => {
 
   return (
     <>
-      <StatusBar style="dark" />
       <SafeAreaView style={styles.safeAreaViewContainer}>
         <View style={styles.mainContainer}>
           <View>

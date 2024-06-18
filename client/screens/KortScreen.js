@@ -1,5 +1,4 @@
 import { View, Text, StyleSheet, Image, SafeAreaView, FlatList, TouchableOpacity } from "react-native";
-import { StatusBar } from "expo-status-bar";
 import { useState, useEffect } from "react";
 
 
@@ -23,7 +22,6 @@ const KortScreen = () => {
 
     return (
         <>
-          <StatusBar style="dark" />
         <SafeAreaView style={styles.safeAreaViewContainer}>
         <View style={styles.mainContainer}>
           <FlatList

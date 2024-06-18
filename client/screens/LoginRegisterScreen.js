@@ -9,7 +9,6 @@ import {
   Dimensions,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -50,7 +49,6 @@ const LoginRegisterScreen = () => {
 
   return (
     <>
-      <StatusBar style="dark" />
       <SafeAreaView style={styles.safeAreaViewContainer}>
         <View style={styles.mainContainer}>
           <View style={styles.goBackButtonContainer}>

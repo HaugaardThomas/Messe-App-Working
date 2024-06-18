@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Image, SafeAreaView, Button } from "react-native";
-import { StatusBar } from "expo-status-bar";
+
 
 import {useState} from 'react';
 
@@ -14,7 +14,6 @@ const StandScreen = () => {
 
     return (
         <>
-     <StatusBar style="dark" />
         <SafeAreaView style={styles.safeAreaViewContainer}>
         <View style={styles.mainContainer}>
             

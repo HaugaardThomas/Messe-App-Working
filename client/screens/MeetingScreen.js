@@ -40,7 +40,6 @@ const MeetingScreen = () => {
 
     return(
         <>
-        <StatusBar style="dark" />
         <SafeAreaView style={styles.safeAreaViewContainer}>
         <View style={styles.mainContainer}>
             <Text>MeetingScreen</Text>

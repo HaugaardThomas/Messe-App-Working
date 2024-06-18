@@ -1,6 +1,6 @@
 // ThemeContext.js
 import React, { createContext, useState, useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import { useColorScheme, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const ThemeContext = createContext();
@@ -49,6 +49,7 @@ export const ThemeProvider = ({ children }) => {
 
   return (
     <ThemeContext.Provider value={{ theme: currentTheme, toggleTheme }}>
+     <StatusBar barStyle={theme === 'light' ? 'dark-content' : 'light-content'} />
       {children}
     </ThemeContext.Provider>
   );

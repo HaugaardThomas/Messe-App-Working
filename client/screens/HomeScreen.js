@@ -33,7 +33,7 @@ const HomeScreen = () => {
   // DARKMODE
   const { theme, toggleTheme } = useContext(ThemeContext); 
 
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(true);
   const [selectedItem, setSelectedItem] = useState({});
 
   const [query, setQuery] = useState("");

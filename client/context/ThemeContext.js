@@ -13,6 +13,7 @@ const lightTheme = {
   switchThumbColor: '#f4f3f4',
   iconColor: 'black',
   notSelected: 'red',
+  modalBackground: "rgba(0, 0, 0, 0.5)",
 };
 
 const darkTheme = {
@@ -23,6 +24,7 @@ const darkTheme = {
   switchThumbColor: '#f4f3f4',
   iconColor: 'white',
   notSelected: 'red',
+  modalBackground: "#333333",
 };
 
 export const ThemeProvider = ({ children }) => {

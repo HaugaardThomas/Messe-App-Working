@@ -9,19 +9,24 @@ import {
     ScrollView,
     TouchableOpacity,
     ActivityIndicator,
-    Modal,
     Dimensions,
   } from "react-native";
-  import React, { useState, useEffect } from "react";
+  import React, { useState, useEffect, useContext } from "react";
   import { useNavigation } from '@react-navigation/native';
+  import Modal from 'react-native-modal';
   
   // Image
   import img1 from "../assets/images/Shop_transparent.png";
   import arrowCloseButton from "../assets/images/Arrow_close_button.png";
-  
+
+   // CONTEXT
+ import { ThemeContext } from "../context/ThemeContext";
 
 
 const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedItem}) => {
+    // DARKMODE
+    const { theme, toggleTheme } = useContext(ThemeContext); 
+
     const navigation = useNavigation();
     const [isFullTextShown, setIsFullTextShown] = useState(false);
 
@@ -49,16 +54,24 @@ const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedIt
       };
 
     return ( 
+      
         <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
+        animationIn="slideInRight"
+     animationInTiming={800}
+     animationOut="slideOutRight"
+     animationOutTiming={700}
+     backdropTransitionInTiming={800}
+     backdropTransitionOutTiming={700}
+     swipeDirection="right"
+     onSwipeComplete={() => setModalVisible(false)}
+     isVisible={modalVisible}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}
+        style={styles.standeModal}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+        <View style={[styles.centeredView, {backgroundColor: theme.backgroundColor}]}>
+          <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
             <TouchableOpacity
               style={styles.modalCloseButton}
               onPress={() => setModalVisible(!modalVisible)}
@@ -68,9 +81,9 @@ const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedIt
             <View style={styles.modalImageContainer}>
               <Image source={img1} style={styles.modalImage} />
             </View>
-            <Text style={styles.modalTextTitle}>{selectedItem.title}</Text>
+            <Text style={[styles.modalTextTitle, {color: theme.textColor}]}>{selectedItem.title}</Text>
             <View style={styles.textContainer}>
-              <Text style={styles.modalTextBody}>
+              <Text style={[styles.modalTextBody, {color: theme.textColor}]}>
                 {renderTextBody(selectedItem.body)}
               </Text>
               {selectedItem.body &&
@@ -101,7 +114,7 @@ const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedIt
           </View>
         </View>
       </Modal>
-
+ 
     )
 
 }
@@ -114,18 +127,21 @@ const windowHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
  // Modal
+ standeModal: {
+  margin: 0, 
+ },
  centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    //backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalView: {
-    width: windowWidth * 0.9,
-    height: windowHeight * 0.91,
+    width: '100%',
+    height: '100%',
     marginTop: 45,
     margin: 20,
-    backgroundColor: "white",
+    // backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
     shadowColor: "#000",

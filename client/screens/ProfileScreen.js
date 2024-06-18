@@ -10,7 +10,7 @@ import {
     StatusBar,
     Switch,
   } from "react-native";
-  import React, { useState, useEffect } from "react";
+  import React, { useState, useEffect, useContext } from "react";
 
   import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -28,6 +28,9 @@ import {
   import ProfileDetailModal from "../components/profileDetail";
   import SettingsModal from "../components/settingsModal";
 
+  // CONTEXT
+  import { ThemeContext } from "../context/ThemeContext";
+
 
 
 const ProfileScreen = () => {
@@ -38,6 +41,9 @@ const ProfileScreen = () => {
   const [userId, setUserId] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+  // DARKMODE
+  const { theme, toggleTheme } = useContext(ThemeContext); 
 
   // Modals
   const [cardModalVisible, setCardModalVisible] = useState(false);
@@ -109,13 +115,13 @@ const ProfileScreen = () => {
   };
 
 
+  
+
   return(
     <>
-    <StatusBar style="dark" />
-    <SafeAreaView style={styles.safeAreaViewContainer}>
+    <SafeAreaView style={[styles.safeAreaViewContainer, {backgroundColor: theme.backgroundColor}]}>
 
-
-    <View style={styles.profilePictureBackgroundContainer}>
+    <View style={[styles.profilePictureBackgroundContainer, {backgroundColor: theme.subBackgroundColor}]}>
       <View style={styles.profilePicContainer}>
         <View style={styles.profilePicBackgroundCircle}>
         <Image style={styles.profilePicImage} source={ProfilePic} />
@@ -155,23 +161,22 @@ const ProfileScreen = () => {
   <View style={styles.viewLine}></View>
   <View style={styles.secondMainContainer}>
 
-      <View style={styles.darkModeContainer}>
-        <View style={styles.darkModeIconTextContainer}>
-        <Ionicons name="moon" size={24} color="black" />
-          <Text style={styles.darkModeText}>Dark mode</Text>
-        </View>
-
-        <View style={styles.darkModeToggle}>
-        <Switch
-        trackColor={{false: '#767577', true: '#4BB543'}}
-        thumbColor={isEnabled ? 'white' : 'white'}
-        ios_backgroundColor="#3e3e3e"
-        onValueChange={toggleSwitch}
-        value={isEnabled}
-        style={styles.darkModeSwitchToggle}
-      />
-        </View>
-      </View>
+  <View style={styles.darkModeContainer}>
+            <View style={styles.darkModeIconTextContainer}>
+              <Ionicons name="moon" size={24} color={theme.iconColor} />
+              <Text style={[styles.darkModeText, { color: theme.textColor }]}>Dark mode</Text>
+            </View>
+            <View style={styles.darkModeToggle}>
+              <Switch
+                trackColor={{ false: theme.switchTrackColor, true: theme.switchTrackColor }}
+                thumbColor={theme.switchThumbColor}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleTheme}
+                value={theme.backgroundColor === '#121212'}
+                style={styles.darkModeSwitchToggle}
+              />
+            </View>
+          </View>
 
       <View style={styles.viewLineSmall}></View>
 
@@ -180,11 +185,11 @@ const ProfileScreen = () => {
   }}>
       <View style={styles.cardContainer}>
         <View style={styles.cardIconTextContainer}>
-        <FontAwesome name="credit-card" size={24} color="black" />
-          <Text style={styles.cardText}>Card</Text>
+        <FontAwesome name="credit-card" size={24} color={theme.iconColor} />
+          <Text style={[styles.cardText, { color: theme.textColor }]}>Card</Text>
         </View>
         <View style={styles.cardArrowContainer}>
-        <Octicons name="chevron-right" size={24} color="grey" />
+        <Octicons name="chevron-right" size={24} color={theme.iconColor} />
         </View>
       </View>
  </TouchableOpacity>
@@ -196,11 +201,11 @@ const ProfileScreen = () => {
   }}>
       <View style={styles.profileDetailsContainer}>
         <View style={styles.profileDetailsIconTextContainer}>
-        <MaterialCommunityIcons name="account" size={24} color="black" />
-          <Text style={styles.profileDetailsText}>Profile Details</Text>
+        <MaterialCommunityIcons name="account" size={24} color={theme.iconColor} />
+          <Text style={[styles.profileDetailsText, { color: theme.textColor }]}>Profile Details</Text>
         </View>
         <View style={styles.profileDetailsArrowContainer}>
-        <Octicons name="chevron-right" size={24} color="grey" />
+        <Octicons name="chevron-right" size={24} color={theme.iconColor} />
         </View>
       </View>
       </TouchableOpacity>
@@ -212,11 +217,11 @@ const ProfileScreen = () => {
   }}>
 <View style={styles.settingsContainer}>
   <View style={styles.settingsIconTextContainer}>
-  <Ionicons name="settings-sharp" size={24} color="black" />
-    <Text style={styles.settingsText}>Settings</Text>
+  <Ionicons name="settings-sharp" size={24} color={theme.iconColor}/>
+    <Text style={[styles.settingsText, { color: theme.textColor }]}>Settings</Text>
   </View>
   <View style={styles.settingsArrowContainer}>
-  <Octicons name="chevron-right" size={24} color="grey" />
+  <Octicons name="chevron-right" size={24} color={theme.iconColor} />
   </View>
 </View>
 </TouchableOpacity>
@@ -241,7 +246,7 @@ export default ProfileScreen;
 const styles = StyleSheet.create({
   safeAreaViewContainer: {
     flex: 1,
-    backgroundColor: "white",
+    // backgroundColor: "white",
   },
   mainContainer: {
     paddingTop: 50,
@@ -273,7 +278,6 @@ const styles = StyleSheet.create({
   },
   // PROFILE PICTURE
   profilePictureBackgroundContainer: {
-    backgroundColor: '#F4F4F4',
     height: 170,
     paddingTop: 100,
 

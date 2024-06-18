@@ -19,6 +19,7 @@ import BookStandScreen from "../screens/BookStandScreen";
 import ProfileScreen2 from '../screens/ProfileScreen2';
 
 
+
 // Colors
 import Colors from "../colors/Colors";
 
@@ -66,6 +67,7 @@ const TabNavigator = () => {
           }}
 
         />
+        
         <Tab.Screen name="StandScreen" component={StandScreen}
           options={{
             headerShown: false, // fjerner header
@@ -91,7 +93,7 @@ const TabNavigator = () => {
           }}
         />
 
-<Tab.Screen name="ProfileScreen2" component={ProfileScreen2}
+{/* <Tab.Screen name="ProfileScreen2" component={ProfileScreen2}
             options={{
               headerShown: false,
               tabBarIcon: ({ focused, color, size }) => (
@@ -102,7 +104,7 @@ const TabNavigator = () => {
                 </View>
               ),
             }}
-          />
+          /> */}
         {isLoggedIn ? (
           <Tab.Screen name="ProfileScreen" component={ProfileScreen}
             options={{

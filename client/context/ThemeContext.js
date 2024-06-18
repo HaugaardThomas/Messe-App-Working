@@ -12,6 +12,7 @@ const lightTheme = {
   switchTrackColor: '#767577',
   switchThumbColor: '#f4f3f4',
   iconColor: 'black',
+  notSelected: 'red',
 };
 
 const darkTheme = {
@@ -21,6 +22,7 @@ const darkTheme = {
   switchTrackColor: '#4BB543',
   switchThumbColor: '#f4f3f4',
   iconColor: 'white',
+  notSelected: 'red',
 };
 
 export const ThemeProvider = ({ children }) => {

@@ -12,7 +12,7 @@ import {
   Modal,
   Dimensions,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigation } from '@react-navigation/native';
 
 // Image
@@ -22,10 +22,16 @@ import arrowCloseButton from "../assets/images/Arrow_close_button.png";
 // Modal
 import StandeModal from "../components/standeModal";
 
+ // CONTEXT
+ import { ThemeContext } from "../context/ThemeContext";
+
 const categories = ["All", "test1", "test2", "test3"];
 
 const HomeScreen = () => {
   const navigation = useNavigation();
+
+  // DARKMODE
+  const { theme, toggleTheme } = useContext(ThemeContext); 
 
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState({});
@@ -95,8 +101,8 @@ const HomeScreen = () => {
       <SafeAreaView style={styles.safeAreaViewContainer}>
         <View style={styles.mainContainer}>
           <View>
-            <Text style={styles.velkommenText}>Velkommen 👋</Text>
-            <Text style={styles.messeNavn}>Navn Messe</Text>
+            <Text style={[styles.velkommenText, {color: theme.textColor}]}>Velkommen 👋</Text>
+            <Text style={[styles.messeNavn, {color: theme.textColor}]}>Navn Messe</Text>
           </View>
           <TextInput
             autoCapitalize="none"
@@ -105,7 +111,8 @@ const HomeScreen = () => {
             value={query}
             onChangeText={handleSearch}
             placeholder="Search..."
-            style={styles.searchInput}
+            placeholderTextColor={theme.textColor}
+            style={[styles.searchInput, {backgroundColor: theme.subBackgroundColor}]}
           />
           <ScrollView
             horizontal
@@ -126,14 +133,14 @@ const HomeScreen = () => {
                   style={[
                     styles.categoryButtonText,
                     selectedCategory === category &&
-                      styles.categoryButtonTextSelected,
+                    {color: theme.textColor},
                   ]}
                 >
                   {category}
                 </Text>
                 {selectedCategory === category && (
                   <View style={styles.dotContainer}>
-                    <View style={styles.selectedCategoryDot} />
+                    <View style={[styles.selectedCategoryDot, {backgroundColor: theme.textColor}]} />
                   </View>
                 )}
               </TouchableOpacity>
@@ -144,7 +151,7 @@ const HomeScreen = () => {
             keyExtractor={(item) => item._id}
             renderItem={({ item }) => (
               <TouchableOpacity
-                style={styles.itemContainer}
+                style={[styles.itemContainer, {backgroundColor: theme.subBackgroundColor}]}
                 onPress={() => {
                   setSelectedItem(item);
                   setModalVisible(true);
@@ -154,7 +161,7 @@ const HomeScreen = () => {
                   <View style={styles.imageContainer}>
                     <Image source={{ uri: item.image }} style={styles.itemImage} />
                   </View>
-                  <Text style={styles.itemText}>{item.title}</Text>
+                  <Text style={[styles.itemText, {color: theme.textColor}]}>{item.title}</Text>
                 </View>
               </TouchableOpacity>
             )}
@@ -212,7 +219,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   itemContainer: {
-    backgroundColor: "#F4F4F4",
+    //backgroundColor: "#F4F4F4",
     flex: 1,
     marginHorizontal: 7,
     marginVertical: 15,
@@ -310,18 +317,18 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingLeft: 5,
     marginHorizontal: 5,
-    backgroundColor: "white",
+    // backgroundColor: "white",
     borderRadius: 18,
   },
   categoryButtonSelected: {
-    backgroundColor: "white",
+    // backgroundColor: "white",
   },
   categoryButtonText: {
     color: "lightgrey",
     fontSize: 17,
   },
   categoryButtonTextSelected: {
-    color: "black",
+    //  color: "black",
   },
   // DOT
   dotContainer: {
@@ -333,7 +340,7 @@ const styles = StyleSheet.create({
     height: 5,
     width: 5,
     borderRadius: 50,
-    backgroundColor: "black",
+    //backgroundColor: "black",
     position: "absolute",
     bottom: 0,
   },

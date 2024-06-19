@@ -12,18 +12,27 @@ import {
   
     Dimensions,
   } from "react-native";
-  import React, { useState, useEffect } from "react";
+  import React, { useState, useEffect, useContext } from "react";
   import { useNavigation } from '@react-navigation/native';
   import Modal from 'react-native-modal';
   
   // Image
   import img1 from "../assets/images/Shop_transparent.png";
   import arrowCloseButton from "../assets/images/Arrow_close_button.png";
+
+     // CONTEXT
+ import { ThemeContext } from "../context/ThemeContext";
+
+ // ICONS 
+ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
   
 
 
 const CardModal = ({cardModalVisible, setCardModalVisible }) => {
     const navigation = useNavigation();
+
+    // DARKMODE
+    const { theme, toggleTheme } = useContext(ThemeContext); 
 
 
     const addNewCard = () => {
@@ -41,32 +50,39 @@ const CardModal = ({cardModalVisible, setCardModalVisible }) => {
      backdropTransitionInTiming={800}
      backdropTransitionOutTiming={700}
      swipeDirection="right"
+     onSwipeComplete={() => setCardModalVisible(false)}
         isVisible={cardModalVisible}
         onRequestClose={() => {
           setCardModalVisible(!cardModalVisible);
         }}
         style={styles.cardModal}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+        <View style={[styles.centeredView, {backgroundColor: theme.backgroundColor}]}>
+          <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
        
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.modalCloseButton}
               onPress={() => setCardModalVisible(!cardModalVisible)}
             >
               <Image source={arrowCloseButton}/>
+            </TouchableOpacity> */}
+
+          <View style={styles.goBackContainer}>
+            <TouchableOpacity onPress={() => setCardModalVisible(!cardModalVisible)}>
+            <Ionicons  name="chevron-back" size={24} color={theme.textColor} />
             </TouchableOpacity>
+          </View>
            
            <View style={styles.modalContentContainer}>
-              <View style={styles.modalCardContainer}>
+              <View style={[styles.modalCardContainer, {backgroundColor: theme.subBackgroundColor}]}>
 
               </View>
            </View> 
 
            <View style={styles.newCardButtonContainer}>
-              <TouchableOpacity style={styles.newCardButtonOuterBorder}>
-              <TouchableOpacity style={styles.newCardButtonInnerButton} onPress={addNewCard}>
-                <Text style={styles.newCardButtonText}>Tilføj nyt kort</Text>
+              <TouchableOpacity style={[styles.newCardButtonOuterBorder, {borderColor: theme.textColor}]}>
+              <TouchableOpacity style={[styles.newCardButtonInnerButton, {backgroundColor: theme.textColor}]} onPress={addNewCard}>
+                <Text style={[styles.newCardButtonText, {color: theme.backgroundColor}]}>Tilføj nyt kort</Text>
               </TouchableOpacity>
               </TouchableOpacity>
             </View>
@@ -89,20 +105,21 @@ const windowHeight = Dimensions.get("window").height;
 const styles = StyleSheet.create({
  // Modal
  cardModal: {
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     margin: 0, 
  },
  centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    // backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalView: {
     width: '100%',
     height: '100%',
     backgroundColor: "white",
     padding: 35,
+    paddingTop: 50,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -121,7 +138,7 @@ const styles = StyleSheet.create({
    alignItems: 'center',
   },
   modalCardContainer: {
-    backgroundColor: '#F4F4F4', 
+    // backgroundColor: '#F4F4F4', 
     width: '100%',
     height: 200,
     borderRadius: 25,
@@ -156,8 +173,7 @@ const styles = StyleSheet.create({
   newCardButtonContainer: {
     marginTop: 50,
     alignItems: 'center',
-    marginTop: 25,
-    
+    marginTop: 25,    
   },
   newCardButtonOuterBorder: {
     borderRadius: 25,
@@ -165,7 +181,6 @@ const styles = StyleSheet.create({
     borderWidth: 3,
   },
   newCardButtonInnerButton: {
-    backgroundColor: 'black',
    borderRadius: 25,
   },
   newCardButtonText: {

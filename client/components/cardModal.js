@@ -38,7 +38,7 @@ const CardModal = ({cardModalVisible, setCardModalVisible }) => {
     const addNewCard = () => {
 
     }
-  
+   
 
     return ( 
         <>

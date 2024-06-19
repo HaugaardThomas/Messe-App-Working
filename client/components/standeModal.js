@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     ActivityIndicator,
     Dimensions,
+    ImageBackground,
   } from "react-native";
   import React, { useState, useEffect, useContext } from "react";
   import { useNavigation } from '@react-navigation/native';
@@ -17,10 +18,14 @@ import {
   
   // Image
   import img1 from "../assets/images/Shop_transparent.png";
+  import img2 from "../assets/images/a1a1a1a1a1.png";
   import arrowCloseButton from "../assets/images/Arrow_close_button.png";
 
-   // CONTEXT
- import { ThemeContext } from "../context/ThemeContext";
+  // CONTEXT
+  import { ThemeContext } from "../context/ThemeContext";
+
+  // ICONS 
+  import { Ionicons } from '@expo/vector-icons';
 
 
 const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedItem}) => {
@@ -52,7 +57,7 @@ const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedIt
     
         return text;
       };
-
+ 
     return ( 
       
         <Modal
@@ -69,18 +74,29 @@ const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedIt
           setModalVisible(!modalVisible);
         }}
         style={styles.standeModal}
-      >
+      >  
+     
         <View style={[styles.centeredView, {backgroundColor: theme.backgroundColor}]}>
+        
           <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
-            <TouchableOpacity
-              style={styles.modalCloseButton}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Image source={arrowCloseButton}/>
+           
+        <ImageBackground source={img2} style={styles.modalImage} >
+       
+    
+ 
+
+          <View style={styles.goBackContainer}>
+            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+            <Ionicons  name="chevron-back" size={24} color={theme.textColor} />
             </TouchableOpacity>
-            <View style={styles.modalImageContainer}>
-              <Image source={img1} style={styles.modalImage} />
-            </View>
+          </View>
+
+
+
+            {/* <View style={styles.modalImageContainer}>
+              <Image source={img2} style={styles.modalImage} />
+            </View> */}
+           </ImageBackground>
             <Text style={[styles.modalTextTitle, {color: theme.textColor}]}>{selectedItem.title}</Text>
             <View style={styles.textContainer}>
               <Text style={[styles.modalTextBody, {color: theme.textColor}]}>
@@ -111,8 +127,9 @@ const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedIt
               </TouchableOpacity>
               </TouchableOpacity>
             </View>
+            </View>
           </View>
-        </View>
+       
       </Modal>
  
     )
@@ -139,11 +156,9 @@ const styles = StyleSheet.create({
   modalView: {
     width: '100%',
     height: '100%',
-    marginTop: 45,
     margin: 20,
     // backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -153,20 +168,25 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  modalSecondView: {
+    padding: 35,
+    paddingTop: 50,
+  },
   // Modal Image
   modalImageContainer: {
     marginTop: 20,
     width: "100%",
     alignItems: "center",
   },
-  modalImage: {
-    width: "100%",
-  },
-  modalImage: {
-    width: 300,
-    height: 200,
-    marginBottom: 15,
-  },
+  // modalImage: {
+  //   width: "100%",
+  // },
+  // modalImage: {
+  //   width: 300,
+  //   height: 200,
+  //   marginBottom: 15,
+  // },
+
   // Button
   modalCloseButton: {
     position: "absolute",

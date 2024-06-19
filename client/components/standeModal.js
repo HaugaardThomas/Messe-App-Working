@@ -11,6 +11,7 @@ import {
     ActivityIndicator,
     Dimensions,
     ImageBackground,
+    StatusBar,
   } from "react-native";
   import React, { useState, useEffect, useContext } from "react";
   import { useNavigation } from '@react-navigation/native';
@@ -75,15 +76,16 @@ const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedIt
         }}
         style={styles.standeModal}
       >  
-     
+      <StatusBar hidden={true} />
         <View style={[styles.centeredView, {backgroundColor: theme.backgroundColor}]}>
         
           <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
            
-        <ImageBackground source={img2} style={styles.modalImage} >
+        <ImageBackground source={img2} style={styles.modalImageBackground} />
        
     
- 
+        <View style={styles.modalMainContainer}>
+          
 
           <View style={styles.goBackContainer}>
             <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
@@ -96,7 +98,7 @@ const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedIt
             {/* <View style={styles.modalImageContainer}>
               <Image source={img2} style={styles.modalImage} />
             </View> */}
-           </ImageBackground>
+           
             <Text style={[styles.modalTextTitle, {color: theme.textColor}]}>{selectedItem.title}</Text>
             <View style={styles.textContainer}>
               <Text style={[styles.modalTextBody, {color: theme.textColor}]}>
@@ -127,6 +129,10 @@ const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedIt
               </TouchableOpacity>
               </TouchableOpacity>
             </View>
+
+
+            </View>
+          
             </View>
           </View>
        
@@ -177,6 +183,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: "100%",
     alignItems: "center",
+  },
+  modalImageBackground: {
+    height: "50%",
+    width: "100%",
   },
   // modalImage: {
   //   width: "100%",

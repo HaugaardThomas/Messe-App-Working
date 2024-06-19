@@ -1,0 +1,6 @@
+Jeg skal have lavet et notification system!? måske!?
+
+så de kan få beskeder om at have booket og en reminder 15 min inden og så en guide til hvordan de kommer der hen med AR hjælp?
+
+Få en notification på deres lockedscreen (ligesom normal notification) og så kan de åbne den og blive påmindet om at de har et møde om x minutter og så en knap
+der måske står "Vis vej" og så bliver der vist vej med AR

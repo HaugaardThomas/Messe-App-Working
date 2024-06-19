@@ -25,6 +25,9 @@ import StandeModal from "../components/standeModal";
  // CONTEXT
  import { ThemeContext } from "../context/ThemeContext";
 
+ // ICONS
+ import { Ionicons } from '@expo/vector-icons';
+
 const categories = ["All", "test1", "test2", "test3"];
 
 const HomeScreen = () => {
@@ -100,6 +103,11 @@ const HomeScreen = () => {
     <>
       <SafeAreaView style={styles.safeAreaViewContainer}>
         <View style={styles.mainContainer}>
+          <View style={styles.headerContainer}>
+            <View style={styles.bellContainer}>
+            <Ionicons style={styles.bellIcon} name="notifications" size={24} color="black" />
+            </View>
+          </View>
           <View>
             <Text style={[styles.velkommenText, {color: theme.textColor}]}>Velkommen 👋</Text>
             <Text style={[styles.messeNavn, {color: theme.textColor}]}>Navn Messe</Text>
@@ -186,12 +194,19 @@ const styles = StyleSheet.create({
     // backgroundColor: "white",
   },
   mainContainer: {
-    paddingTop: 100,
     paddingLeft: 35,
     paddingRight: 35,
   },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingTop: 10,
+  },
+  bellContainer: {},
+  bellIcon: {},
   velkommenText: {
     fontSize: 24,
+    paddingTop: 100,
   },
   messeNavn: {
     fontWeight: "bold",

@@ -12,19 +12,27 @@ import {
   
     Dimensions,
   } from "react-native";
-  import React, { useState, useEffect } from "react";
+  import React, { useState, useEffect, useContext } from "react";
   import { useNavigation } from '@react-navigation/native';
   import Modal from 'react-native-modal';
   
   // Image
   import img1 from "../assets/images/Shop_transparent.png";
   import arrowCloseButton from "../assets/images/Arrow_close_button.png";
+
+  // ICONS
+  import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+
+  // CONTEXT
+ import { ThemeContext } from "../context/ThemeContext";
   
 
 
 const ProfileDetailModal = ({profileDetailModalVisible, setProfileDetailModalVisible }) => {
     const navigation = useNavigation();
   
+        // DARKMODE
+        const { theme, toggleTheme } = useContext(ThemeContext); 
 
     return ( 
         <>
@@ -36,20 +44,22 @@ const ProfileDetailModal = ({profileDetailModalVisible, setProfileDetailModalVis
      backdropTransitionInTiming={800}
      backdropTransitionOutTiming={800}
      swipeDirection="right"
+     onSwipeComplete={() => setProfileDetailModalVisible(false)}
         isVisible={profileDetailModalVisible}
         onRequestClose={() => {
             setProfileDetailModalVisible(!profileDetailModalVisible);
         }}
         style={styles.cardModal}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <TouchableOpacity
-              style={styles.modalCloseButton}
-              onPress={() => setProfileDetailModalVisible(!profileDetailModalVisible)}
-            >
-              <Image source={arrowCloseButton}/>
+        <View style={[styles.centeredView, {backgroundColor: theme.backgroundColor}]}>
+          <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
+            
+
+          <View style={styles.goBackContainer}>
+            <TouchableOpacity onPress={() => setCardModalVisible(!cardModalVisible)}>
+            <Ionicons  name="chevron-back" size={24} color={theme.textColor} />
             </TouchableOpacity>
+          </View>
            
     
           </View>
@@ -76,13 +86,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalView: {
     width: '100%',
     height: '100%',
-    backgroundColor: "white",
     padding: 35,
+    paddingTop: 50,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

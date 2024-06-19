@@ -12,18 +12,27 @@ import {
   
     Dimensions,
   } from "react-native";
-  import React, { useState, useEffect } from "react";
+  import React, { useState, useEffect, useContext } from "react";
   import { useNavigation } from '@react-navigation/native';
   import Modal from 'react-native-modal';
   
   // Image
   import img1 from "../assets/images/Shop_transparent.png";
   import arrowCloseButton from "../assets/images/Arrow_close_button.png";
+
+    // CONTEXT
+ import { ThemeContext } from "../context/ThemeContext";
+
+ // ICONS 
+ import { Ionicons } from '@expo/vector-icons';
   
 
 
 const SettingsModal = ({settingsModalVisible, setSettingsModalVisible }) => {
     const navigation = useNavigation();
+
+       // DARKMODE
+       const { theme, toggleTheme } = useContext(ThemeContext); 
   
 
     return ( 
@@ -36,20 +45,22 @@ const SettingsModal = ({settingsModalVisible, setSettingsModalVisible }) => {
      backdropTransitionInTiming={800}
      backdropTransitionOutTiming={800}
      swipeDirection="right"
+     onSwipeComplete={() => setSettingsModalVisible(false)}
         isVisible={settingsModalVisible}
         onRequestClose={() => {
             setSettingsModalVisible(!settingsModalVisible);
         }}
         style={styles.cardModal}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <TouchableOpacity
-              style={styles.modalCloseButton}
-              onPress={() => setSettingsModalVisible(!settingsModalVisible)}
-            >
-              <Image source={arrowCloseButton}/>
+         <View style={[styles.centeredView, {backgroundColor: theme.backgroundColor}]}>
+         <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
+         
+         
+          <View style={styles.goBackContainer}>
+            <TouchableOpacity onPress={() => setCardModalVisible(!cardModalVisible)}>
+            <Ionicons  name="chevron-back" size={24} color={theme.textColor} />
             </TouchableOpacity>
+          </View>
            
     
           </View>
@@ -76,13 +87,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalView: {
     width: '100%',
     height: '100%',
-    backgroundColor: "white",
     padding: 35,
+    paddingTop: 50,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

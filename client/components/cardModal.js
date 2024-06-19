@@ -20,11 +20,11 @@ import {
   import img1 from "../assets/images/Shop_transparent.png";
   import arrowCloseButton from "../assets/images/Arrow_close_button.png";
 
-     // CONTEXT
+  // CONTEXT
  import { ThemeContext } from "../context/ThemeContext";
 
  // ICONS 
- import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+ import { Ionicons } from '@expo/vector-icons';
   
 
 
@@ -117,7 +117,6 @@ const styles = StyleSheet.create({
   modalView: {
     width: '100%',
     height: '100%',
-    backgroundColor: "white",
     padding: 35,
     paddingTop: 50,
     shadowColor: "#000",

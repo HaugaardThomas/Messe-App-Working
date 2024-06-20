@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
+import { ThemeContext } from './ThemeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginContext = createContext();
 
@@ -12,6 +14,7 @@ export const useLogin = () => {
 
 export const LoginProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 
   const login = () => {
     setIsLoggedIn(true);

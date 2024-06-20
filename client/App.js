@@ -9,11 +9,11 @@ import { ThemeProvider, ThemeContext } from './context/ThemeContext';
 
 export default function App() {
   return (
+    <ThemeProvider>
     <LoginProvider>
-      <ThemeProvider>
       <AppContent />
-      </ThemeProvider>
     </LoginProvider>
+    </ThemeProvider>
   );
 }
 

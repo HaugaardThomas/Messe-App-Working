@@ -82,11 +82,21 @@ const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedIt
           <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
            
         <ImageBackground source={img2} style={styles.modalImageBackground} >
+          <View style={styles.headerContainer}>
+
             <View style={styles.goBackContainer}>
             <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
             {/* <Ionicons  name="chevron-back" size={24} color={theme.textColor} /> */}
             <Entypo style={styles.goBackIcon} name="chevron-with-circle-left" size={38} color={theme.backgroundColor} />
             </TouchableOpacity>
+          </View>
+
+          <View>
+            <TouchableOpacity>
+            <Ionicons name="heart-circle-outline" size={38} color="black" />
+            </TouchableOpacity>
+          </View>
+
           </View>
         </ImageBackground>
        
@@ -192,6 +202,10 @@ const styles = StyleSheet.create({
     // width: "100%",
     paddingTop: 30,
     paddingLeft: 30,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   // modalImage: {
   //   width: "100%",

@@ -60,8 +60,9 @@ const LoginModal = ({ modalLoginVisible, setModalLoginVisible }) => {
       await AsyncStorage.setItem("userID", response.data.userID);
       await AsyncStorage.setItem("username", response.data.username);
 
-
+      await AsyncStorage.getItem('theme');
       login();
+      
 
       setModalLoginVisible(false);
       navigation.navigate("ProfileScreen");

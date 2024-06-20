@@ -36,7 +36,7 @@ const HomeScreen = () => {
   // DARKMODE
   const { theme, toggleTheme } = useContext(ThemeContext); 
 
-  const [modalVisible, setModalVisible] = useState(true); // 
+  const [modalVisible, setModalVisible] = useState(false);  
   const [selectedItem, setSelectedItem] = useState({});
 
   const [query, setQuery] = useState("");
@@ -105,7 +105,7 @@ const HomeScreen = () => {
         <View style={styles.mainContainer}>
           <View style={styles.headerContainer}>
             <View style={styles.bellContainer}>
-            <Ionicons style={styles.bellIcon} name="notifications" size={24} color="black" />
+            <Ionicons style={styles.bellIcon} name="notifications" size={24} color={theme.textColor} />
             </View>
           </View>
           <View>

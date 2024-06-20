@@ -8,25 +8,33 @@ import {
   Modal,
   Dimensions,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import { useNavigation } from "@react-navigation/native";
 
 // Components
 import RegistrationModal from "../components/registerModal";
 import LoginModal from "../components/loginModal";
+import SettingNotLoggedInModal from '../components/settingNotLoggedInModal';
 
 // Images
 import arrowCloseButton from "../assets/images/Arrow_close_button.png";
 
 // Icon
-import { Feather, AntDesign } from "@expo/vector-icons";
+import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
+
+ // CONTEXT
+ import { ThemeContext } from "../context/ThemeContext";
 
 import { useLogin } from "../context/LoginProvider";
 
 const LoginRegisterScreen = () => {
   const navigation = useNavigation();
 
+    // DARKMODE
+    const { theme, toggleTheme } = useContext(ThemeContext); 
+
+  const [settingNoModal, setSettingNoModal] = useState(false);  
   const [modalRegisterVisible, setModalRegisterVisible] = useState(false);
   const [modalLoginVisible, setModalLoginVisible] = useState(false);
   const { login, isLoggedIn } = useLogin();
@@ -51,13 +59,21 @@ const LoginRegisterScreen = () => {
     <>
       <SafeAreaView style={styles.safeAreaViewContainer}>
         <View style={styles.mainContainer}>
-          <View style={styles.goBackButtonContainer}>
-            <TouchableOpacity
-              style={styles.profileGoBackButton}
-              onPress={goBackButton}
-            >
-              <Image source={arrowCloseButton} />
+
+          <View style={styles.headerContainer}>
+
+          <View style={styles.goBackContainer}>
+            <TouchableOpacity onPress={() => setCardModalVisible(!cardModalVisible)}>
+            <Ionicons  name="chevron-back" size={28} color={theme.textColor} />
             </TouchableOpacity>
+          </View>
+
+          <View>
+          <TouchableOpacity onPress={() => setSettingNoModal(!settingNoModal)}>
+          <Feather name="settings" size={24} color={theme.textColor}  />
+            </TouchableOpacity>
+          </View>
+
           </View>
 
           <View style={styles.userRegisterIconContainer}>
@@ -139,6 +155,7 @@ const LoginRegisterScreen = () => {
           </View>
         </View>
         <RegistrationModal modalRegisterVisible={modalRegisterVisible} setModalRegisterVisible={setModalRegisterVisible}/>
+        <SettingNotLoggedInModal settingNoModal={settingNoModal} setSettingNoModal={setSettingNoModal} />
       </SafeAreaView>
     </>
   );
@@ -158,6 +175,10 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingLeft: 35,
     paddingRight: 35,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   // GO BACK BUTTON
   goBackButtonContainer: {},

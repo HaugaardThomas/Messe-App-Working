@@ -9,7 +9,7 @@ import {
     ScrollView,
     TouchableOpacity,
     ActivityIndicator,
-  
+    Switch,
     Dimensions,
   } from "react-native";
   import React, { useState, useEffect, useContext } from "react";
@@ -61,6 +61,23 @@ const SettingNotLoggedInModal = ({settingNoModal, setSettingNoModal}) => {
             <Ionicons  name="chevron-back" size={28} color={theme.textColor} />
             </TouchableOpacity>
           </View>
+
+          <View style={[styles.darkModeContainer, {borderTopColor: theme.textColor}]}>
+            <View style={styles.darkModeIconTextContainer}>
+              <Ionicons name="moon" size={24} color={theme.iconColor} />
+              <Text style={[styles.darkModeText, { color: theme.textColor }]}>Dark mode</Text>
+            </View>
+            <View style={styles.darkModeToggle}>
+              <Switch
+                trackColor={{ false: theme.switchTrackColor, true: theme.switchTrackColor }}
+                thumbColor={theme.switchThumbColor}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleTheme}
+                value={theme.backgroundColor === '#121212'}
+                style={styles.darkModeSwitchToggle}
+              />
+            </View>
+          </View>
            
     
           </View>
@@ -101,6 +118,26 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-
+    // DARKMODE
+    darkModeContainer: {
+        flexDirection: 'row',
+        justifyContent: "space-between",
+        height: 50,
+        alignItems: 'center',
+        marginTop: 50,
+        borderTopWidth: 1,
+      },
+      darkModeTouchable: {},
+      darkModeIconTextContainer: {
+        flexDirection: 'row',
+      },
+      darkModeText: {
+        marginLeft: 10,
+        marginTop: 2,
+      },
+      darkModeToggle: {
+        padding: 0,
+      },
+      darkModeSwitchToggle: {},
 
 })

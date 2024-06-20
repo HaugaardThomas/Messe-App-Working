@@ -9,6 +9,7 @@ import {
     Dimensions,
     StatusBar,
     Switch,
+    ScrollView,
   } from "react-native";
   import React, { useState, useEffect, useContext } from "react";
 
@@ -21,7 +22,7 @@ import {
 
   import ProfilePic from '../assets/images/profile_pic.png';
 
-  import { Ionicons, FontAwesome, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
+  import { Ionicons, FontAwesome, Octicons, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 
   // MODALS
   import CardModal from '../components/cardModal';
@@ -120,8 +121,13 @@ const ProfileScreen = () => {
   return(
     <>
     <SafeAreaView style={[styles.safeAreaViewContainer, {backgroundColor: theme.backgroundColor}]}>
+<ScrollView>
+    <View style={styles.headerContainer}>
+            <View style={styles.bellContainer}>
+            <AntDesign name="calendar" size={24} color={theme.textColor} />
+            </View>
+          </View>
 
-    {/* <View style={[styles.profilePictureBackgroundContainer, {backgroundColor: theme.subBackgroundColor}]}> */}
     <View style={styles.profilePictureBackgroundContainer}>
       <View style={styles.profilePicContainer}>
         <View style={styles.profilePicBackgroundCircle}>
@@ -129,8 +135,9 @@ const ProfileScreen = () => {
         </View>
       </View>
       </View>
-
+ 
       <View style={styles.mainContainer}>
+       
 
  
       <View style={styles.usernameContainer}>
@@ -237,6 +244,7 @@ const ProfileScreen = () => {
           <ProfileDetailModal profileDetailModalVisible={profileDetailModalVisible} setProfileDetailModalVisible={setProfileDetailModalVisible} />
           <SettingsModal settingsModalVisible={settingsModalVisible} setSettingsModalVisible={setSettingsModalVisible}/>
     </View>
+    </ScrollView>
     </SafeAreaView>
     </>
   )
@@ -249,8 +257,15 @@ const styles = StyleSheet.create({
     flex: 1,
     // backgroundColor: "white",
   },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingTop: 10,
+    paddingLeft: 35,
+    paddingRight: 35,
+  },
   mainContainer: {
-    paddingTop: 50,
+    paddingTop: 40,
     paddingLeft: 35,
     paddingRight: 35,
   },
@@ -279,7 +294,7 @@ const styles = StyleSheet.create({
   // PROFILE PICTURE
   profilePictureBackgroundContainer: {
     height: 170,
-    paddingTop: 100,
+    paddingTop: 90,
 
   },
   profilePicContainer: {

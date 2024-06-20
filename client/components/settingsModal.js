@@ -57,7 +57,7 @@ const SettingsModal = ({settingsModalVisible, setSettingsModalVisible }) => {
          
          
           <View style={styles.goBackContainer}>
-            <TouchableOpacity onPress={() => setCardModalVisible(!cardModalVisible)}>
+            <TouchableOpacity onPress={() => setSettingsModalVisible(!settingsModalVisible)}>
             <Ionicons  name="chevron-back" size={24} color={theme.textColor} />
             </TouchableOpacity>
           </View>

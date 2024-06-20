@@ -1,0 +1,2 @@
+1. Skal der laves en header? så man bedre kan skelne mellem Statusbar og content? 
+Se tinder, linkedin og discord for inspiration.

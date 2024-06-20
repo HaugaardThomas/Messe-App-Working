@@ -120,7 +120,7 @@ const HomeScreen = () => {
             onChangeText={handleSearch}
             placeholder="Search..."
             placeholderTextColor={theme.textColor}
-            style={[styles.searchInput, {backgroundColor: theme.subBackgroundColor}]}
+            style={[styles.searchInput, {backgroundColor: theme.subBackgroundColor, color: theme.textColor}]}
           />
           <ScrollView
             horizontal

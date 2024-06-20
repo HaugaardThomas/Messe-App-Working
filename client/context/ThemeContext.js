@@ -53,6 +53,7 @@ export const ThemeProvider = ({ children }) => {
 
   return (
     <ThemeContext.Provider value={{ theme: currentTheme, toggleTheme }}>
+      <StatusBar />
       {children}
     </ThemeContext.Provider>
   );

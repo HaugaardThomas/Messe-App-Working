@@ -9,7 +9,6 @@ import {
     ScrollView,
     TouchableOpacity,
     ActivityIndicator,
-  
     Dimensions,
   } from "react-native";
   import React, { useState, useEffect, useContext } from "react";
@@ -38,6 +37,34 @@ const CardModal = ({cardModalVisible, setCardModalVisible }) => {
     const addNewCard = () => {
 
     }
+
+    const [selectedItem, setSelectedItem] = useState({});
+    const [query, setQuery] = useState("");
+    const [data, setData] = useState([]);
+    const [filteredData, setFilteredData] = useState(data);
+  
+    const handleSearch = (text) => {
+      setQuery(text);
+      filterData(text);
+    };
+  
+    const filterData = (searchQuery, category) => {
+    let newData = [...data]; // Create a new array based on the original data
+  
+    if (category !== "All") {
+      newData = newData.filter((item) => item.category === category);
+    }
+  
+    if (searchQuery) {
+      const formattedQuery = searchQuery.toLowerCase();
+      newData = newData.filter((item) =>
+        item.title && item.title.toLowerCase().includes(formattedQuery)
+      );
+    }
+  
+    setFilteredData(newData);
+  };
+  
    
 
     return ( 

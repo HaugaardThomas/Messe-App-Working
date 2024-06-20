@@ -10,6 +10,7 @@ import {
     StatusBar,
     Switch,
     ScrollView,
+    TextInput,
   } from "react-native";
   import React, { useState, useEffect, useContext } from "react";
 
@@ -28,6 +29,7 @@ import {
   import CardModal from '../components/cardModal';
   import ProfileDetailModal from "../components/profileDetail";
   import SettingsModal from "../components/settingsModal";
+  import CalendarModal from "../components/calendarModal";
 
   // CONTEXT
   import { ThemeContext } from "../context/ThemeContext";
@@ -50,6 +52,9 @@ const ProfileScreen = () => {
   const [cardModalVisible, setCardModalVisible] = useState(false);
   const [profileDetailModalVisible, setProfileDetailModalVisible] = useState(false);
   const [settingsModalVisible, setSettingsModalVisible] = useState(false);
+  const [calendarModalVisible, setCalendarModalVisible] = useState(false);
+
+ 
 
 
    // Hent username
@@ -122,11 +127,16 @@ const ProfileScreen = () => {
     <>
     <SafeAreaView style={[styles.safeAreaViewContainer, {backgroundColor: theme.backgroundColor}]}>
 <ScrollView>
+
+<TouchableOpacity onPress={() => {
+       setCalendarModalVisible(true);
+  }}>
     <View style={styles.headerContainer}>
             <View style={styles.bellContainer}>
             <AntDesign name="calendar" size={24} color={theme.textColor} />
             </View>
           </View>
+          </TouchableOpacity>
 
     <View style={styles.profilePictureBackgroundContainer}>
       <View style={styles.profilePicContainer}>
@@ -144,6 +154,17 @@ const ProfileScreen = () => {
         <Text style={[styles.usernameText, {color: theme.textColor}]}>{user}</Text>
       </View>
 
+
+      <TextInput
+            autoCapitalize="none"
+            autoCorrect={false}
+            clearButtonMode="always"
+            value={query}
+            onChangeText={handleSearch}
+            placeholder="Search..."
+            placeholderTextColor={theme.textColor}
+            style={[styles.searchInput, {backgroundColor: theme.subBackgroundColor, color: theme.textColor}]}
+          />
    
 
       <View key={user._id} style={styles.phoneContainer}>
@@ -243,6 +264,7 @@ const ProfileScreen = () => {
           <CardModal cardModalVisible={cardModalVisible} setCardModalVisible={setCardModalVisible} />
           <ProfileDetailModal profileDetailModalVisible={profileDetailModalVisible} setProfileDetailModalVisible={setProfileDetailModalVisible} />
           <SettingsModal settingsModalVisible={settingsModalVisible} setSettingsModalVisible={setSettingsModalVisible}/>
+          <CalendarModal calendarModalVisible={calendarModalVisible} setCalendarModalVisible={setCalendarModalVisible} user={user}/>
     </View>
     </ScrollView>
     </SafeAreaView>
@@ -253,6 +275,16 @@ const ProfileScreen = () => {
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
+  searchInput: {
+    fontSize: 16,
+    backgroundColor: "#F4F4F4",
+    borderRadius: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginTop: 10,
+  },
   safeAreaViewContainer: {
     flex: 1,
     // backgroundColor: "white",

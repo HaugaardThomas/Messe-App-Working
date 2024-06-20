@@ -26,7 +26,7 @@ import {
   import { ThemeContext } from "../context/ThemeContext";
 
   // ICONS 
-  import { Ionicons } from '@expo/vector-icons';
+  import { Ionicons, Entypo, MaterialCommunityIcons  } from '@expo/vector-icons';
 
 
 const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedItem}) => {
@@ -81,17 +81,20 @@ const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedIt
         
           <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
            
-        <ImageBackground source={img2} style={styles.modalImageBackground} />
+        <ImageBackground source={img2} style={styles.modalImageBackground} >
+            <View style={styles.goBackContainer}>
+            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+            {/* <Ionicons  name="chevron-back" size={24} color={theme.textColor} /> */}
+            <Entypo style={styles.goBackIcon} name="chevron-with-circle-left" size={38} color={theme.backgroundColor} />
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
        
     
         <View style={styles.modalMainContainer}>
           
 
-          <View style={styles.goBackContainer}>
-            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-            <Ionicons  name="chevron-back" size={24} color={theme.textColor} />
-            </TouchableOpacity>
-          </View>
+        
 
 
 
@@ -185,8 +188,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalImageBackground: {
-    height: "50%",
-    width: "100%",
+    height: windowHeight * 0.30,
+    // width: "100%",
+    paddingTop: 30,
+    paddingLeft: 30,
   },
   // modalImage: {
   //   width: "100%",

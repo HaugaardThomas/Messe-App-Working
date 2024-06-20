@@ -80,18 +80,18 @@ const LoginRegisterScreen = () => {
             <Feather
               name="user-plus"
               size={42}
-              color="black"
+              color={theme.textColor}
               style={styles.userRegisterIcon}
             />
           </View>
 
           <View style={styles.registerTitleContainer}>
-            <Text style={styles.registerTitle}>Register</Text>
+            <Text style={[styles.registerTitle, {color: theme.textColor}]}>Register</Text>
           </View>
 
           <View style={styles.gotAnAccountLoginContainer}>
             <View>
-              <Text>Got an account?</Text>
+              <Text style={[styles.gotAccountText, {color: theme.textColor}]}>Got an account?</Text>
             </View>
 
             <View>
@@ -116,7 +116,7 @@ const LoginRegisterScreen = () => {
 
           <View style={styles.selectRegisterOptionsContainer}>
             <View style={styles.emailUsernameOptionContainer}>
-              <TouchableOpacity style={styles.emailUsernameOptionTouch}  onPress={() => {
+              <TouchableOpacity style={[styles.emailUsernameOptionTouch, {backgroundColor: theme.subBackgroundColor}]}  onPress={() => {
                   setModalRegisterVisible(true);
                 }}
               >
@@ -124,18 +124,18 @@ const LoginRegisterScreen = () => {
                   <Feather
                     name="at-sign"
                     size={32}
-                    color="black"
+                    color={theme.textColor}
                     style={styles.atSignIcon}
                   />
                 </View>
                 <Text style={styles.emailUsernameOptionWithText}>With</Text>
-                <Text style={styles.emailUsernameOptionWithOption}>
+                <Text style={[styles.emailUsernameOptionWithOption, {color: theme.textColor}]}>
                   Email & Username
                 </Text>
               </TouchableOpacity>
             </View>
             <View style={styles.emailUsernameOptionContainer}>
-              <TouchableOpacity style={styles.emailUsernameOptionTouch}>
+              <TouchableOpacity style={[styles.emailUsernameOptionTouch, {backgroundColor: theme.subBackgroundColor}]}>
                 <View style={styles.atIconContainer}>
                   <Feather
                     name="mail"
@@ -146,7 +146,7 @@ const LoginRegisterScreen = () => {
                 </View>
                 <View style={styles.withSelectionContainer}>
                   <Text style={styles.emailUsernameOptionWithText}>With</Text>
-                  <Text style={styles.emailUsernameOptionWithOption}>
+                  <Text style={[styles.emailUsernameOptionWithOption, {color: theme.textColor}]}>
                     Gmail
                   </Text>
                 </View>

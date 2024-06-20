@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
-  Modal,
   View,
   TouchableOpacity,
   TextInput,
@@ -11,6 +10,7 @@ import {
   Dimensions,
   Animated,
 } from "react-native";
+import Modal from 'react-native-modal';
 
 import axios from "axios";
 
@@ -21,12 +21,21 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // Images
 import arrowCloseButton from "../assets/images/Arrow_close_button.png";
 
+// CONTEXT
+import { ThemeContext } from "../context/ThemeContext";
 import { useLogin } from "../context/LoginProvider";
+
+ // ICONS 
+ import { Ionicons } from '@expo/vector-icons';
+
 
 const { width } = Dimensions.get("window");
 
 
 const LoginModal = ({ modalLoginVisible, setModalLoginVisible }) => {
+    // DARKMODE
+    const { theme, toggleTheme } = useContext(ThemeContext);
+    
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState("");
@@ -77,27 +86,34 @@ const LoginModal = ({ modalLoginVisible, setModalLoginVisible }) => {
 
   return (
     <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalLoginVisible}
+    animationIn="slideInRight"
+    animationInTiming={800}
+    animationOut="slideOutRight"
+    animationOutTiming={800}
+    backdropTransitionInTiming={800}
+    backdropTransitionOutTiming={800}
+    swipeDirection="right"
+      onSwipeComplete={() => setModalLoginVisible(false)}
+         isVisible={modalLoginVisible}
       onRequestClose={() => {
         setModalLoginVisible(!modalLoginVisible);
       }}
+      style={styles.cardModal}
     >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <TouchableOpacity
-            style={styles.modalCloseButton}
-            onPress={() => setModalLoginVisible(!modalLoginVisible)}
-          >
-            <Image source={arrowCloseButton} />
-          </TouchableOpacity>
+             <View style={[styles.centeredView, {backgroundColor: theme.backgroundColor}]}>
+             <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
+
+          <View style={styles.goBackContainer}>
+            <TouchableOpacity onPress={() => setModalLoginVisible(!modalLoginVisible)}>
+            <Ionicons  name="chevron-back" size={28} color={theme.textColor} />
+            </TouchableOpacity>
+          </View>
 
           <View style={styles.registerModalFormContainer}>
-            <Text style={styles.title}>Register</Text>
+            <Text style={[styles.title, {color: theme.textColor}]}>Login</Text>
 
             <TextInput
-              style={styles.input}
+              style={[styles.input, {borderColor: theme.textColor, color: theme.textColor}]}
               placeholder="Username"
               placeholderTextColor="#A9A9A9"
               value={username}
@@ -106,7 +122,7 @@ const LoginModal = ({ modalLoginVisible, setModalLoginVisible }) => {
             />
 
             <TextInput
-              style={styles.input}
+                 style={[styles.input, {borderColor: theme.textColor, color: theme.textColor}]}
               placeholder="Password"
               placeholderTextColor="#A9A9A9"
               value={password}
@@ -128,20 +144,20 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
+   // Modal
+   cardModal: {
+    margin: 0, 
+  },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalView: {
-    width: windowWidth * 0.9,
-    height: windowHeight * 0.91,
-    marginTop: 45,
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
+    width: '100%',
+    height: '100%',
     padding: 35,
+    paddingTop: 100,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

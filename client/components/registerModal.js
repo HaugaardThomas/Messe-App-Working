@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
-  Modal,
   View,
   TouchableOpacity,
   TextInput,
@@ -11,6 +10,7 @@ import {
   Dimensions,
   Animated,
 } from "react-native";
+import Modal from 'react-native-modal';
 
 import axios from "axios";
 
@@ -20,6 +20,12 @@ import { useNavigation } from "@react-navigation/native";
 import arrowCloseButton from "../assets/images/Arrow_close_button.png";
 
 const { width } = Dimensions.get("window");
+
+// CONTEXT
+import { ThemeContext } from "../context/ThemeContext";
+
+ // ICONS 
+ import { Ionicons } from '@expo/vector-icons';
 
 const Notification = ({ message, duration = 3000, onHide }) => {
   const [translateY] = useState(new Animated.Value(-100));
@@ -56,6 +62,9 @@ const Notification = ({ message, duration = 3000, onHide }) => {
 };
 
 const RegistrationModal = ({ modalRegisterVisible, setModalRegisterVisible, onSuccess }) => {
+  // DARKMODE
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -101,27 +110,34 @@ const RegistrationModal = ({ modalRegisterVisible, setModalRegisterVisible, onSu
 
   return (
     <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalRegisterVisible}
+    animationIn="slideInRight"
+    animationInTiming={800}
+    animationOut="slideOutRight"
+    animationOutTiming={800}
+    backdropTransitionInTiming={800}
+    backdropTransitionOutTiming={800}
+    swipeDirection="right"
+    onSwipeComplete={() => setModalRegisterVisible(false)}
+       isVisible={modalRegisterVisible}
       onRequestClose={() => {
         setModalRegisterVisible(!modalRegisterVisible);
       }}
+      style={styles.cardModal}
     >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <TouchableOpacity
-            style={styles.modalCloseButton}
-            onPress={() => setModalRegisterVisible(!modalRegisterVisible)}
-          >
-            <Image source={arrowCloseButton} />
-          </TouchableOpacity>
+          <View style={[styles.centeredView, {backgroundColor: theme.backgroundColor}]}>
+          <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
+
+          <View style={styles.goBackContainer}>
+            <TouchableOpacity onPress={() => setModalRegisterVisible(!modalRegisterVisible)}>
+            <Ionicons  name="chevron-back" size={28} color={theme.textColor} />
+            </TouchableOpacity>
+          </View>
 
           <View style={styles.registerModalFormContainer}>
-            <Text style={styles.title}>Register</Text>
+            <Text style={[styles.title, {color: theme.textColor}]}>Register</Text>
 
             <TextInput
-              style={styles.input}
+               style={[styles.input, {borderColor: theme.textColor, color: theme.textColor}]}
               placeholder="Username"
               placeholderTextColor="#A9A9A9"
               value={username}
@@ -130,7 +146,7 @@ const RegistrationModal = ({ modalRegisterVisible, setModalRegisterVisible, onSu
             />
 
             <TextInput
-              style={styles.input}
+              style={[styles.input, {borderColor: theme.textColor, color: theme.textColor}]}
               placeholder="Email"
               placeholderTextColor="#A9A9A9"
               value={email}
@@ -140,7 +156,7 @@ const RegistrationModal = ({ modalRegisterVisible, setModalRegisterVisible, onSu
             />
 
             <TextInput
-              style={styles.input}
+                 style={[styles.input, {borderColor: theme.textColor, color: theme.textColor}]}
               placeholder="Phone"
               placeholderTextColor="#A9A9A9"
               value={phone}
@@ -149,7 +165,7 @@ const RegistrationModal = ({ modalRegisterVisible, setModalRegisterVisible, onSu
             />
 
             <TextInput
-              style={styles.input}
+            style={[styles.input, {borderColor: theme.textColor, color: theme.textColor}]}
               placeholder="Password"
               placeholderTextColor="#A9A9A9"
               value={password}
@@ -158,7 +174,7 @@ const RegistrationModal = ({ modalRegisterVisible, setModalRegisterVisible, onSu
             />
 
             <TextInput
-              style={styles.input}
+                style={[styles.input, {borderColor: theme.textColor, color: theme.textColor}]}
               placeholder="Confirm Password"
               placeholderTextColor="#A9A9A9"
               value={confirmPassword}
@@ -180,29 +196,29 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+   // Modal
+ cardModal: {
+  margin: 0, 
+},
+centeredView: {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+},
+modalView: {
+  width: '100%',
+  height: '100%',
+  padding: 35,
+  paddingTop: 100,
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 2,
   },
-  modalView: {
-    width: windowWidth * 0.9,
-    height: windowHeight * 0.91,
-    marginTop: 45,
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
+  shadowOpacity: 0.25,
+  shadowRadius: 4,
+  elevation: 5,
+},
   modalCloseButton: {
     position: "absolute",
     left: 10,

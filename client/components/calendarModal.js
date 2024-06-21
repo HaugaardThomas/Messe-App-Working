@@ -27,6 +27,9 @@ import {
 
  // ICONS 
  import { Ionicons } from '@expo/vector-icons';
+
+ // MODAL
+ import BookMeetingModal from "./bookMeetingModal";
   
 
 
@@ -38,6 +41,7 @@ const CalendarModal = ({calendarModalVisible, setCalendarModalVisible, user }) =
     const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState(data);
     const [appointments, setAppointments] = useState([]);
+    const [bookModalVisible, setBookModalVisible] = useState(false);
 
        // DARKMODE
        const { theme, toggleTheme } = useContext(ThemeContext); 
@@ -128,10 +132,23 @@ const CalendarModal = ({calendarModalVisible, setCalendarModalVisible, user }) =
 
            <View style={styles.mainContentContainer}>
 
-            <View style={styles.titleContainer}>
+            <View style={styles.nameAndBookContainer}>
+              <View>
                 <Text style={[styles.hejUserText, {color: theme.textColor}]}>Hej {user} 👋</Text>
-                <Text style={[styles.titleText, {color: theme.textColor}]}>Bookede Møder</Text>
+                </View>
+                <View style={styles.bookMeetingContainer}>
+                  <TouchableOpacity 
+                  onPress={() => {
+                    navigation.navigate("VirksomhederScreen");
+                    setCalendarModalVisible(false);
+                  }}
+                  >
+                  <Text style={styles.bookMeetingText}>Book et møde</Text>
+                  </TouchableOpacity>
+                </View>
             </View>
+                <Text style={[styles.titleText, {color: theme.textColor}]}>Bookede Møder</Text>
+            
 
             <TextInput
             autoCapitalize="none"
@@ -148,9 +165,17 @@ const CalendarModal = ({calendarModalVisible, setCalendarModalVisible, user }) =
         data={appointments}
         keyExtractor={(item) => item._id.toString()}
         renderItem={({ item }) => (
+        <TouchableOpacity
+        style={[styles.itemContainer, {backgroundColor: theme.subBackgroundColor}]}
+        onPress={() => {
+          setSelectedItem(item);
+          // setModalVisible(true);
+        }}
+        >
           <View style={styles.itemContainer}>
             <Text style={styles.itemText}>{item.virksomhed.name}</Text>
           </View>
+          </TouchableOpacity>
         )}
       />
             </View>
@@ -159,6 +184,7 @@ const CalendarModal = ({calendarModalVisible, setCalendarModalVisible, user }) =
     
           </View>
         </View>
+        <BookMeetingModal bookModalVisible={bookModalVisible} setBookModalVisible={setBookModalVisible}  />
       </Modal>
       </>
     )
@@ -197,11 +223,19 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   mainContentContainer: {},
-  titleContainer: {
+  nameAndBookContainer: {
     paddingTop: 100,
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   hejUserText: {
     fontSize: 24,
+  },
+  bookMeetingContainer: {
+    justifyContent: "center",
+  },
+  bookMeetingText: {
+    color: "blue",
   },
   titleText: {
     fontWeight: "bold",

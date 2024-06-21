@@ -10,14 +10,12 @@ import { useLogin } from "../context/LoginProvider";
 // Screens
 import HomeScreen from "../screens/HomeScreen";
 import StandScreen from "../screens/StandScreen";
-import KortScreen from "../screens/KortScreen";
+import VirksomhederScreen from "../screens/VirksomhederScreen";
 import LoginRegisterScreen from "../screens/LoginRegisterScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import BookStandScreen from "../screens/BookStandScreen";
 
-import ProfileScreen2 from '../screens/ProfileScreen2';
-
-
+import ProfileScreen2 from "../screens/ProfileScreen2";
 
 // Colors
 import Colors from "../colors/Colors";
@@ -26,8 +24,7 @@ import Colors from "../colors/Colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Icon
-import { AntDesign, Ionicons, Feather} from '@expo/vector-icons';
-
+import { AntDesign, Ionicons, Feather } from "@expo/vector-icons";
 
 const TabNavigator = () => {
   const { login, isLoggedIn } = useLogin();
@@ -39,10 +36,10 @@ const TabNavigator = () => {
         screenOptions={{
           tabBarShowLabel: false,
           tabBarStyle: {
-            backgroundColor: '#02020A',
+            backgroundColor: "#02020A",
             height: 60,
             paddingBottom: 5,
-            position: 'absolute',
+            position: "absolute",
             marginBottom: 30,
             marginRight: 35,
             marginLeft: 35,
@@ -51,38 +48,17 @@ const TabNavigator = () => {
           },
         }}
       >
-        <Tab.Screen name="HomeScreen" component={HomeScreen}
+        <Tab.Screen
+          name="HomeScreen"
+          component={HomeScreen}
           options={{
             headerShown: false, // fjerner header
             tabBarIcon: ({ focused, color, size }) => (
               <View style={focused ? styles.iconBackground : {}}>
-                <AntDesign name="home" size={22} color="white"
-                  style={styles.tabIcon}
-                />
-              </View>
-            ),
-          }}
-
-        />
-        
-        <Tab.Screen name="StandScreen" component={StandScreen}
-          options={{
-            headerShown: false, // fjerner header
-            tabBarIcon: ({ focused, color, size }) => (
-              <View style={focused ? styles.iconBackground : {}}>
-                <AntDesign name="scan1" size={22} color="white"
-                  style={styles.tabIcon}
-                />
-              </View>
-            ),
-          }}
-        />
-        <Tab.Screen name="KortScreen" component={KortScreen}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ focused, color, size }) => (
-              <View style={focused ? styles.iconBackground : {}}>
-                <Ionicons name="map-outline" size={22} color="white"
+                <AntDesign
+                  name="home"
+                  size={22}
+                  color="white"
                   style={styles.tabIcon}
                 />
               </View>
@@ -90,7 +66,25 @@ const TabNavigator = () => {
           }}
         />
 
-{/* <Tab.Screen name="ProfileScreen2" component={ProfileScreen2}
+        <Tab.Screen
+          name="StandScreen"
+          component={StandScreen}
+          options={{
+            headerShown: false, // fjerner header
+            tabBarIcon: ({ focused, color, size }) => (
+              <View style={focused ? styles.iconBackground : {}}>
+                <AntDesign
+                  name="scan1"
+                  size={22}
+                  color="white"
+                  style={styles.tabIcon}
+                />
+              </View>
+            ),
+          }}
+        />
+
+        {/* <Tab.Screen name="ProfileScreen2" component={ProfileScreen2}
             options={{
               headerShown: false,
               tabBarIcon: ({ focused, color, size }) => (
@@ -102,28 +96,57 @@ const TabNavigator = () => {
               ),
             }}
           /> */}
-        {isLoggedIn ? (
-          <Tab.Screen name="ProfileScreen" component={ProfileScreen}
-            options={{
-              headerShown: false,
-              tabBarIcon: ({ focused, color, size }) => (
-                <View style={focused ? styles.iconBackground : {}}>
-                  <Feather name="user" size={22} color="white"
-                    style={styles.tabIcon}
-                  />
-                </View>
-              ),
-            }}
-          />
 
-          
+        {isLoggedIn ? (
+          <>
+            <Tab.Screen
+              name="VirksomhederScreen"
+              component={VirksomhederScreen}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({ focused }) => (
+                  <View style={focused ? styles.iconBackground : {}}>
+                    <AntDesign
+                      name="calendar"
+                      size={22}
+                      color="white"
+                      style={styles.tabIcon}
+                    />
+                  </View>
+                ),
+              }}
+            />
+
+            <Tab.Screen
+              name="ProfileScreen"
+              component={ProfileScreen}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({ focused }) => (
+                  <View style={focused ? styles.iconBackground : {}}>
+                    <Feather
+                      name="user"
+                      size={22}
+                      color="white"
+                      style={styles.tabIcon}
+                    />
+                  </View>
+                ),
+              }}
+            />
+          </>
         ) : (
-          <Tab.Screen name="LoginRegisterScreen" component={LoginRegisterScreen}
+          <Tab.Screen
+            name="LoginRegisterScreen"
+            component={LoginRegisterScreen}
             options={{
               headerShown: false,
-              tabBarIcon: ({ focused, color, size }) => (
+              tabBarIcon: ({ focused }) => (
                 <View style={focused ? styles.iconBackground : {}}>
-                  <Feather name="user" size={22} color="white"
+                  <Feather
+                    name="user"
+                    size={22}
+                    color="white"
                     style={styles.tabIcon}
                   />
                 </View>
@@ -132,7 +155,9 @@ const TabNavigator = () => {
           />
         )}
 
-        <Tab.Screen name="BookStandScreen" component={BookStandScreen}
+        <Tab.Screen
+          name="BookStandScreen"
+          component={BookStandScreen}
           options={{
             tabBarButton: () => null,
             tabBarVisible: false,
@@ -140,18 +165,11 @@ const TabNavigator = () => {
           }}
         />
       </Tab.Navigator>
-
-
-   
-    
-
-
     </>
   );
 };
 
 export default TabNavigator;
-
 
 const styles = StyleSheet.create({
   tabIcon: {
@@ -161,9 +179,9 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 50,
-    backgroundColor: '#474954',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#474954",
+    justifyContent: "center",
+    alignItems: "center",
     zIndex: 1,
   },
 });

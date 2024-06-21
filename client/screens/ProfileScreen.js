@@ -153,19 +153,7 @@ const ProfileScreen = () => {
       <View style={styles.usernameContainer}>
         <Text style={[styles.usernameText, {color: theme.textColor}]}>{user}</Text>
       </View>
-
-
-      <TextInput
-            autoCapitalize="none"
-            autoCorrect={false}
-            clearButtonMode="always"
-            value={query}
-            onChangeText={handleSearch}
-            placeholder="Search..."
-            placeholderTextColor={theme.textColor}
-            style={[styles.searchInput, {backgroundColor: theme.subBackgroundColor, color: theme.textColor}]}
-          />
-   
+  
 
       <View key={user._id} style={styles.phoneContainer}>
         <View style={styles.phoneTextContainer}>

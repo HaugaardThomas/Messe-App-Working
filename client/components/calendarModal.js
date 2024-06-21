@@ -15,6 +15,9 @@ import {
   import { useNavigation } from '@react-navigation/native';
   import Modal from 'react-native-modal';
   
+
+  import AsyncStorage from "@react-native-async-storage/async-storage";
+
   // Image
   import img1 from "../assets/images/Shop_transparent.png";
   import arrowCloseButton from "../assets/images/Arrow_close_button.png";
@@ -34,6 +37,7 @@ const CalendarModal = ({calendarModalVisible, setCalendarModalVisible, user }) =
     const [query, setQuery] = useState("");
     const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState(data);
+    const [appointments, setAppointments] = useState([]);
 
        // DARKMODE
        const { theme, toggleTheme } = useContext(ThemeContext); 
@@ -60,6 +64,37 @@ const CalendarModal = ({calendarModalVisible, setCalendarModalVisible, user }) =
     
       setFilteredData(newData);
     };
+
+
+
+    useEffect(() => {
+      const fetchUserIdAndAppointments = async () => {
+        try {
+          const userId = await AsyncStorage.getItem("userID");
+          if (userId) {
+            fetch(`https://messe-app-server.onrender.com/appointment/appointments/user/${userId}`, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                setAppointments(data);
+              })
+              .catch((error) => console.error("Error:", error));
+          } else {
+            console.error("User ID not found");
+          }
+        } catch (error) {
+          console.error("Failed to fetch user ID:", error);
+        }
+      };
+  
+      fetchUserIdAndAppointments();
+    }, []);
+
+
     
   
 
@@ -109,9 +144,15 @@ const CalendarModal = ({calendarModalVisible, setCalendarModalVisible, user }) =
             style={[styles.searchInput, {backgroundColor: theme.subBackgroundColor, color: theme.textColor}]}
           />
             <View style={styles.flatlistContainer}>
-                <FlatList 
-                
-                />
+            <FlatList
+        data={appointments}
+        keyExtractor={(item) => item._id.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.itemContainer}>
+            <Text style={styles.itemText}>{item.virksomhed.name}</Text>
+          </View>
+        )}
+      />
             </View>
 
            </View>

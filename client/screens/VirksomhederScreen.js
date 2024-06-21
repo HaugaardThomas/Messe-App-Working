@@ -2,6 +2,12 @@ import { View, Text, StyleSheet, SafeAreaView, FlatList, TouchableOpacity, TextI
 import { useState, useEffect, useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 
+// MODAL
+import BookMeetingModal from "../components/bookMeetingModal";
+
+// ICONS
+import { AntDesign } from '@expo/vector-icons';
+
 const VirksomhederScreen = () => {
   const { theme } = useContext(ThemeContext); 
 
@@ -9,6 +15,9 @@ const VirksomhederScreen = () => {
   const [query, setQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [selectedItem, setSelectedItem] = useState({});
+
+  //MODAL
+  const [bookModalVisible, setBookModalVisible] = useState(false);
 
   useEffect(() => {
     fetch("https://messe-app-server.onrender.com/users/allVirksomheder", {
@@ -62,16 +71,23 @@ const VirksomhederScreen = () => {
               style={styles.itemContainer}
               onPress={() => {
                 setSelectedItem(item);
+                setBookModalVisible(true);
                
               }}
             >
               <View style={[styles.virksomhederBox, {backgroundColor: theme.subBackgroundColor}]}>
+                <View>
                 <Text style={[styles.virksomhedName, {color: theme.textColor}]}>{item.name}</Text>
+                </View>
+                <View>
+                <AntDesign name="plus" size={15} color={theme.textColor} />
+                </View>
               </View>
             </TouchableOpacity>
           )}
         /> 
       </View>
+      <BookMeetingModal bookModalVisible={bookModalVisible} setBookModalVisible={setBookModalVisible} selectedItem={selectedItem} />
     </SafeAreaView>
   );
 };
@@ -89,7 +105,8 @@ const styles = StyleSheet.create({
   },
   virksomhederContainer: {},
   virksomhederBox: {
-    backgroundColor: 'lightgrey',
+    flexDirection: "row",
+    justifyContent: "space-between",
     borderRadius: 25,
     padding: 15,
     marginTop: 10,

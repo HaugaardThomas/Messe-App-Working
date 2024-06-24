@@ -70,7 +70,7 @@ const NotificationModal = ({notificationModalVisible, setNotificationModalVisibl
           </View>
 
           <View style={styles.headerTitleContainer}>
-            <Text style={styles.headerTitle}>Notification</Text>
+            <Text style={[styles.headerTitle, {color: theme.textColor}]}>Notification</Text>
           </View>
 
           </View>  
@@ -81,7 +81,7 @@ const NotificationModal = ({notificationModalVisible, setNotificationModalVisibl
                     <Image style={styles.imagePlaceholder}  source={ImagePlaceHolder} />
                 </View>
                 <View style={styles.textContainer}>
-                    <Text>Dette er en test notification</Text>
+                    <Text style={[styles.notificationText, {color: theme.textColor}]}>Dette er en test notification</Text>
                 </View>
             </View>
           </View>
@@ -99,7 +99,7 @@ const NotificationModal = ({notificationModalVisible, setNotificationModalVisibl
                     <Image style={styles.imagePlaceholder}  source={ImagePlaceHolder} />
                 </View>
                 <View style={styles.textContainer}>
-                    <Text>Dette er en test notification</Text>
+                    <Text style={[styles.notificationText, {color: theme.textColor}]}>Dette er en test notification</Text>
                 </View>
             </View>
           </View>

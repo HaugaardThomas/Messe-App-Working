@@ -170,7 +170,7 @@ const CalendarModal = ({calendarModalVisible, setCalendarModalVisible, user }) =
         }}
         >
           <View style={styles.itemContainer}>
-            <Text style={styles.itemText}>{item.virksomhed.name}</Text>
+            <Text style={[styles.itemText, {color: theme.textColor}]}>{item.virksomhed.name}</Text>
           </View>
           </TouchableOpacity>
         )}

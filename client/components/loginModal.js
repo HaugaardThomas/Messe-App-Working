@@ -74,7 +74,7 @@ const LoginModal = ({ modalLoginVisible, setModalLoginVisible }) => {
       
 
       setModalLoginVisible(false);
-      navigation.navigate("ProfileScreen");
+      navigation.navigate("ProfileScreen3");
     } catch (error) {
       if (error.response.status === 401) {
         setError(error.response.data.message);

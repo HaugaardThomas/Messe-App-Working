@@ -119,7 +119,7 @@ const TabNavigator = () => {
               }}
             />
 
-            <Tab.Screen
+            {/* <Tab.Screen
               name="ProfileScreen"
               component={ProfileScreen}
               options={{
@@ -135,7 +135,7 @@ const TabNavigator = () => {
                   </View>
                 ),
               }}
-            />
+            /> */}
 
 <Tab.Screen
               name="ProfileScreen3"

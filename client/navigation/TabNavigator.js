@@ -17,6 +17,8 @@ import BookStandScreen from "../screens/BookStandScreen";
 
 import ProfileScreen2 from "../screens/ProfileScreen2";
 
+import ProfileScreen3 from "../screens/ProfileScreen3";
+
 // Colors
 import Colors from "../colors/Colors";
 
@@ -120,6 +122,24 @@ const TabNavigator = () => {
             <Tab.Screen
               name="ProfileScreen"
               component={ProfileScreen}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({ focused }) => (
+                  <View style={focused ? styles.iconBackground : {}}>
+                    <Feather
+                      name="user"
+                      size={22}
+                      color="white"
+                      style={styles.tabIcon}
+                    />
+                  </View>
+                ),
+              }}
+            />
+
+<Tab.Screen
+              name="ProfileScreen3"
+              component={ProfileScreen3}
               options={{
                 headerShown: false,
                 tabBarIcon: ({ focused }) => (

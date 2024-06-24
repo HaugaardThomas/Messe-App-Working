@@ -28,8 +28,6 @@ import {
  // ICONS 
  import { Ionicons } from '@expo/vector-icons';
 
- // MODAL
- import BookMeetingModal from "./bookMeetingModal";
   
 
 
@@ -41,7 +39,6 @@ const CalendarModal = ({calendarModalVisible, setCalendarModalVisible, user }) =
     const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState(data);
     const [appointments, setAppointments] = useState([]);
-    const [bookModalVisible, setBookModalVisible] = useState(false);
 
        // DARKMODE
        const { theme, toggleTheme } = useContext(ThemeContext); 
@@ -166,7 +163,7 @@ const CalendarModal = ({calendarModalVisible, setCalendarModalVisible, user }) =
         keyExtractor={(item) => item._id.toString()}
         renderItem={({ item }) => (
         <TouchableOpacity
-        style={[styles.itemContainer, {backgroundColor: theme.subBackgroundColor}]}
+        style={[styles.itemContainerTouch, {backgroundColor: theme.subBackgroundColor}]}
         onPress={() => {
           setSelectedItem(item);
           // setModalVisible(true);
@@ -184,7 +181,6 @@ const CalendarModal = ({calendarModalVisible, setCalendarModalVisible, user }) =
     
           </View>
         </View>
-        <BookMeetingModal bookModalVisible={bookModalVisible} setBookModalVisible={setBookModalVisible}  />
       </Modal>
       </>
     )
@@ -251,7 +247,12 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     marginTop: 10,
+    marginBottom: 20,
   },
   flatlistContainer: {},
-
+  itemContainerTouch: {
+    padding: 15,
+    borderRadius: 25,
+    backgroundColor: "red",
+  },
 })

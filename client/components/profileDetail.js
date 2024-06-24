@@ -56,7 +56,7 @@ const ProfileDetailModal = ({profileDetailModalVisible, setProfileDetailModalVis
             
 
           <View style={styles.goBackContainer}>
-            <TouchableOpacity onPress={() => setCardModalVisible(!cardModalVisible)}>
+            <TouchableOpacity onPress={() => setProfileDetailModalVisible(!profileDetailModalVisible)}>
             <Ionicons  name="chevron-back" size={24} color={theme.textColor} />
             </TouchableOpacity>
           </View>

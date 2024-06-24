@@ -53,6 +53,9 @@ const ProfileScreen = () => {
   const [profileDetailModalVisible, setProfileDetailModalVisible] = useState(false);
   const [settingsModalVisible, setSettingsModalVisible] = useState(false);
   const [calendarModalVisible, setCalendarModalVisible] = useState(false);
+  
+
+  const [test, setTest] = useState("");
 
  
 
@@ -89,6 +92,7 @@ const ProfileScreen = () => {
             })
             .then((data) => {
                 setUserData(data);
+                setTest("Hej");
             })
             .catch((error) => console.error("Error:", error));
     }

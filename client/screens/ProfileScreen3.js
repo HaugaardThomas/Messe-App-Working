@@ -344,6 +344,7 @@ const ProfileScreen3 = () => {
             </View>
           </View>
 
+          <CalendarModal calendarModalVisible={calendarModalVisible} setCalendarModalVisible={setCalendarModalVisible} user={user}/>
       </View>
       </ScrollView>
     </SafeAreaView>

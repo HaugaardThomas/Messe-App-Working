@@ -21,6 +21,7 @@ import arrowCloseButton from "../assets/images/Arrow_close_button.png";
 
 // Modal
 import StandeModal from "../components/standeModal";
+import NotificationModal from "../components/notificationModal";
 
  // CONTEXT
  import { ThemeContext } from "../context/ThemeContext";
@@ -44,6 +45,8 @@ const HomeScreen = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [filteredData, setFilteredData] = useState(data);
   const [loading, setLoading] = useState(true);
+
+  const [notificationModalVisible, setNotificationModalVisible] = useState(false);
 
 
   useEffect(() => {
@@ -105,7 +108,11 @@ const HomeScreen = () => {
         <View style={styles.mainContainer}>
           <View style={styles.headerContainer}>
             <View style={styles.bellContainer}>
+              <TouchableOpacity onPress={() => {
+                  setNotificationModalVisible(true);
+                }}>
             <Ionicons style={styles.bellIcon} name="notifications" size={24} color={theme.textColor} />
+            </TouchableOpacity>
             </View>
           </View>
           <View>
@@ -177,6 +184,7 @@ const HomeScreen = () => {
             contentContainerStyle={styles.list}
           /> 
          <StandeModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
+         <NotificationModal notificationModalVisible={notificationModalVisible} setNotificationModalVisible={setNotificationModalVisible} />
         </View>
       </SafeAreaView>
     </>

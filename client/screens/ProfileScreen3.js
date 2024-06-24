@@ -24,12 +24,11 @@ import { useLogin } from "../context/LoginProvider";
 import ProfilePic from "../assets/images/profile_pic.png";
 
 import {
-  Ionicons,
   FontAwesome,
   Octicons,
   MaterialCommunityIcons,
   AntDesign,
-  MaterialIcons,
+  Feather
 } from "@expo/vector-icons";
 
 // MODALS
@@ -139,6 +138,7 @@ const ProfileScreen3 = () => {
         { backgroundColor: theme.backgroundColor },
       ]}
     >
+        <ScrollView>
       <View style={styles.mainContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -164,7 +164,7 @@ const ProfileScreen3 = () => {
           <Text style={[styles.usernameText, { color: theme.textColor }]}>
             {user}
           </Text>
-          <Text>{creationDate}</Text>
+          <Text>Joined at {creationDate}</Text>
         </View>
 
         <View
@@ -280,7 +280,7 @@ const ProfileScreen3 = () => {
               <Text
                 style={[styles.generalFeedbackText, { color: theme.textColor }]}>Dark mode</Text>
             </View>
-            <View style={styles.cardArrowContainer}>
+            <View style={styles.darkmodeSwitchContainer}>
               <Switch
                 trackColor={{
                   false: theme.switchTrackColor,
@@ -290,12 +290,62 @@ const ProfileScreen3 = () => {
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={toggleTheme}
                 value={theme.backgroundColor === "#121212"}
-                style={styles.darkModeSwitchToggle}
+                style={{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }}
               />
             </View>
           </View>
           </View>       
+
+          <View style={[styles.darkModeChoiceContainer,{ borderColor: theme.subBackgroundColor }]}>
+          <View style={styles.generalTitleContainer}>
+            <Text style={[styles.generalTitle, { color: theme.textColor }]}>
+              Notifications
+            </Text>
+          </View>
+          <View style={styles.generalNameContainer4}>
+            <View style={styles.generalIconContainer}>
+              <Feather name="message-square" size={24} color={theme.textColor} />
+              <Text
+                style={[styles.generalFeedbackText, { color: theme.textColor }]}>Push notifications</Text>
+            </View>
+            <View style={styles.darkmodeSwitchContainer}>
+              <Switch
+                trackColor={{
+                  false: theme.switchTrackColor,
+                  true: theme.switchTrackColor,
+                }}
+                thumbColor={theme.switchThumbColor}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleTheme}
+                value={theme.backgroundColor === "#121212"}
+                style={{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }}
+              />
+            </View>
+          </View>
+          </View> 
+
+          
+      <View style={styles.logoutButtonContainer}>
+            <TouchableOpacity onPress={logoutHandle} style={[styles.loginButton, {backgroundColor: theme.subBackgroundColor}]}>
+              <Text style={[styles.textLoginButton, {color: theme.textColor}]}>Log out</Text>
+            </TouchableOpacity>
+          </View>      
+
+          <View style={styles.poweredByContainer}>
+            <Text style={styles.poweredByText}>@2024 Powered by ThinkNext</Text>
+          </View>
+          
+          <View style={styles.termsContainer}>
+            <View style={styles.accountTermsContainer}>
+            <Text style={styles.accountTermsText}>Account Terms</Text>
+            </View>
+            <View style={styles.privacyTermsContainer}>
+                <Text style={styles.privacyTermsText}>Privacy Terms</Text>
+            </View>
+          </View>
+
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -305,6 +355,7 @@ export default ProfileScreen3;
 const styles = StyleSheet.create({
   safeAreaViewContainer: {
     flex: 1,
+    marginBottom: 120, // Gøre at scrollview can stoppe nede ved bunden og stadig se bottom content uden at ligge under navigation bar.
   },
   mainContainer: {
     paddingTop: 10,
@@ -392,6 +443,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  cardArrowContainer: {
+    paddingRight: 10,
+  },
   // PREFERNCE
   darkModeChoiceContainer: {
     borderWidth: 1,
@@ -405,5 +459,39 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
   },
-  
+    // LOGOUT BUTTON
+    logoutButtonContainer: {
+        marginTop: 20,
+      },
+      loginButton: {
+        borderRadius: 25,
+      },
+      textLoginButton: {
+        textTransform: "uppercase",
+        textAlign: "center",
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        fontSize: 16,
+        fontWeight: "bold",
+      },
+      // Powered by
+      poweredByContainer: {
+        marginTop: 30,
+        alignItems: "center"
+      },
+      poweredByText: {
+        color: "grey",
+      },
+      // TERMS
+      termsContainer: {
+        marginTop: 10,
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+      },
+      accountTermsText: {
+        color: "blue",
+      },
+      privacyTermsText: {
+    color: "blue",
+      },
 });

@@ -21,6 +21,7 @@ import {
   import img1 from "../assets/images/Shop_transparent.png";
   import img2 from "../assets/images/a1a1a1a1a1.png";
   import arrowCloseButton from "../assets/images/Arrow_close_button.png";
+  import img3 from "../assets/images/O8G7CP0.png";
 
   // CONTEXT
   import { ThemeContext } from "../context/ThemeContext";
@@ -81,40 +82,37 @@ const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedIt
         
           <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
            
-        <ImageBackground source={img2} style={styles.modalImageBackground} >
-          <View style={styles.headerContainer}>
+       
+          <View style={[styles.headerContainer, {backgroundColor: theme. subBackgroundColor}]}>
 
             <View style={styles.goBackContainer}>
             <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-            {/* <Ionicons  name="chevron-back" size={24} color={theme.textColor} /> */}
-            <Entypo style={styles.goBackIcon} name="chevron-with-circle-left" size={38} color={theme.backgroundColor} />
+            <Ionicons  name="chevron-back" size={24} color={theme.textColor} />
             </TouchableOpacity>
-          </View>
+         
 
-          <View>
-            <TouchableOpacity>
-            <Ionicons name="heart-circle-outline" size={38} color="black" />
-            </TouchableOpacity>
-          </View>
 
           </View>
-        </ImageBackground>
+      
        
-    
-        <View style={styles.modalMainContainer}>
-          
+     </View>
 
-        
-
-
-
-            {/* <View style={styles.modalImageContainer}>
-              <Image source={img2} style={styles.modalImage} />
-            </View> */}
-           
+      <View style={[styles.titleImageContainer, {backgroundColor: theme.subBackgroundColor}]}>
+     <View style={styles.standTitleContainer}>
             <Text style={[styles.modalTextTitle, {color: theme.textColor}]}>{selectedItem.title}</Text>
+           </View>
+
+           <View style={styles.standImageContainer}>
+            <Image style={styles.standImage} source={img3} />
+           </View>
+           </View>
+         
+     <View style={styles.informationContentContainer}>
+
+ 
             <View style={styles.textContainer}>
-              <Text style={[styles.modalTextBody, {color: theme.textColor}]}>
+              <Text style={styles.informationTitle}>Information</Text>
+              <Text style={styles.modalTextBody}>
                 {renderTextBody(selectedItem.body)}
               </Text>
               {selectedItem.body &&
@@ -128,26 +126,25 @@ const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedIt
                   </TouchableOpacity>
                 )}
             </View>
+
+            <View style={styles.buttonsMainContainer}>
             <View style={styles.standRedirectKnapContainer}>
-              <TouchableOpacity style={styles.standRedirectKnapOuterBorder}>
-              <TouchableOpacity style={styles.standRedirectKnapTouch} onPress={SendUserToStandScreen}>
-                <Text style={styles.standRedirectKnapText}>Find Stand</Text>
-              </TouchableOpacity>
+              <TouchableOpacity style={[styles.standRedirectKnapTouch, {backgroundColor: theme.textColor}]} onPress={SendUserToStandScreen}>
+                <Text style={[styles.standRedirectKnapText, {color: theme.backgroundColor}]}>Find Stand</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.standBookContainer}>
-              <TouchableOpacity style={styles.standBookOuterBorder}>
-              <TouchableOpacity style={styles.standBookKnapTouch} onPress={SendTilBookStand}>
-                <Text style={styles.standBookText}>Book</Text>
+              <TouchableOpacity style={[styles.standBookKnapTouch, {backgroundColor: theme.textColor}]} onPress={SendTilBookStand}>
+                <Text style={[styles.standBookText, {color: theme.backgroundColor}]}>Book</Text>
               </TouchableOpacity>
-              </TouchableOpacity>
+            </View>
             </View>
 
 
             </View>
           
             </View>
-          </View>
+           </View>
        
       </Modal>
  
@@ -167,30 +164,25 @@ const styles = StyleSheet.create({
   margin: 0, 
  },
  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    //backgroundColor: "rgba(0, 0, 0, 0.5)",
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+},
+modalView: {
+  width: '100%',
+  height: '100%',
+  // padding: 35,
+  // paddingTop: 50,
+  
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 2,
   },
-  modalView: {
-    width: '100%',
-    height: '100%',
-    margin: 20,
-    // backgroundColor: "white",
-    borderRadius: 20,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalSecondView: {
-    padding: 35,
-    paddingTop: 50,
-  },
+  shadowOpacity: 0.25,
+  shadowRadius: 4,
+  elevation: 5,
+},
   // Modal Image
   modalImageContainer: {
     marginTop: 20,
@@ -204,18 +196,24 @@ const styles = StyleSheet.create({
     paddingLeft: 30,
   },
   headerContainer: {
+    padding: 35,
+    paddingTop: 50,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  // modalImage: {
-  //   width: "100%",
-  // },
-  // modalImage: {
-  //   width: 300,
-  //   height: 200,
-  //   marginBottom: 15,
-  // },
-
+  informationContentContainer: {
+    padding: 35,
+  },
+  modalStandImageContainer: {
+    marginTop: 50,
+  },
+  standImageContainer: {
+    alignItems: "center",
+  },
+  standImage: {
+    width: windowWidth * 1,
+    height: windowHeight * 0.50,
+  },
   // Button
   modalCloseButton: {
     position: "absolute",
@@ -230,11 +228,16 @@ const styles = StyleSheet.create({
     color: "white",
   },
   // Title and text content
-  modalTextTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
+  standTitleContainer: {
+    alignItems: "center",
   },
-  modalTextBody: {},
+  modalTextTitle: {
+    fontSize: 32,
+  },
+  modalTextBody: {
+    marginTop: 10,
+    color: "#9a98a4",
+  },
   // Image
   imageContainer: {
     width: "100%",
@@ -254,6 +257,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginTop: 10,
+  },
+  informationTitle: {
+    fontSize: 18,
+    fontWeight: "500",
   },
   // Category selector
   categoryContainer: {
@@ -294,21 +301,23 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   // Find Stand knap
+  buttonsMainContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
   standRedirectKnapContainer: {
     alignItems: 'center',
     marginTop: 25,
-  },
-  standRedirectKnapOuterBorder: {
-    borderRadius: 25,
-    padding: 2,
-    borderWidth: 3,
+    
   },
   standRedirectKnapTouch: {
-    backgroundColor: 'black',
+    // backgroundColor: 'black',
    borderRadius: 25,
+   width: 130,
+   alignItems: "center",
   },
   standRedirectKnapText: {
-  color: 'white',
+  // color: 'white',
   fontWeight: 'bold',
     paddingVertical: 10,
     paddingHorizontal: 25,
@@ -318,17 +327,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 25,
   },
-  standBookOuterBorder: {
-    borderRadius: 25,
-    padding: 2,
-    borderWidth: 3,
-  },
   standBookKnapTouch: {
-    backgroundColor: 'black',
+    // backgroundColor: 'black',
     borderRadius: 25,
+    width: 130,
+    alignItems: "center",
   },
   standBookText: {
-    color: 'white',
+    // color: 'white',
   fontWeight: 'bold',
     paddingVertical: 10,
     paddingHorizontal: 25,

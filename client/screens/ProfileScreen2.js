@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Modal,
   Dimensions,
-  StatusBar,
   Switch,
   TextInput,
 } from "react-native";
@@ -133,7 +132,6 @@ const ProfileScreen2 = () => {
 
   return (
     <>
-      <StatusBar style="dark" />
       <SafeAreaView style={styles.safeAreaViewContainer}>
 
         <View style={styles.headerContainer}>

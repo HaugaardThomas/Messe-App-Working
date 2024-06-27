@@ -4,3 +4,6 @@ så de kan få beskeder om at have booket og en reminder 15 min inden og så en 
 
 Få en notification på deres lockedscreen (ligesom normal notification) og så kan de åbne den og blive påmindet om at de har et møde om x minutter og så en knap
 der måske står "Vis vej" og så bliver der vist vej med AR
+
+
+https://dribbble.com/shots/19397942-Hotel-Booking-App - Brug det her til forsiden?

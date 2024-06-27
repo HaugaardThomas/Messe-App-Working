@@ -22,6 +22,7 @@ import arrowCloseButton from "../assets/images/Arrow_close_button.png";
 // Modal
 import StandeModal from "../components/standeModal";
 import NotificationModal from "../components/notificationModal";
+import BookMeetingModal from "../components/bookMeetingModal";
 
  // CONTEXT
  import { ThemeContext } from "../context/ThemeContext";
@@ -45,6 +46,8 @@ const HomeScreen = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [filteredData, setFilteredData] = useState(data);
   const [loading, setLoading] = useState(true);
+
+  const [testVisible, setTestVisible] = useState(true);
 
   const [notificationModalVisible, setNotificationModalVisible] = useState(false);
 
@@ -185,6 +188,7 @@ const HomeScreen = () => {
           /> 
          <StandeModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
          <NotificationModal notificationModalVisible={notificationModalVisible} setNotificationModalVisible={setNotificationModalVisible} />
+         <BookMeetingModal testVisible={testVisible} setTestVisible={setTestVisible}/>
         </View>
       </SafeAreaView>
     </>

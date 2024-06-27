@@ -17,7 +17,7 @@ const VirksomhederScreen = () => {
   const [selectedItem, setSelectedItem] = useState({});
 
   //MODAL
-  const [bookModalVisible, setBookModalVisible] = useState(false);
+  const [bookModalVisible, setBookModalVisible] = useState(true);
 
   useEffect(() => {
     fetch("https://messe-app-server.onrender.com/users/allVirksomheder", {

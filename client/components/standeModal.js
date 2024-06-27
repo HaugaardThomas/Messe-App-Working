@@ -1,343 +1,234 @@
 import {
-    View,
-    Text,
-    StyleSheet,
-    Image,
-    SafeAreaView,
-    TextInput,
-    FlatList,
-    ScrollView,
-    TouchableOpacity,
-    ActivityIndicator,
-    Dimensions,
-    ImageBackground,
-    StatusBar,
-  } from "react-native";
-  import React, { useState, useEffect, useContext } from "react";
-  import { useNavigation } from '@react-navigation/native';
-  import Modal from 'react-native-modal';
-  
-  // Image
-  import img1 from "../assets/images/Shop_transparent.png";
-  import img2 from "../assets/images/a1a1a1a1a1.png";
-  import arrowCloseButton from "../assets/images/Arrow_close_button.png";
-  import img3 from "../assets/images/O8G7CP0.png";
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+  Dimensions,
+  ImageBackground,
+  Image,
+} from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import Modal from 'react-native-modal';
+import { useNavigation } from '@react-navigation/native';
+import { ThemeContext } from "../context/ThemeContext";
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 
-  // CONTEXT
-  import { ThemeContext } from "../context/ThemeContext";
+// IMAGES
+import img1 from "../assets/images/a1a1a1a1a1.png";
+import Arrow1 from "../assets/images/Arrow1.png";
+import Arrow2 from "../assets/images/Arrow2.png";
+import img2 from "../assets/images/people-reading-together-medium-shot.jpg";
+import img3 from "../assets/images/still-life-care-products.jpg";
+import img4 from "../assets/images/variety-premade-meals-supermarket-deli.jpg";
 
-  // ICONS 
-  import { Ionicons, Entypo, MaterialCommunityIcons  } from '@expo/vector-icons';
+// MODAL
+import BookMeetingModal from "./bookMeetingModal";
 
+const StandeModal = ({ modalVisible, setModalVisible, selectedItem }) => {
+  const navigation = useNavigation();
+  const { theme } = useContext(ThemeContext); 
+  const [virksomhedData, setVirksomhedData] = useState('');
 
-const StandeModal = ({modalVisible, setModalVisible, selectedItem, setSelectedItem}) => {
-    // DARKMODE
-    const { theme, toggleTheme } = useContext(ThemeContext); 
-
-    const navigation = useNavigation();
-    const [isFullTextShown, setIsFullTextShown] = useState(false);
-
-    const SendUserToStandScreen = () => {
-        navigation.navigate('StandScreen');
-        setModalVisible(!modalVisible);
-      };
-
-      const SendTilBookStand = () => {
-        navigation.navigate('BookStandScreen');
-        setModalVisible(!modalVisible);
-      }
-    
-      const renderTextBody = (text) => {
-        if (isFullTextShown || !text) {
-          return text;
-        }
-    
-        const words = text.split(" ");
-        if (words.length > 35) {
-          return words.slice(0, 35).join(" ") + "...";
-        }
-    
-        return text;
-      };
- 
-    return ( 
-      
-        <Modal
-        animationIn="slideInRight"
-     animationInTiming={800}
-     animationOut="slideOutRight"
-     animationOutTiming={700}
-     backdropTransitionInTiming={800}
-     backdropTransitionOutTiming={700}
-     swipeDirection="right"
-     onSwipeComplete={() => setModalVisible(false)}
-     isVisible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-        style={styles.standeModal}
-      >  
-      <StatusBar hidden={true} />
-        <View style={[styles.centeredView, {backgroundColor: theme.backgroundColor}]}>
-        
-          <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
-           
-       
-          <View style={[styles.headerContainer, {backgroundColor: theme. subBackgroundColor}]}>
-
-            <View style={styles.goBackContainer}>
-            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-            <Ionicons  name="chevron-back" size={24} color={theme.textColor} />
-            </TouchableOpacity>
-         
+  // MODAL
+  const [bookingModalVisible, setBookModalVisible] = useState(false);
 
 
+  const virksomhedId = selectedItem.virksomhed;
+
+  useEffect(() => {
+    console.log(virksomhedId);
+    fetch(`https://messe-app-server.onrender.com/users/virksomhed/${virksomhedId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setVirksomhedData(data);
+      })
+      .catch((error) => console.error("Error:", error));
+  }, [virksomhedId]);
+
+  return (
+      <Modal
+          animationIn="slideInRight"
+          animationInTiming={800}
+          animationOut="slideOutRight"
+          animationOutTiming={800}
+          backdropTransitionInTiming={800}
+          backdropTransitionOutTiming={800}
+          swipeDirection="right"
+          onSwipeComplete={() => setModalVisible(false)}
+          isVisible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+          style={styles.cardModal}
+      >
+          <View style={[styles.centeredView, {backgroundColor: theme.backgroundColor}]}>
+              <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
+
+                <View style={styles.imageBackgroundContainer}>
+            <ImageBackground style={styles.imageBackground} source={img1}>
+            <View style={styles.overlay} />
+                  <View style={styles.goBackContainer}>
+                      <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                      {/* <AntDesign name="leftcircle" size={24} color="black" /> */}
+                          <Image style={styles.goBackIcon} source={Arrow2} />
+                      </TouchableOpacity>
+                  </View>
+                  </ImageBackground>
+                  </View>
+
+                  <View style={styles.thumbnailImagesMainContainer}>
+                    <View style={styles.thumbnailImageContainer}>
+                      <Image style={styles.thumbnailImage} source={img2}/>
+                    </View>
+                    <View style={styles.thumbnailImageContainer}>
+                      <Image style={styles.thumbnailImage} source={img3} />
+                    </View>
+                    <View style={styles.thumbnailImageContainer}>
+                      <Image style={styles.thumbnailImage} source={img4}/>
+                    </View>
+                  </View>
+
+                  <View  style={styles.mainContentContainer}>
+                      <Text style={[styles.modalTextTitle, { color: theme.textColor }]}>{virksomhedData.name}</Text>
+                      <Text style={[styles.modalTextBody, { color: theme.textColor }]}>Additional information about the selected item goes here...</Text>
+                  </View>
+                  <View style={styles.standBookContainer}>
+                  <TouchableOpacity style={[styles.standBookKnapTouchStand, {backgroundColor: theme.textColor}]}>
+                <Text style={[styles.standBookTextStand, {color: theme.backgroundColor}]}>Find Stand</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.standBookKnapTouchBook, {backgroundColor: theme.textColor}]}
+              onPress={() => {
+                setBookModalVisible(true);
+              }}
+              >
+                <Text style={[styles.standBookTextBook, {color: theme.backgroundColor}]}>Book</Text>
+              </TouchableOpacity>
+            </View>
+              </View>
           </View>
-      
-       
-     </View>
-
-      <View style={[styles.titleImageContainer, {backgroundColor: theme.subBackgroundColor}]}>
-     <View style={styles.standTitleContainer}>
-            <Text style={[styles.modalTextTitle, {color: theme.textColor}]}>{selectedItem.title}</Text>
-           </View>
-
-           <View style={styles.standImageContainer}>
-            <Image style={styles.standImage} source={img3} />
-           </View>
-           </View>
-         
-     <View style={styles.informationContentContainer}>
-
- 
-            <View style={styles.textContainer}>
-              <Text style={styles.informationTitle}>Information</Text>
-              <Text style={styles.modalTextBody}>
-                {renderTextBody(selectedItem.body)}
-              </Text>
-              {selectedItem.body &&
-                selectedItem.body.split(" ").length > 35 && (
-                  <TouchableOpacity
-                    onPress={() => setIsFullTextShown(!isFullTextShown)}
-                  >
-                    <Text style={styles.readMoreText}>
-                      {isFullTextShown ? "Vis Mindre" : "Læs Mere"}
-                    </Text>
-                  </TouchableOpacity>
-                )}
-            </View>
-
-            <View style={styles.buttonsMainContainer}>
-            <View style={styles.standRedirectKnapContainer}>
-              <TouchableOpacity style={[styles.standRedirectKnapTouch, {backgroundColor: theme.textColor}]} onPress={SendUserToStandScreen}>
-                <Text style={[styles.standRedirectKnapText, {color: theme.backgroundColor}]}>Find Stand</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.standBookContainer}>
-              <TouchableOpacity style={[styles.standBookKnapTouch, {backgroundColor: theme.textColor}]} onPress={SendTilBookStand}>
-                <Text style={[styles.standBookText, {color: theme.backgroundColor}]}>Book</Text>
-              </TouchableOpacity>
-            </View>
-            </View>
-
-
-            </View>
-          
-            </View>
-           </View>
-       
+          <BookMeetingModal bookingModalVisible={bookingModalVisible} setBookModalVisible={setBookModalVisible}/>
       </Modal>
- 
-    )
-
-}
+  );
+};
 
 export default StandeModal;
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-
 const styles = StyleSheet.create({
- // Modal
- standeModal: {
-  margin: 0, 
- },
- centeredView: {
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
-},
-modalView: {
-  width: '100%',
-  height: '100%',
-  // padding: 35,
-  // paddingTop: 50,
-  
-  shadowColor: "#000",
-  shadowOffset: {
-    width: 0,
-    height: 2,
+  cardModal: {
+      backgroundColor: 'white',
+      margin: 0,
   },
-  shadowOpacity: 0.25,
-  shadowRadius: 4,
-  elevation: 5,
-},
-  // Modal Image
-  modalImageContainer: {
-    marginTop: 20,
+  centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+  },
+  modalView: {
+      width: '100%',
+      height: '100%',
+    //   padding: 35,
+    //   paddingTop: 50,
+      shadowColor: "#000",
+      shadowOffset: {
+          width: 0,
+          height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+  },
+  imageBackgroundContainer: {
+    paddingHorizontal: 5,
+    paddingTop: 35,
+  },
+  imageBackground: {
     width: "100%",
-    alignItems: "center",
+    height: windowHeight * 0.4,
+    borderRadius: 40,
+    overflow: 'hidden'
+
   },
-  modalImageBackground: {
-    height: windowHeight * 0.30,
-    // width: "100%",
-    paddingTop: 30,
-    paddingLeft: 30,
-  },
-  headerContainer: {
-    padding: 35,
-    paddingTop: 50,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  informationContentContainer: {
-    padding: 35,
-  },
-  modalStandImageContainer: {
-    marginTop: 50,
-  },
-  standImageContainer: {
-    alignItems: "center",
-  },
-  standImage: {
-    width: windowWidth * 1,
-    height: windowHeight * 0.50,
-  },
-  // Button
-  modalCloseButton: {
+  goBackContainer: {
     position: "absolute",
-    left: 10,
-    top: 10,
-    borderRadius: 20,
-    padding: 5,
-    elevation: 2,
-    backgroundColor: "black",
+    top: 20,
+    left: 20,
   },
-  textCloseButton: {
-    color: "white",
-  },
-  // Title and text content
-  standTitleContainer: {
-    alignItems: "center",
+ 
+  mainContentContainer: {
+    paddingTop: 30,
+    paddingHorizontal: 20,
   },
   modalTextTitle: {
-    fontSize: 32,
+      fontSize: 32,
+      fontWeight: "bold",
   },
   modalTextBody: {
     marginTop: 10,
-    color: "#9a98a4",
   },
-  // Image
-  imageContainer: {
-    width: "100%",
-    justifyContent: "center",
-    alignContent: "center",
-    alignItems: "center",
-    marginLeft: 20,
-    marginTop: -30,
+  goBackIcon: {
+    width: 35,
+    height: 35,
   },
-  itemImage: {
-    width: 150,
-    height: 100,
+  overlay: {
+    ...StyleSheet.absoluteFillObject, 
+    backgroundColor: 'rgba(0, 0, 0, 0.2)', 
   },
-  // Vis mere / mindre tekst
-  readMoreText: {
-    color: 'black',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: 10,
-  },
-  informationTitle: {
-    fontSize: 18,
-    fontWeight: "500",
-  },
-  // Category selector
-  categoryContainer: {
-    flexDirection: "row",
-    marginTop: 10,
-    marginBottom: 0,
-    height: 50,
-  },
-  categoryButton: {
-    padding: 10,
-    paddingLeft: 5,
-    marginHorizontal: 5,
-    backgroundColor: "white",
-    borderRadius: 18,
-  },
-  categoryButtonSelected: {
-    backgroundColor: "white",
-  },
-  categoryButtonText: {
-    color: "lightgrey",
-    fontSize: 16,
-  },
-  categoryButtonTextSelected: {
-    color: "black",
-  },
-  // DOT
-  dotContainer: {
-    height: 5,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  selectedCategoryDot: {
-    height: 5,
-    width: 5,
-    borderRadius: 50,
-    backgroundColor: "black",
-    position: "absolute",
-    bottom: 0,
-  },
-  // Find Stand knap
-  buttonsMainContainer: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-  },
-  standRedirectKnapContainer: {
-    alignItems: 'center',
-    marginTop: 25,
-    
-  },
-  standRedirectKnapTouch: {
-    // backgroundColor: 'black',
-   borderRadius: 25,
-   width: 130,
-   alignItems: "center",
-  },
-  standRedirectKnapText: {
-  // color: 'white',
-  fontWeight: 'bold',
-    paddingVertical: 10,
-    paddingHorizontal: 25,
-  },
-  // BOOK KNAP
-  standBookContainer: {
-    alignItems: 'center',
-    marginTop: 25,
-  },
-  standBookKnapTouch: {
-    // backgroundColor: 'black',
-    borderRadius: 25,
-    width: 130,
-    alignItems: "center",
-  },
-  standBookText: {
-    // color: 'white',
-  fontWeight: 'bold',
-    paddingVertical: 10,
-    paddingHorizontal: 25,
-  },
+    // BOOK KNAP
+    standBookContainer: {
+      flexDirection: "row",
+      justifyContent: "space-evenly",
+        flex: 1,
+        alignItems: 'center',
+        marginTop: 25,
+      },
+      standBookKnapTouchStand: {
+        borderRadius: 25,
+        alignItems: "center",
+        position: "absolute",
+        bottom: 40,
+        left: 20,
+      },
+      standBookKnapTouchBook: {
+        borderRadius: 25,
+        alignItems: "center",
+        position: "absolute",
+        bottom: 40,
+        right: 20,
+      },
+      standBookTextStand: {
+      fontWeight: 'bold',
+        paddingVertical: 15,
+        paddingHorizontal: 40,
+        fontSize: 18,
+      },
+      standBookTextBook: {
+        fontWeight: 'bold',
+          paddingVertical: 15,
+          paddingHorizontal: 60,
+          fontSize: 18,
+        },
 
-})
+        thumbnailImagesMainContainer: {
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          marginTop: 10,
+        },
+        thumbnailImageContainer: {
+         
+        },
+        thumbnailImage: {
+          width: 120,
+          height: 80,
+          borderRadius: 25,
+        },
+      
+});

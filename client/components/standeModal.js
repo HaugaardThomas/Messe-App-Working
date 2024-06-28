@@ -59,8 +59,8 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedItem }) => {
           animationOutTiming={800}
           backdropTransitionInTiming={800}
           backdropTransitionOutTiming={800}
-          swipeDirection="right"
-          onSwipeComplete={() => setModalVisible(false)}
+          // swipeDirection="right"
+          // onSwipeComplete={() => setModalVisible(false)}
           isVisible={modalVisible}
           onRequestClose={() => {
             setModalVisible(!modalVisible);
@@ -75,14 +75,13 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedItem }) => {
             <View style={styles.overlay} />
                   <View style={styles.goBackContainer}>
                       <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                      {/* <AntDesign name="leftcircle" size={24} color="black" /> */}
-                          <Image style={styles.goBackIcon} source={Arrow2} />
+                      <AntDesign name="leftcircle" size={36} color={theme.backgroundColor} />
                       </TouchableOpacity>
                   </View>
                   </ImageBackground>
                   </View>
 
-                  <View style={styles.thumbnailImagesMainContainer}>
+                  {/* <View style={styles.thumbnailImagesMainContainer}>
                     <View style={styles.thumbnailImageContainer}>
                       <Image style={styles.thumbnailImage} source={img2}/>
                     </View>
@@ -92,7 +91,7 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedItem }) => {
                     <View style={styles.thumbnailImageContainer}>
                       <Image style={styles.thumbnailImage} source={img4}/>
                     </View>
-                  </View>
+                  </View> */}
 
                   <View  style={styles.mainContentContainer}>
                       <Text style={[styles.modalTextTitle, { color: theme.textColor }]}>{virksomhedData.name}</Text>
@@ -112,7 +111,7 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedItem }) => {
             </View>
               </View>
           </View>
-          <BookMeetingModal bookingModalVisible={bookingModalVisible} setBookModalVisible={setBookModalVisible}/>
+          <BookMeetingModal bookingModalVisible={bookingModalVisible} setBookModalVisible={setBookModalVisible} virksomhedId={virksomhedId} setModalVisible={setModalVisible}  />
       </Modal>
   );
 };

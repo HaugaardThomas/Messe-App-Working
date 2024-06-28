@@ -165,6 +165,7 @@ const HomeScreen = () => {
             ))}
           </ScrollView>
            <FlatList
+           style={styles.flatListMesser}
             data={filteredData}
             keyExtractor={(item) => item._id}
             renderItem={({ item }) => (
@@ -175,9 +176,10 @@ const HomeScreen = () => {
                   setModalVisible(true);
                 }}
               >
+                <Text>{item.image}</Text>
                 <View style={styles.itemContainer}>
                   <View style={styles.imageContainer}>
-                    <Image source={{ uri: item.image }} style={styles.itemImage} />
+                    <Image source={{ uri: "https://messe-app-server.onrender.com/1719579878538-111aa.png"}} style={styles.itemImage} />
                   </View>
                   <Text style={[styles.itemText, {color: theme.textColor}]}>{item.title}</Text>
                 </View>
@@ -186,6 +188,7 @@ const HomeScreen = () => {
             numColumns={2}
             contentContainerStyle={styles.list}
           /> 
+          
          <StandeModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
          <NotificationModal notificationModalVisible={notificationModalVisible} setNotificationModalVisible={setNotificationModalVisible} />
          <BookMeetingModal testVisible={testVisible} setTestVisible={setTestVisible}/>

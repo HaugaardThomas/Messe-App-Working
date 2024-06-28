@@ -28,6 +28,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // Icon
 import { AntDesign, Ionicons, Feather } from "@expo/vector-icons";
 
+// MODAL
+import CalendarModal from "../components/calendarModal";
+import BookMeetingModal from "../components/bookMeetingModal";
+
 const TabNavigator = () => {
   const { login, isLoggedIn } = useLogin();
   const Tab = createBottomTabNavigator();
@@ -137,7 +141,7 @@ const TabNavigator = () => {
               }}
             /> */}
 
-<Tab.Screen
+            <Tab.Screen
               name="ProfileScreen3"
               component={ProfileScreen3}
               options={{
@@ -154,6 +158,7 @@ const TabNavigator = () => {
                 ),
               }}
             />
+
           </>
         ) : (
           <Tab.Screen

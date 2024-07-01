@@ -52,6 +52,30 @@ const HomeScreen = () => {
   const [notificationModalVisible, setNotificationModalVisible] = useState(false);
 
 
+  // useEffect(() => {
+  //   fetch("https://messe-app-server.onrender.com/messer/getAllMesser", {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setData(data);
+  //       setFilteredData(data);
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => console.error("Error:", error));
+  // }, []);
+
+  // if (loading) {
+  //   return (
+  //     <SafeAreaView>
+  //       <Text>LOADING</Text>
+  //     </SafeAreaView>
+  //   );
+  // }
+
   useEffect(() => {
     fetch("https://messe-app-server.onrender.com/messer/getAllMesser", {
       method: "GET",
@@ -61,20 +85,17 @@ const HomeScreen = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setData(data);
-        setFilteredData(data);
+        // Construct the full URL for each image
+        const updatedData = data.map(item => ({
+          ...item,
+          image: `https://messe-app-server.onrender.com/${item.image}`
+        }));
+        setData(updatedData);
+        setFilteredData(updatedData);
         setLoading(false);
       })
       .catch((error) => console.error("Error:", error));
   }, []);
-
-  if (loading) {
-    return (
-      <SafeAreaView>
-        <Text>LOADING</Text>
-      </SafeAreaView>
-    );
-  }
 
 
   const handleSearch = (text) => {
@@ -176,16 +197,15 @@ const HomeScreen = () => {
                   setModalVisible(true);
                 }}
               >
-                <Text>{item.image}</Text>
                 <View style={styles.itemContainer}>
                   <View style={styles.imageContainer}>
-                    <Image source={{ uri: "https://messe-app-server.onrender.com/1719579878538-111aa.png"}} style={styles.itemImage} />
+                    <Image source={{ uri: item.image}} style={styles.itemImage} />
                   </View>
                   <Text style={[styles.itemText, {color: theme.textColor}]}>{item.title}</Text>
                 </View>
               </TouchableOpacity>
             )}
-            numColumns={2}
+            numColumns={1}
             contentContainerStyle={styles.list}
           /> 
           
@@ -249,15 +269,15 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   itemContainer: {
-    //backgroundColor: "#F4F4F4",
     flex: 1,
-    marginHorizontal: 7,
-    marginVertical: 15,
+    paddingHorizontal: 7,
+    marginTop: 15,
     borderRadius: 15,
     flexDirection: "column",
     flexWrap: "wrap",
     paddingHorizontal: 10,
-    width: "50%",
+    // width: "50%",
+    width: "100%",
   },
   // Modal
   centeredView: {
@@ -320,14 +340,14 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: "100%",
     justifyContent: "center",
-    alignContent: "center",
     alignItems: "center",
-    marginLeft: 20,
-    marginTop: -30,
+    overflow: "hidden", // Ensure the image doesn't overflow the container
+    borderRadius: 15,  // Match the radius of the container for better visual appeal
   },
   itemImage: {
-    width: 150,
-    height: 100,
+    width: "100%",
+    height: 150, // Adjust the height as needed
+    resizeMode: "fit", // Cover the entire container while maintaining the aspect ratio
   },
   // Vis mere / mindre tekst
   readMoreText: {

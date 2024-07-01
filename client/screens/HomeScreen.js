@@ -206,7 +206,7 @@ const HomeScreen = () => {
               </TouchableOpacity>
             )}
             numColumns={1}
-            contentContainerStyle={styles.list}
+            contentContainerStyle={[styles.list, { paddingBottom: 150 }]}
           /> 
           
          <StandeModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>

@@ -186,7 +186,7 @@ const HomeScreen = () => {
             ))}
           </ScrollView>
            <FlatList
-           style={styles.flatListMesser}
+          //  style={styles.flatListMesser}
             data={filteredData}
             keyExtractor={(item) => item._id}
             renderItem={({ item }) => (
@@ -206,9 +206,11 @@ const HomeScreen = () => {
               </TouchableOpacity>
             )}
             numColumns={1}
-            contentContainerStyle={[styles.list, { paddingBottom: 150 }]}
+            contentContainerStyle={[styles.list, { flexGrow: 1, paddingBottom: 40}]}
           /> 
           
+        
+
          <StandeModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
          <NotificationModal notificationModalVisible={notificationModalVisible} setNotificationModalVisible={setNotificationModalVisible} />
          <BookMeetingModal testVisible={testVisible} setTestVisible={setTestVisible}/>

@@ -95,7 +95,7 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedItem }) => {
 
                   <View  style={styles.mainContentContainer}>
                       <Text style={[styles.modalTextTitle, { color: theme.textColor }]}>{virksomhedData.name}</Text>
-                      <Text style={[styles.modalTextBody, { color: theme.textColor }]}>Additional information about the selected item goes here...</Text>
+                      <Text style={[styles.modalTextBody, { color: theme.textColor }]}>{selectedItem.body}</Text>
                   </View>
                   <View style={styles.standBookContainer}>
                   <TouchableOpacity style={[styles.standBookKnapTouchStand, {backgroundColor: theme.textColor}]}>

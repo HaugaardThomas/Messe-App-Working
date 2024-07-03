@@ -185,36 +185,36 @@ const HomeScreen = () => {
               </TouchableOpacity>
             ))}
           </ScrollView>
-           <FlatList
-          //  style={styles.flatListMesser}
-            data={filteredData}
-            keyExtractor={(item) => item._id}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={[styles.itemContainer, {backgroundColor: theme.subBackgroundColor}]}
-                onPress={() => {
-                  setSelectedItem(item);
-                  setModalVisible(true);
-                }}
-              >
-                <View style={styles.itemContainer}>
-                  <View style={styles.imageContainer}>
-                    <Image source={{ uri: item.image}} style={styles.itemImage} />
-                  </View>
-                  <Text style={[styles.itemText, {color: theme.textColor}]}>{item.title}</Text>
-                </View>
-              </TouchableOpacity>
-            )}
-            numColumns={1}
-            contentContainerStyle={[styles.list, { flexGrow: 1, paddingBottom: 40}]}
-          /> 
-          
+
+          <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          <View>
+  {filteredData.map((item) => (
+    <TouchableOpacity
+      key={item._id}
+      style={[styles.itemContainer, {backgroundColor: theme.subBackgroundColor}]}
+      onPress={() => {
+        setSelectedItem(item);
+        setModalVisible(true);
+      }}
+    >
+      <View style={styles.itemContainer}>
+        <View style={styles.imageContainer}>
+          <Image source={{ uri: item.image}} style={styles.itemImage} />
+        </View>
+        <Text style={[styles.itemText, {color: theme.textColor}]}>{item.title}</Text>
+      </View>
+    </TouchableOpacity>
+  ))}
+    <View style={styles.bottomSpacer}><Text></Text></View>
+</View>
+</ScrollView>
         
 
-         <StandeModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
+       
+        </View>
+        <StandeModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
          <NotificationModal notificationModalVisible={notificationModalVisible} setNotificationModalVisible={setNotificationModalVisible} />
          <BookMeetingModal testVisible={testVisible} setTestVisible={setTestVisible}/>
-        </View>
       </SafeAreaView>
     </>
   );
@@ -226,6 +226,14 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
+  bottomSpacer: {
+    marginTop: 350, 
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    marginBottom: 50,
+    paddingBottom: 50,
+  },
   safeAreaViewContainer: {
     flex: 1,
     // backgroundColor: "white",
@@ -364,6 +372,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 0,
     height: 50,
+    marginBottom: 10,
   },
   categoryButton: {
     padding: 10,

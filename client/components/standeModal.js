@@ -71,7 +71,7 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedItem }) => {
               <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
 
                 <View style={styles.imageBackgroundContainer}>
-            <ImageBackground style={styles.imageBackground} source={img1}>
+            <ImageBackground style={styles.imageBackground} source={{ uri: selectedItem.image}}>
             <View style={styles.overlay} />
                   <View style={styles.goBackContainer}>
                       <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>

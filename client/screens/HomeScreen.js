@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   Modal,
   Dimensions,
+  ImageBackground,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigation } from '@react-navigation/native';
@@ -191,18 +192,27 @@ const HomeScreen = () => {
   {filteredData.map((item) => (
     <TouchableOpacity
       key={item._id}
-      style={[styles.itemContainer, {backgroundColor: theme.subBackgroundColor}]}
+      style={[styles.itemTouchContainer, {backgroundColor: theme.backgroundColor}]}
       onPress={() => {
         setSelectedItem(item);
         setModalVisible(true);
       }}
     >
-      <View style={styles.itemContainer}>
+      {/* <View style={styles.itemContainer}>
         <View style={styles.imageContainer}>
           <Image source={{ uri: item.image}} style={styles.itemImage} />
         </View>
+        <View style={styles.itemTextContainer}>
         <Text style={[styles.itemText, {color: theme.textColor}]}>{item.title}</Text>
-      </View>
+        </View>
+      </View> */}
+        <ImageBackground  imageStyle={{ borderRadius: 6}} style={styles.imageItemBackground} source={{ uri: item.image}}>
+          <View style={styles.itemTextNameContainer}>
+            <Text style={[styles.itemTextName, {color: theme.textColor}]}>
+              {item.virksomhed}
+            </Text>
+          </View>
+        </ImageBackground>
     </TouchableOpacity>
   ))}
     <View style={styles.bottomSpacer}><Text></Text></View>
@@ -277,17 +287,30 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     borderRadius: 15,
     overflow: "hidden",
+    fontSize: 20,
   },
-  itemContainer: {
-    flex: 1,
-    paddingHorizontal: 7,
+  itemTouchContainer: {
     marginTop: 15,
     borderRadius: 15,
     flexDirection: "column",
     flexWrap: "wrap",
-    paddingHorizontal: 10,
     // width: "50%",
     width: "100%",
+    height: windowHeight * 0.3,
+  },
+  // IMAGE BACKGROUND
+  imageItemBackground: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 15,
+  },
+  itemTextNameContainer: {
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+  },
+  itemTextName: {
+    fontSize: 24,
   },
   // Modal
   centeredView: {
@@ -321,11 +344,6 @@ const styles = StyleSheet.create({
   },
   modalImage: {
     width: "100%",
-  },
-  modalImage: {
-    width: 300,
-    height: 200,
-    marginBottom: 15,
   },
   // Button
   modalCloseButton: {

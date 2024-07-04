@@ -47,10 +47,15 @@ const HomeScreen = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [filteredData, setFilteredData] = useState(data);
   const [loading, setLoading] = useState(true);
+  const [virksomhedData, setVirksomhedData] = useState([]);
+  const [virksomhedId, setVirksomhedId] = useState(null);
+  const [virksomhedNavn, setVirksomhedNavn] = useState({});
 
   const [testVisible, setTestVisible] = useState(true);
 
   const [notificationModalVisible, setNotificationModalVisible] = useState(false);
+
+ 
 
 
   // useEffect(() => {
@@ -76,6 +81,7 @@ const HomeScreen = () => {
   //     </SafeAreaView>
   //   );
   // }
+  
 
   useEffect(() => {
     fetch("https://messe-app-server.onrender.com/messer/getAllMesser", {
@@ -94,9 +100,38 @@ const HomeScreen = () => {
         setData(updatedData);
         setFilteredData(updatedData);
         setLoading(false);
+
+        if (data.length > 0) {
+          setVirksomhedId(data[0].virksomhed);
+        }
+        
       })
       .catch((error) => console.error("Error:", error));
   }, []);
+
+
+
+  useEffect(() => {
+    console.log(virksomhedId)
+    fetch(`https://messe-app-server.onrender.com/users/virksomhed/${virksomhedId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setVirksomhedData(data);
+        console.log(virksomhedData)
+        setVirksomhedNavn(data.name)
+        console.log(virksomhedNavn)
+      })
+      .catch((error) => console.error("Error:", error));
+  }, [virksomhedId]);
+
+  
+
+  
 
 
   const handleSearch = (text) => {
@@ -209,7 +244,7 @@ const HomeScreen = () => {
         <ImageBackground  imageStyle={{ borderRadius: 6}} style={styles.imageItemBackground} source={{ uri: item.image}}>
           <View style={styles.itemTextNameContainer}>
             <Text style={[styles.itemTextName, {color: theme.textColor}]}>
-              {item.virksomhed}
+              {virksomhedNavn}
             </Text>
           </View>
         </ImageBackground>

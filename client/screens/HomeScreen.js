@@ -243,7 +243,7 @@ const HomeScreen = () => {
       </View> */}
         <ImageBackground  imageStyle={{ borderRadius: 6}} style={styles.imageItemBackground} source={{ uri: item.image}}>
           <View style={styles.itemTextNameContainer}>
-            <Text style={[styles.itemTextName, {color: theme.textColor}]}>
+            <Text style={[styles.itemTextName, {color: "white"}]}>
               {virksomhedNavn}
             </Text>
           </View>

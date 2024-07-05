@@ -47,40 +47,13 @@ const HomeScreen = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [filteredData, setFilteredData] = useState(data);
   const [loading, setLoading] = useState(true);
-  const [virksomhedData, setVirksomhedData] = useState([]);
   const [virksomhedId, setVirksomhedId] = useState(null);
-  const [virksomhedNavn, setVirksomhedNavn] = useState({});
 
   const [testVisible, setTestVisible] = useState(true);
 
   const [notificationModalVisible, setNotificationModalVisible] = useState(false);
 
  
-
-
-  // useEffect(() => {
-  //   fetch("https://messe-app-server.onrender.com/messer/getAllMesser", {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setData(data);
-  //       setFilteredData(data);
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => console.error("Error:", error));
-  // }, []);
-
-  // if (loading) {
-  //   return (
-  //     <SafeAreaView>
-  //       <Text>LOADING</Text>
-  //     </SafeAreaView>
-  //   );
-  // }
   
 
   useEffect(() => {
@@ -110,24 +83,6 @@ const HomeScreen = () => {
   }, []);
 
 
-
-  useEffect(() => {
-    console.log(virksomhedId)
-    fetch(`https://messe-app-server.onrender.com/users/virksomhed/${virksomhedId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setVirksomhedData(data);
-        console.log(virksomhedData)
-        setVirksomhedNavn(data.name)
-        console.log(virksomhedNavn)
-      })
-      .catch((error) => console.error("Error:", error));
-  }, [virksomhedId]);
 
   
 
@@ -236,7 +191,7 @@ const HomeScreen = () => {
         <ImageBackground  imageStyle={{ borderRadius: 15}} style={styles.imageItemBackground} source={{ uri: item.image}}>
           <View style={styles.itemTextNameContainer}>
             <Text style={[styles.itemTextName, {color: "white"}]}>
-              {virksomhedNavn}
+              {item.virksomhed.name}
             </Text>
           </View>
         </ImageBackground>

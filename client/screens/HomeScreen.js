@@ -233,7 +233,7 @@ const HomeScreen = () => {
         setModalVisible(true);
       }}
     >
-        <ImageBackground  imageStyle={{ borderRadius: 6}} style={styles.imageItemBackground} source={{ uri: item.image}}>
+        <ImageBackground  imageStyle={{ borderRadius: 15}} style={styles.imageItemBackground} source={{ uri: item.image}}>
           <View style={styles.itemTextNameContainer}>
             <Text style={[styles.itemTextName, {color: "white"}]}>
               {virksomhedNavn}
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   itemTouchContainer: {
-    marginTop: 15,
+    marginTop: 25,
     borderRadius: 15,
     flexDirection: "column",
     flexWrap: "wrap",
@@ -331,14 +331,13 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.25,
-    shadowRadius: 4,
+    shadowRadius: 1,
     elevation: 5,
   },
   // IMAGE BACKGROUND
   imageItemBackground: {
     width: "100%",
     height: "100%",
-    borderRadius: 15,
     justifyContent: 'flex-end',
 
   },
@@ -346,8 +345,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.4)', 
     paddingVertical: 10,
     paddingHorizontal: 15,
-    borderBottomLeftRadius: 6,
-    borderBottomRightRadius: 6,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   itemTextName: {
     fontSize: 16,

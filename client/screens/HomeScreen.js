@@ -233,14 +233,6 @@ const HomeScreen = () => {
         setModalVisible(true);
       }}
     >
-      {/* <View style={styles.itemContainer}>
-        <View style={styles.imageContainer}>
-          <Image source={{ uri: item.image}} style={styles.itemImage} />
-        </View>
-        <View style={styles.itemTextContainer}>
-        <Text style={[styles.itemText, {color: theme.textColor}]}>{item.title}</Text>
-        </View>
-      </View> */}
         <ImageBackground  imageStyle={{ borderRadius: 6}} style={styles.imageItemBackground} source={{ uri: item.image}}>
           <View style={styles.itemTextNameContainer}>
             <Text style={[styles.itemTextName, {color: "white"}]}>
@@ -332,20 +324,34 @@ const styles = StyleSheet.create({
     // width: "50%",
     width: "100%",
     height: windowHeight * 0.3,
+    // BOX SHADOW
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   // IMAGE BACKGROUND
   imageItemBackground: {
     width: "100%",
     height: "100%",
     borderRadius: 15,
+    justifyContent: 'flex-end',
+
   },
   itemTextNameContainer: {
-    position: "absolute",
-    bottom: 20,
-    left: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)', 
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
   },
   itemTextName: {
-    fontSize: 24,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   // Modal
   centeredView: {

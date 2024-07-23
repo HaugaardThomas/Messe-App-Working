@@ -68,7 +68,7 @@ const HomeScreen = () => {
         // Construct the full URL for each image
         const updatedData = data.map(item => ({
           ...item,
-          image: `https://messe-app-server.onrender.com/${item.image}`
+          image: `https://messe-app-server.onrender.com${item.image}`
         }));
         setData(updatedData);
         setFilteredData(updatedData);
@@ -190,6 +190,7 @@ const HomeScreen = () => {
     >
         <ImageBackground  imageStyle={{ borderRadius: 15}} style={styles.imageItemBackground} source={{ uri: item.image}}>
           <View style={styles.itemTextNameContainer}>
+          {/* <Text>{item.image}</Text> */}
             <Text style={[styles.itemTextName, {color: "white"}]}>
               {item.virksomhed.name}
             </Text>

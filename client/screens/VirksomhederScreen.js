@@ -16,8 +16,10 @@ const VirksomhederScreen = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [selectedItem, setSelectedItem] = useState({});
 
+  const [virksomhedId, setVirksomhedId] = useState("test");
+
   //MODAL
-  const [bookModalVisible, setBookModalVisible] = useState(true);
+  const [bookingModalVisible, setBookModalVisible] = useState(false);
 
   useEffect(() => {
     fetch("https://messe-app-server.onrender.com/users/allVirksomheder", {
@@ -30,6 +32,7 @@ const VirksomhederScreen = () => {
       .then((data) => {
         setVirksomheder(data);
         setFilteredData(data);
+
       })
       .catch((error) => console.error("Error:", error));
   }, []);
@@ -46,6 +49,7 @@ const VirksomhederScreen = () => {
     );
     setFilteredData(newData);
   };
+
 
   return (
     <SafeAreaView style={[styles.safeAreaViewContainer, {backgroundColor: theme.backgroundColor}]}>
@@ -64,6 +68,7 @@ const VirksomhederScreen = () => {
           style={[styles.searchInput, {backgroundColor: theme.subBackgroundColor, color: theme.textColor}]}
         />
         <FlatList
+        style={styles.flatListVirksomheder}
           data={filteredData}
           keyExtractor={(item) => item._id}
           renderItem={({ item }) => (
@@ -78,6 +83,7 @@ const VirksomhederScreen = () => {
               <View style={[styles.virksomhederBox, {backgroundColor: theme.subBackgroundColor}]}>
                 <View>
                 <Text style={[styles.virksomhedName, {color: theme.textColor}]}>{item.name}</Text>
+                <Text style={[styles.virksomhedName, {color: theme.textColor}]}>{virksomhedId}</Text>
                 </View>
                 <View>
                 <AntDesign name="plus" size={15} color={theme.textColor} />
@@ -87,7 +93,7 @@ const VirksomhederScreen = () => {
           )}
         /> 
       </View>
-      <BookMeetingModal bookModalVisible={bookModalVisible} setBookModalVisible={setBookModalVisible} selectedItem={selectedItem} />
+      <BookMeetingModal bookingModalVisible={bookingModalVisible} setBookModalVisible={setBookModalVisible}  />
     </SafeAreaView>
   );
 };
@@ -102,6 +108,9 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingLeft: 35,
     paddingRight: 35,
+  },
+  flatListVirksomheder: {
+   height: 900,
   },
   virksomhederContainer: {},
   virksomhederBox: {

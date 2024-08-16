@@ -132,7 +132,7 @@ const HomeScreen = () => {
           </View>
           <View>
             <Text style={[styles.velkommenText, {color: theme.textColor}]}>Velkommen 👋</Text>
-            <Text style={[styles.messeNavn, {color: theme.textColor}]}>Navn Messe</Text>
+            <Text style={[styles.messeNavn, {color: theme.textColor}]}>Green Talk</Text>
           </View>
           <TextInput
             autoCapitalize="none"

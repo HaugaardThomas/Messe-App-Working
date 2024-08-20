@@ -48,10 +48,13 @@ const NewHomeScreen = () => {
 
   const [testVisible, setTestVisible] = useState(true);
 
-  const [notificationModalVisible, setNotificationModalVisible] =
-    useState(false);
+  const [notificationModalVisible, setNotificationModalVisible] = useState(false);
+
+  const [programs, setPrograms] = useState([]); 
+  const [filteredPrograms, setFilteredPrograms] = useState(programs);
 
   useEffect(() => {
+    // Fetch Messe data
     fetch("https://messe-app-server.onrender.com/messer/getAllMesser", {
       method: "GET",
       headers: {
@@ -60,7 +63,6 @@ const NewHomeScreen = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // Construct the full URL for each image
         const updatedData = data.map((item) => ({
           ...item,
           image: `https://messe-app-server.onrender.com${item.image}`,
@@ -74,15 +76,34 @@ const NewHomeScreen = () => {
         }
       })
       .catch((error) => console.error("Error:", error));
+
+    // Fetch Program data
+    fetch("https://messe-app-server.onrender.com/program/getAllPrograms", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const updatedData = data.map((item) => ({
+          ...item,
+          image: `https://messe-app-server.onrender.com${item.image}`,
+        }));
+        setPrograms(updatedData);
+        setFilteredPrograms(updatedData);
+      })
+      .catch((error) => console.error("Error:", error));
   }, []);
 
   const handleSearch = (text) => {
     setQuery(text);
     filterData(text);
+    filterPrograms(text);
   };
 
   const filterData = (searchQuery) => {
-    let newData = [...data]; // Create a new array based on the original data
+    let newData = [...data];
 
     if (searchQuery) {
       const formattedQuery = searchQuery.toLowerCase();
@@ -95,6 +116,21 @@ const NewHomeScreen = () => {
     }
 
     setFilteredData(newData);
+  };
+
+  const filterPrograms = (searchQuery) => {
+    let newPrograms = [...programs];
+
+    if (searchQuery) {
+      const formattedQuery = searchQuery.toLowerCase();
+      newPrograms = newPrograms.filter(
+        (item) =>
+          item.name &&
+          item.name.toLowerCase().includes(formattedQuery)
+      );
+    }
+
+    setFilteredPrograms(newPrograms);
   };
 
   return (
@@ -119,7 +155,7 @@ const NewHomeScreen = () => {
           </View>
           <View>
             <Text style={[styles.velkommenText, { color: theme.textColor }]}>
-              Velkommen 👋
+              Velkommen til👋
             </Text>
             <Text style={[styles.messeNavn, { color: theme.textColor }]}>
               Green Talk
@@ -185,7 +221,8 @@ const NewHomeScreen = () => {
             contentContainerStyle={styles.scrollViewContent}
           />
 
-        <View style={styles.standVirksomhedTitleAllContainer}>
+       {/* Program Section */}
+       <View style={styles.standVirksomhedTitleAllContainer}>
             <View style={styles.standeVirksomhedViewContainer}>
               <Text style={styles.standeVirksomhedText}>
                 Program/Talks
@@ -195,6 +232,41 @@ const NewHomeScreen = () => {
               <Text style={styles.seeAllText}>Se Alle</Text>
             </View>
           </View>
+
+          <FlatList
+            horizontal
+            data={filteredPrograms}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={[
+                  styles.itemProgramTouchContainer,
+                  { backgroundColor: theme.backgroundColor },
+                ]}
+                onPress={() => {
+                  setSelectedItem(item);
+                  setModalVisible(true);
+                }}
+              >
+                <ImageBackground
+                  imageStyle={{ borderRadius: 15 }}
+                  style={styles.imageProgramBackground}
+                  source={{ uri: item.image }}
+                >
+                  <View style={styles.itemProgramTimeContainer}>
+                    <Text style={styles.itemProgramTimeText}>{item.time}</Text>
+                  </View>
+                  <View style={styles.itemProgramNameContainer}>
+                    <Text style={[styles.itemProgramText, { color: "white" }]}>
+                    {item.name}
+                    </Text>
+                  </View>
+                </ImageBackground>
+              </TouchableOpacity>
+            )}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.scrollViewContent}
+          />
 
         </View>
         <StandeModal
@@ -242,7 +314,7 @@ const styles = StyleSheet.create({
   bellContainer: {},
   bellIcon: {},
   velkommenText: {
-    fontSize: 24,
+    fontSize: 22,
     paddingTop: 100,
   },
   messeNavn: {
@@ -321,7 +393,51 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-
+  // PROGRAM
+  itemProgramTouchContainer: {
+    marginTop: 15,
+    borderRadius: 15,
+    marginHorizontal: 5,
+    width: 250,
+    height: windowHeight * 0.2,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 1,
+    elevation: 5,
+  },
+  imageProgramBackground: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "flex-end",
+    position: "relative", 
+  },
+  itemProgramTimeContainer: {
+    position: "absolute",
+    top: 10, 
+    left: 10, 
+    backgroundColor: "rgba(0, 0, 0, 0.5)", 
+    borderRadius: 5,
+    padding: 5,
+  },
+  itemProgramTimeText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  itemProgramNameContainer: {
+    backgroundColor: "rgba(0, 0, 0, 0.4)", 
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+  },
+  itemProgramText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
   // Modal
   centeredView: {
     flex: 1,

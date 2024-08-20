@@ -184,6 +184,18 @@ const NewHomeScreen = () => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.scrollViewContent}
           />
+
+        <View style={styles.standVirksomhedTitleAllContainer}>
+            <View style={styles.standeVirksomhedViewContainer}>
+              <Text style={styles.standeVirksomhedText}>
+                Program/Talks
+              </Text>
+            </View>
+            <View style={styles.seeAllContainer}>
+              <Text style={styles.seeAllText}>Se Alle</Text>
+            </View>
+          </View>
+
         </View>
         <StandeModal
           modalVisible={modalVisible}

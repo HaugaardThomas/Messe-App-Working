@@ -109,7 +109,9 @@ const HomeScreen = () => {
   if (searchQuery) {
     const formattedQuery = searchQuery.toLowerCase();
     newData = newData.filter((item) =>
-      item.title && item.title.toLowerCase().includes(formattedQuery)
+      item.virksomhed &&
+    item.virksomhed.name &&
+    item.virksomhed.name.toLowerCase().includes(formattedQuery)
     );
   }
 

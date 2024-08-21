@@ -15,8 +15,6 @@ import LoginRegisterScreen from "../screens/LoginRegisterScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import BookStandScreen from "../screens/BookStandScreen";
 
-import NewHomeScreen from "../screens/NewHomeScreen";
-
 import ProfileScreen2 from "../screens/ProfileScreen2";
 
 import ProfileScreen3 from "../screens/ProfileScreen3";
@@ -59,23 +57,6 @@ const TabNavigator = () => {
         <Tab.Screen
           name="HomeScreen"
           component={HomeScreen}
-          options={{
-            headerShown: false, // fjerner header
-            tabBarIcon: ({ focused, color, size }) => (
-              <View style={focused ? styles.iconBackground : {}}>
-                <AntDesign
-                  name="home"
-                  size={22}
-                  color="white"
-                  style={styles.tabIcon}
-                />
-              </View>
-            ),
-          }}
-        />
-         <Tab.Screen
-          name="NewHomeScreen"
-          component={NewHomeScreen}
           options={{
             headerShown: false, // fjerner header
             tabBarIcon: ({ focused, color, size }) => (

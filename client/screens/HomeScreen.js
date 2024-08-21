@@ -14,7 +14,7 @@ import {
   ImageBackground,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 // Image
 import img1 from "../assets/images/Shop_transparent.png";
@@ -25,26 +25,23 @@ import StandeModal from "../components/standeModal";
 import NotificationModal from "../components/notificationModal";
 import BookMeetingModal from "../components/bookMeetingModal";
 
- // CONTEXT
- import { ThemeContext } from "../context/ThemeContext";
+// CONTEXT
+import { ThemeContext } from "../context/ThemeContext";
 
- // ICONS
- import { Ionicons } from '@expo/vector-icons';
-
-const categories = ["All", "test1", "test2", "test3"];
+// ICONS
+import { Ionicons } from "@expo/vector-icons";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
 
   // DARKMODE
-  const { theme, toggleTheme } = useContext(ThemeContext); 
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
-  const [modalVisible, setModalVisible] = useState(false);  
+  const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState({});
 
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
   const [filteredData, setFilteredData] = useState(data);
   const [loading, setLoading] = useState(true);
   const [virksomhedId, setVirksomhedId] = useState(null);
@@ -53,10 +50,11 @@ const HomeScreen = () => {
 
   const [notificationModalVisible, setNotificationModalVisible] = useState(false);
 
- 
-  
+  const [programs, setPrograms] = useState([]); 
+  const [filteredPrograms, setFilteredPrograms] = useState(programs);
 
   useEffect(() => {
+    // Fetch Messe data
     fetch("https://messe-app-server.onrender.com/messer/getAllMesser", {
       method: "GET",
       headers: {
@@ -65,10 +63,9 @@ const HomeScreen = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // Construct the full URL for each image
-        const updatedData = data.map(item => ({
+        const updatedData = data.map((item) => ({
           ...item,
-          image: `https://messe-app-server.onrender.com${item.image}`
+          image: `https://messe-app-server.onrender.com${item.image}`,
         }));
         setData(updatedData);
         setFilteredData(updatedData);
@@ -77,47 +74,64 @@ const HomeScreen = () => {
         if (data.length > 0) {
           setVirksomhedId(data[0].virksomhed);
         }
-        
+      })
+      .catch((error) => console.error("Error:", error));
+
+    // Fetch Program data
+    fetch("https://messe-app-server.onrender.com/program/getAllPrograms", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const updatedData = data.map((item) => ({
+          ...item,
+          image: `https://messe-app-server.onrender.com${item.image}`,
+        }));
+        setPrograms(updatedData);
+        setFilteredPrograms(updatedData);
       })
       .catch((error) => console.error("Error:", error));
   }, []);
 
-
-
-  
-
-  
-
-
   const handleSearch = (text) => {
     setQuery(text);
-    filterData(text, selectedCategory);
+    filterData(text);
+    filterPrograms(text);
   };
 
-  const selectCategory = (category) => {
-    setSelectedCategory(category);
-    filterData(query, category);
+  const filterData = (searchQuery) => {
+    let newData = [...data];
+
+    if (searchQuery) {
+      const formattedQuery = searchQuery.toLowerCase();
+      newData = newData.filter(
+        (item) =>
+          item.virksomhed &&
+          item.virksomhed.name &&
+          item.virksomhed.name.toLowerCase().includes(formattedQuery)
+      );
+    }
+
+    setFilteredData(newData);
   };
 
-  const filterData = (searchQuery, category) => {
-  let newData = [...data]; // Create a new array based on the original data
+  const filterPrograms = (searchQuery) => {
+    let newPrograms = [...programs];
 
-  if (category !== "All") {
-    newData = newData.filter((item) => item.category === category);
-  }
+    if (searchQuery) {
+      const formattedQuery = searchQuery.toLowerCase();
+      newPrograms = newPrograms.filter(
+        (item) =>
+          item.name &&
+          item.name.toLowerCase().includes(formattedQuery)
+      );
+    }
 
-  if (searchQuery) {
-    const formattedQuery = searchQuery.toLowerCase();
-    newData = newData.filter((item) =>
-      item.virksomhed &&
-    item.virksomhed.name &&
-    item.virksomhed.name.toLowerCase().includes(formattedQuery)
-    );
-  }
-
-  setFilteredData(newData);
-};
-
+    setFilteredPrograms(newPrograms);
+  };
 
   return (
     <>
@@ -125,16 +139,27 @@ const HomeScreen = () => {
         <View style={styles.mainContainer}>
           <View style={styles.headerContainer}>
             <View style={styles.bellContainer}>
-              <TouchableOpacity onPress={() => {
+              <TouchableOpacity
+                onPress={() => {
                   setNotificationModalVisible(true);
-                }}>
-            <Ionicons style={styles.bellIcon} name="notifications" size={24} color={theme.textColor} />
-            </TouchableOpacity>
+                }}
+              >
+                <Ionicons
+                  style={styles.bellIcon}
+                  name="notifications"
+                  size={24}
+                  color={theme.textColor}
+                />
+              </TouchableOpacity>
             </View>
           </View>
           <View>
-            <Text style={[styles.velkommenText, {color: theme.textColor}]}>Velkommen 👋</Text>
-            <Text style={[styles.messeNavn, {color: theme.textColor}]}>Green Talk</Text>
+            <Text style={[styles.velkommenText, { color: theme.textColor }]}>
+              Velkommen til👋
+            </Text>
+            <Text style={[styles.messeNavn, { color: theme.textColor }]}>
+              Green Talk
+            </Text>
           </View>
           <TextInput
             autoCapitalize="none"
@@ -144,72 +169,120 @@ const HomeScreen = () => {
             onChangeText={handleSearch}
             placeholder="Search..."
             placeholderTextColor={theme.textColor}
-            style={[styles.searchInput, {backgroundColor: theme.subBackgroundColor, color: theme.textColor}]}
+            style={[
+              styles.searchInput,
+              {
+                backgroundColor: theme.subBackgroundColor,
+                color: theme.textColor,
+              },
+            ]}
           />
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.categoryContainer}
-          >
-            {categories.map((category) => (
-              <TouchableOpacity
-                key={category}
-                style={[
-                  styles.categoryButton,
-                  selectedCategory === category &&
-                    styles.categoryButtonSelected,
-                ]}
-                onPress={() => selectCategory(category)}
-              >
-                <Text
-                  style={[
-                    styles.categoryButtonText,
-                    selectedCategory === category &&
-                    {color: theme.textColor},
-                  ]}
-                >
-                  {category}
-                </Text>
-                {selectedCategory === category && (
-                  <View style={styles.dotContainer}>
-                    <View style={[styles.selectedCategoryDot, {backgroundColor: theme.textColor}]} />
-                  </View>
-                )}
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
 
-          <ScrollView contentContainerStyle={styles.scrollViewContent}>
-          <View>
-  {filteredData.map((item) => (
-    <TouchableOpacity
-      key={item._id}
-      style={[styles.itemTouchContainer, {backgroundColor: theme.backgroundColor}]}
-      onPress={() => {
-        setSelectedItem(item);
-        setModalVisible(true);
-      }}
-    >
-        <ImageBackground  imageStyle={{ borderRadius: 15}} style={styles.imageItemBackground} source={{ uri: item.image}}>
-          <View style={styles.itemTextNameContainer}>
-          {/* <Text>{item.image}</Text> */}
-            <Text style={[styles.itemTextName, {color: "white"}]}>
-              {item.virksomhed.name}
-            </Text>
+          <View style={styles.standVirksomhedTitleAllContainer}>
+            <View style={styles.standeVirksomhedViewContainer}>
+              <Text style={styles.standeVirksomhedText}>
+                Stande/Virksomheder
+              </Text>
+            </View>
+            <View style={styles.seeAllContainer}>
+              <Text style={styles.seeAllText}>Se Alle</Text>
+            </View>
           </View>
-        </ImageBackground>
-    </TouchableOpacity>
-  ))}
-    <View style={styles.bottomSpacer}><Text></Text></View>
-</View>
-</ScrollView>
-        
 
-       
+          <FlatList
+            horizontal
+            data={filteredData}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={[
+                  styles.itemTouchContainer,
+                  { backgroundColor: theme.backgroundColor },
+                ]}
+                onPress={() => {
+                  setSelectedItem(item);
+                  setModalVisible(true);
+                }}
+              >
+                <ImageBackground
+                  imageStyle={{ borderRadius: 15 }}
+                  style={styles.imageItemBackground}
+                  source={{ uri: item.image }}
+                >
+                  <View style={styles.itemTextNameContainer}>
+                    <Text style={[styles.itemTextName, { color: "white" }]}>
+                      {item.virksomhed.name}
+                    </Text>
+                  </View>
+                </ImageBackground>
+              </TouchableOpacity>
+            )}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.scrollViewContent}
+          />
+
+       {/* Program Section */}
+       <View style={styles.standVirksomhedTitleAllContainer}>
+            <View style={styles.standeVirksomhedViewContainer}>
+              <Text style={styles.standeVirksomhedText}>
+                Program/Talks
+              </Text>
+            </View>
+            <View style={styles.seeAllContainer}>
+              <Text style={styles.seeAllText}>Se Alle</Text>
+            </View>
+          </View>
+
+          <FlatList
+            horizontal
+            data={filteredPrograms}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={[
+                  styles.itemProgramTouchContainer,
+                  { backgroundColor: theme.backgroundColor },
+                ]}
+                onPress={() => {
+                  setSelectedItem(item);
+                  setModalVisible(true);
+                }}
+              >
+                <ImageBackground
+                  imageStyle={{ borderRadius: 15 }}
+                  style={styles.imageProgramBackground}
+                  source={{ uri: item.image }}
+                >
+                  <View style={styles.itemProgramTimeContainer}>
+                    <Text style={styles.itemProgramTimeText}>{item.time}</Text>
+                  </View>
+                  <View style={styles.itemProgramNameContainer}>
+                    <Text style={[styles.itemProgramText, { color: "white" }]}>
+                    {item.name}
+                    </Text>
+                  </View>
+                </ImageBackground>
+              </TouchableOpacity>
+            )}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.scrollViewContent}
+          />
+
         </View>
-        <StandeModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
-         <NotificationModal notificationModalVisible={notificationModalVisible} setNotificationModalVisible={setNotificationModalVisible} />
-         <BookMeetingModal testVisible={testVisible} setTestVisible={setTestVisible}/>
+        <StandeModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          selectedItem={selectedItem}
+          setSelectedItem={setSelectedItem}
+        />
+        <NotificationModal
+          notificationModalVisible={notificationModalVisible}
+          setNotificationModalVisible={setNotificationModalVisible}
+        />
+        <BookMeetingModal
+          testVisible={testVisible}
+          setTestVisible={setTestVisible}
+        />
       </SafeAreaView>
     </>
   );
@@ -220,32 +293,28 @@ export default HomeScreen;
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
+const itemWidth = windowWidth * 0.4;
+
 const styles = StyleSheet.create({
-  bottomSpacer: {
-    marginTop: 350, 
-  },
-  scrollViewContent: {
-    flexGrow: 1,
-    marginBottom: 50,
-    paddingBottom: 50,
-  },
+  scrollViewContent: {},
   safeAreaViewContainer: {
     flex: 1,
     // backgroundColor: "white",
   },
+
   mainContainer: {
     paddingLeft: 35,
     paddingRight: 35,
   },
   headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
+    flexDirection: "row",
+    justifyContent: "flex-end",
     paddingTop: 10,
   },
   bellContainer: {},
   bellIcon: {},
   velkommenText: {
-    fontSize: 24,
+    fontSize: 22,
     paddingTop: 100,
   },
   messeNavn: {
@@ -263,7 +332,24 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     marginTop: 10,
   },
+  // TITLE
+  standVirksomhedTitleAllContainer: {
+    flexDirection: "row",
+    marginHorizontal: 5,
+    justifyContent: "space-between",
+    marginTop: 25,
+  },
+  standeVirksomhedViewContainer: {},
+  standeVirksomhedText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  seeAllContainer: {},
+  seeAllText: {
+    textDecorationLine: "underline",
+  },
   // LIST
+  horizontalItemContainer: {},
   list: {
     marginTop: 10,
   },
@@ -275,13 +361,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   itemTouchContainer: {
-    marginTop: 25,
+    marginTop: 15,
     borderRadius: 15,
-    flexDirection: "column",
-    flexWrap: "wrap",
-    // width: "50%",
-    width: "100%",
-    height: windowHeight * 0.3,
+    marginHorizontal: 5,
+    width: 250,
+    height: windowHeight * 0.2,
     // BOX SHADOW
     shadowColor: "#000",
     shadowOffset: {
@@ -296,11 +380,10 @@ const styles = StyleSheet.create({
   imageItemBackground: {
     width: "100%",
     height: "100%",
-    justifyContent: 'flex-end',
-
+    justifyContent: "flex-end",
   },
   itemTextNameContainer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.4)', 
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderBottomLeftRadius: 15,
@@ -308,7 +391,52 @@ const styles = StyleSheet.create({
   },
   itemTextName: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
+  },
+  // PROGRAM
+  itemProgramTouchContainer: {
+    marginTop: 15,
+    borderRadius: 15,
+    marginHorizontal: 5,
+    width: 250,
+    height: windowHeight * 0.2,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 1,
+    elevation: 5,
+  },
+  imageProgramBackground: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "flex-end",
+    position: "relative", 
+  },
+  itemProgramTimeContainer: {
+    position: "absolute",
+    top: 10, 
+    left: 10, 
+    backgroundColor: "rgba(0, 0, 0, 0.5)", 
+    borderRadius: 5,
+    padding: 5,
+  },
+  itemProgramTimeText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  itemProgramNameContainer: {
+    backgroundColor: "rgba(0, 0, 0, 0.4)", 
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+  },
+  itemProgramText: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
   // Modal
   centeredView: {
@@ -368,7 +496,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden", // Ensure the image doesn't overflow the container
-    borderRadius: 15,  // Match the radius of the container for better visual appeal
+    borderRadius: 15, // Match the radius of the container for better visual appeal
   },
   itemImage: {
     width: "100%",
@@ -377,9 +505,9 @@ const styles = StyleSheet.create({
   },
   // Vis mere / mindre tekst
   readMoreText: {
-    color: 'black',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: "black",
+    fontWeight: "bold",
+    textAlign: "center",
     marginTop: 10,
   },
   // Category selector
@@ -423,7 +551,7 @@ const styles = StyleSheet.create({
   },
   // Find Stand knap
   standRedirectKnapContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 25,
   },
   standRedirectKnapOuterBorder: {
@@ -432,12 +560,12 @@ const styles = StyleSheet.create({
     borderWidth: 3,
   },
   standRedirectKnapTouch: {
-    backgroundColor: 'black',
-   borderRadius: 25,
+    backgroundColor: "black",
+    borderRadius: 25,
   },
   standRedirectKnapText: {
-  color: 'white',
-  fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     paddingVertical: 10,
     paddingHorizontal: 25,
   },

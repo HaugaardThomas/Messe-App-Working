@@ -37,8 +37,8 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedItem }) => {
   const virksomhedId = selectedItem.virksomhed;
 
   useEffect(() => {
-    console.log(virksomhedId);
-    fetch(`https://messe-app-server.onrender.com/users/virksomhed/${virksomhedId}`, {
+    console.log("virksomhedId", virksomhedId);
+    fetch(`https://messe-app-server.onrender.com/messer/getMesse/${virksomhedId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +48,10 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedItem }) => {
       .then((data) => {
         setVirksomhedData(data);
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("An error occurred while fetching the data. Please try again later.");
+      });
   }, [virksomhedId]);
 
   return (
@@ -70,34 +73,53 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedItem }) => {
           <View style={[styles.centeredView, {backgroundColor: theme.backgroundColor}]}>
               <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
 
-                <View style={styles.imageBackgroundContainer}>
-            <ImageBackground style={styles.imageBackground} source={{ uri: selectedItem.image}}>
-            <View style={styles.overlay} />
-                  <View style={styles.goBackContainer}>
-                      <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                      <AntDesign name="leftcircle" size={36} color={theme.backgroundColor} />
-                      </TouchableOpacity>
-                  </View>
-                  </ImageBackground>
-                  </View>
+              <View style={styles.goBackContainer}>
+            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+            <Ionicons  name="chevron-back" size={24} color={theme.textColor} />
+            </TouchableOpacity>
+          </View>
+          
+          <View style={styles.infoMainContainer}>
+            <View>
+              <View>
+              <Text style={styles.navnTitleText}>Navn</Text>
+              <Text style={styles.navnText}>Navnplaceholder{}</Text>
+              </View>
 
-                  {/* <View style={styles.thumbnailImagesMainContainer}>
-                    <View style={styles.thumbnailImageContainer}>
-                      <Image style={styles.thumbnailImage} source={img2}/>
-                    </View>
-                    <View style={styles.thumbnailImageContainer}>
-                      <Image style={styles.thumbnailImage} source={img3} />
-                    </View>
-                    <View style={styles.thumbnailImageContainer}>
-                      <Image style={styles.thumbnailImage} source={img4}/>
-                    </View>
-                  </View> */}
+              <View style={styles.kategoriContainer}>
+              <Text style={styles.kategoriTitleText}>Kategori</Text>
+              <Text style={styles.kategoriText}>Grøn energi{}</Text>
+              </View>
+            </View>
 
-                  <View  style={styles.mainContentContainer}>
+            <View>
+              <Image style={styles.standImage}  source={{ uri: selectedItem.image }}/>
+            </View>
+
+          </View>
+
+          <View style={styles.titleContainer}>
+              <Text style={styles.titleText}>{selectedItem.title}</Text>
+          </View>
+
+          
+          <View style={styles.bodyContainer}>
+              <Text style={styles.bodyText}>{selectedItem.body}</Text>
+          </View>
+
+
+               
+
+
+   {/* <View  style={styles.mainContentContainer}>
                       <Text style={[styles.modalTextTitle, { color: theme.textColor }]}>{virksomhedData.name}</Text>
                       <Text style={[styles.modalTextBody, { color: theme.textColor }]}>{selectedItem.body}</Text>
-                  </View>
-                  <View style={styles.standBookContainer}>
+                  </View> */}
+                  
+            
+              </View>
+
+              <View style={styles.standBookContainer}>
                   <TouchableOpacity style={[styles.standBookKnapTouchStand, {backgroundColor: theme.textColor}]}>
                 <Text style={[styles.standBookTextStand, {color: theme.backgroundColor}]}>Find Stand</Text>
               </TouchableOpacity>
@@ -109,7 +131,6 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedItem }) => {
                 <Text style={[styles.standBookTextBook, {color: theme.backgroundColor}]}>Book</Text>
               </TouchableOpacity>
             </View>
-              </View>
           </View>
           <BookMeetingModal bookingModalVisible={bookingModalVisible} setBookModalVisible={setBookModalVisible} virksomhedId={virksomhedId} setModalVisible={setModalVisible}  />
       </Modal>
@@ -122,112 +143,107 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
-  cardModal: {
-      backgroundColor: 'white',
-      margin: 0,
-  },
-  centeredView: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
+ cardModal: {
+    margin: 0, 
+ },
+ centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalView: {
-      width: '100%',
-      height: '100%',
-    //   padding: 35,
-    //   paddingTop: 50,
-      shadowColor: "#000",
-      shadowOffset: {
-          width: 0,
-          height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5,
+    width: '100%',
+    height: '100%',
+    paddingHorizontal: 35,
+    paddingTop: 50,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
-  imageBackgroundContainer: {
-    paddingHorizontal: 5,
-    paddingTop: 35,
-  },
-  imageBackground: {
-    width: "100%",
-    height: windowHeight * 0.4,
-    borderRadius: 40,
-    overflow: 'hidden'
-
-  },
+  // GO BACK
   goBackContainer: {
-    position: "absolute",
-    top: 20,
-    left: 20,
+    marginTop: 25,
   },
- 
-  mainContentContainer: {
-    paddingTop: 30,
-    paddingHorizontal: 20,
+  // INFO
+  infoMainContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 50,
+    // paddingHorizontal: 15,
   },
-  modalTextTitle: {
-      fontSize: 32,
-      fontWeight: "bold",
+  standImage: {
+    width: 150,
+    height: 150,
+    borderRadius: 100,
   },
-  modalTextBody: {
+  navnTitleText: {
+    fontSize: 14,
+  },
+  navnText: {
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  kategoriContainer: {
+    marginTop: 25,
+  },
+  kategoriTitleText: {
+    fontSize: 14,
+  },
+  kategoriText: {
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  titleContainer: {
+    // marginTop: 50,
+    width: "75%",
+  },
+  titleText: {
+    fontSize: 40,
+    fontWeight: "bold",
+    textTransform: 'uppercase',
+  },
+  bodyContainer: {
     marginTop: 10,
+    width: "75%",
   },
-  goBackIcon: {
-    width: 35,
-    height: 35,
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject, 
-    backgroundColor: 'rgba(0, 0, 0, 0.2)', 
+  bodyText: {
+    fontSize: 14,
   },
     // BOOK KNAP
     standBookContainer: {
+      // flex: 1,
       flexDirection: "row",
       justifyContent: "space-evenly",
-        flex: 1,
-        alignItems: 'center',
-        marginTop: 25,
+      position: "absolute",
+      bottom: 50,
+      width: "100%",
       },
       standBookKnapTouchStand: {
         borderRadius: 25,
-        alignItems: "center",
-        position: "absolute",
-        bottom: 40,
-        left: 20,
+        paddingHorizontal: 25,
       },
       standBookKnapTouchBook: {
         borderRadius: 25,
-        alignItems: "center",
-        position: "absolute",
-        bottom: 40,
-        right: 20,
+        paddingHorizontal: 35,
       },
       standBookTextStand: {
       fontWeight: 'bold',
         paddingVertical: 15,
-        paddingHorizontal: 40,
+        paddingHorizontal: 10,
         fontSize: 18,
+        width: "100%",
       },
       standBookTextBook: {
         fontWeight: 'bold',
           paddingVertical: 15,
-          paddingHorizontal: 60,
+          paddingHorizontal: 25,
           fontSize: 18,
-        },
-
-        thumbnailImagesMainContainer: {
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          marginTop: 10,
-        },
-        thumbnailImageContainer: {
-         
-        },
-        thumbnailImage: {
-          width: 120,
-          height: 80,
-          borderRadius: 25,
+          width: "100%",
         },
       
 });

@@ -123,8 +123,8 @@ const VirksomhederScreen = () => {
     <>
       <SafeAreaView style={styles.safeAreaViewContainer}>
         <View style={styles.mainContainer}>
-        <View style={styles.virksomhederMainTitleContainer}> 
-          <Text style={[styles.virksomhederMainTitle, {color: theme.textColor}]}>Book et møde</Text>
+        <View style={styles.bookMainTitleContainer}> 
+          <Text style={[styles.bookMainTitle, {color: theme.textColor}]}>Book et møde</Text>
         </View>
           <TextInput
             autoCapitalize="none"
@@ -227,10 +227,10 @@ const styles = StyleSheet.create({
     paddingLeft: 35,
     paddingRight: 35,
   },
-  virksomhederMainTitleContainer: {
+  bookMainTitleContainer: {
     marginTop: 50,
   },
-  virksomhederMainTitle: {
+  bookMainTitle: {
     fontWeight: "bold",
     fontSize: 32,
   },

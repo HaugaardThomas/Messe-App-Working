@@ -18,30 +18,6 @@ import {
     // THEME
     const { theme } = useContext(ThemeContext); 
 
-
-    const [virksomhedData, setVirksomhedData] = useState('');
-  
-  
-  
-    // const virksomhedId = selectedItem.virksomhed;
-  
-    // useEffect(() => {
-    //   console.log("virksomhedId", virksomhedId);
-    //   fetch(`https://messe-app-server.onrender.com/messer/getMesse/${virksomhedId}`, {
-    //     method: "GET",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       setVirksomhedData(data);
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error:", error);
-    //       alert("An error occurred while fetching the data. Please try again later.");
-    //     });
-    // }, [virksomhedId]);
   
     return (
         <Modal
@@ -68,22 +44,39 @@ import {
             
             <View style={styles.infoMainContainer}>
               <View>
-                <View style={styles.navnTitleContainer}>
-                <Text style={styles.navnTitleText}>Navn</Text>
-                <Text style={styles.navnText}>Navnplaceholder{}</Text>
+                <View style={styles.speakerContainer}>
+                <Text style={styles.speakerTitleText}>Speaker</Text>
+                <Text style={styles.speakerText}>{selectedProgramItem.name}</Text>
                 </View>
   
                 <View style={styles.kategoriContainer}>
                 <Text style={styles.kategoriTitleText}>Kategori</Text>
-                <Text style={styles.kategoriText}>Grøn energi{}</Text>
+                <Text style={styles.kategoriText}>Placeholder{}</Text>
                 </View>
+
+                <View style={styles.sceneTimeMainContainer}>
+                <View style={styles.sceneContainer}>
+                    <Text style={styles.sceneTitleText}>Scene</Text>
+                    <Text style={styles.sceneText}>{selectedProgramItem.scene}</Text>
+                </View>
+                <View style={styles.timeContainer}>
+                    <Text style={styles.timeTitleText}>Tid</Text>
+                    <Text style={styles.timeText}>{selectedProgramItem.time}</Text>
+                </View>
+                </View>
+
+                
               </View>
-  
+              
+              
               <View>
                 <Image style={styles.standImage}  source={{ uri: selectedProgramItem.image }}/>
               </View>
+
+              
   
             </View>
+
   
             <View style={styles.titleContainer}>
                 <Text style={styles.titleText}>{selectedProgramItem.title}</Text>
@@ -146,15 +139,15 @@ import {
       height: 150,
       borderRadius: 100,
     },
-    navnTitleContainer: {
-      marginTop: 50,
+    speakerContainer: {
+        marginTop: 50,
     },
-    navnTitleText: {
-      fontSize: 14,
+    speakerTitleText: {
+        fontSize: 14,
     },
-    navnText: {
-      fontWeight: "bold",
-      fontSize: 18,
+    speakerText: {
+        fontWeight: "bold",
+        fontSize: 18,
     },
     kategoriContainer: {
       marginTop: 25,
@@ -166,6 +159,32 @@ import {
       fontWeight: "bold",
       fontSize: 18,
     },
+    sceneTimeMainContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
+    sceneContainer: {
+        marginTop: 25,
+    },
+    sceneTitleText: {
+      fontSize: 14,
+    },
+    sceneText: {
+      fontWeight: "bold",
+      fontSize: 18,
+    },
+    timeContainer: {
+        marginTop: 25,
+    },
+    timeTitleText: {
+        fontSize: 14,
+    },
+    timeText: {
+        fontWeight: "bold",
+        fontSize: 18,
+    },
+
+    // TITLE TEXT
     titleContainer: {
       marginTop: 50,
      
@@ -175,6 +194,8 @@ import {
       fontWeight: "bold",
       textTransform: 'uppercase',
     },
+    
+    // BODY TEXT
     bodyContainer: {
       marginTop: 10,
       width: "75%",

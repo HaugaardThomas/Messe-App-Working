@@ -25,7 +25,7 @@ import img4 from "../assets/images/variety-premade-meals-supermarket-deli.jpg";
 // MODAL
 import BookMeetingModal from "./bookMeetingModal";
 
-const StandeModal = ({ modalVisible, setModalVisible, selectedItem }) => {
+const StandeModal = ({ modalVisible, setModalVisible, selectedStandItem }) => {
   const navigation = useNavigation();
   const { theme } = useContext(ThemeContext); 
   const [virksomhedData, setVirksomhedData] = useState('');
@@ -34,7 +34,7 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedItem }) => {
   const [bookingModalVisible, setBookModalVisible] = useState(false);
 
 
-  const virksomhedId = selectedItem.virksomhed;
+  const virksomhedId = selectedStandItem.virksomhed;
 
   useEffect(() => {
     console.log("virksomhedId", virksomhedId);
@@ -81,7 +81,7 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedItem }) => {
           
           <View style={styles.infoMainContainer}>
             <View>
-              <View>
+              <View style={styles.navnTitleContainer}>
               <Text style={styles.navnTitleText}>Navn</Text>
               <Text style={styles.navnText}>Navnplaceholder{}</Text>
               </View>
@@ -93,28 +93,22 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedItem }) => {
             </View>
 
             <View>
-              <Image style={styles.standImage}  source={{ uri: selectedItem.image }}/>
+              <Image style={styles.standImage}  source={{ uri: selectedStandItem.image }}/>
             </View>
 
           </View>
 
           <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>{selectedItem.title}</Text>
+              <Text style={styles.titleText}>{selectedStandItem.title}</Text>
           </View>
 
           
           <View style={styles.bodyContainer}>
-              <Text style={styles.bodyText}>{selectedItem.body}</Text>
+              <Text style={styles.bodyText}>{selectedStandItem.body}</Text>
           </View>
 
 
-               
-
-
-   {/* <View  style={styles.mainContentContainer}>
-                      <Text style={[styles.modalTextTitle, { color: theme.textColor }]}>{virksomhedData.name}</Text>
-                      <Text style={[styles.modalTextBody, { color: theme.textColor }]}>{selectedItem.body}</Text>
-                  </View> */}
+              
                   
             
               </View>
@@ -173,13 +167,16 @@ const styles = StyleSheet.create({
   infoMainContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 50,
+    
     // paddingHorizontal: 15,
   },
   standImage: {
     width: 150,
     height: 150,
     borderRadius: 100,
+  },
+  navnTitleContainer: {
+    marginTop: 50,
   },
   navnTitleText: {
     fontSize: 14,
@@ -199,8 +196,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   titleContainer: {
-    // marginTop: 50,
-    width: "75%",
+    marginTop: 50,
+   
   },
   titleText: {
     fontSize: 40,

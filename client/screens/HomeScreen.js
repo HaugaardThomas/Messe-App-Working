@@ -24,6 +24,7 @@ import arrowCloseButton from "../assets/images/Arrow_close_button.png";
 import StandeModal from "../components/standeModal";
 import NotificationModal from "../components/notificationModal";
 import BookMeetingModal from "../components/bookMeetingModal";
+import ProgramModal from "../components/programModal";
 
 // CONTEXT
 import { ThemeContext } from "../context/ThemeContext";
@@ -38,7 +39,9 @@ const HomeScreen = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState({});
+  const [programModalVisible, setProgramModalVisible ] = useState(false);
+  const [selectedStandItem, setSelectedStandItem] = useState({});
+  const [selectedProgramItem, setSelectedProgramItem ] = useState({});
 
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
@@ -200,7 +203,7 @@ const HomeScreen = () => {
                   { backgroundColor: theme.backgroundColor },
                 ]}
                 onPress={() => {
-                  setSelectedItem(item);
+                  setSelectedStandItem(item);
                   setModalVisible(true);
                 }}
               >
@@ -244,8 +247,8 @@ const HomeScreen = () => {
                   { backgroundColor: theme.backgroundColor },
                 ]}
                 onPress={() => {
-                  setSelectedItem(item);
-                  setModalVisible(true);
+                  setSelectedProgramItem(item);
+                  setProgramModalVisible(true);
                 }}
               >
                 <ImageBackground
@@ -272,8 +275,8 @@ const HomeScreen = () => {
         <StandeModal
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          selectedItem={selectedItem}
-          setSelectedItem={setSelectedItem}
+          selectedStandItem={selectedStandItem}
+          setSelectedStandItem={setSelectedStandItem}
         />
         <NotificationModal
           notificationModalVisible={notificationModalVisible}
@@ -282,6 +285,12 @@ const HomeScreen = () => {
         <BookMeetingModal
           testVisible={testVisible}
           setTestVisible={setTestVisible}
+        />
+        <ProgramModal 
+        programModalVisible={programModalVisible}
+        setProgramModalVisible={setProgramModalVisible}
+        selectedProgramItem={selectedProgramItem}
+        setSelectedProgramItem={setSelectedProgramItem}
         />
       </SafeAreaView>
     </>

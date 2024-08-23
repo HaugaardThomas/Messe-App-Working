@@ -40,7 +40,7 @@ const VirksomhederScreen = () => {
   const { theme, toggleTheme } = useContext(ThemeContext); 
 
   const [modalVisible, setModalVisible] = useState(false);  
-  const [selectedItem, setSelectedItem] = useState({});
+  const [selectedStandItem, setSelectedStandItem] = useState({});
 
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
@@ -176,7 +176,7 @@ const VirksomhederScreen = () => {
       key={item._id}
       style={[styles.itemTouchContainer, {backgroundColor: theme.backgroundColor}]}
       onPress={() => {
-        setSelectedItem(item);
+        setSelectedStandItem(item);
         setModalVisible(true);
       }}
     >
@@ -197,7 +197,11 @@ const VirksomhederScreen = () => {
 
        
         </View>
-        <StandeModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
+        <StandeModal    
+        modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          selectedStandItem={selectedStandItem}
+          setSelectedStandItem={setSelectedStandItem}/>
          <NotificationModal notificationModalVisible={notificationModalVisible} setNotificationModalVisible={setNotificationModalVisible} />
          <BookMeetingModal testVisible={testVisible} setTestVisible={setTestVisible}/>
       </SafeAreaView>

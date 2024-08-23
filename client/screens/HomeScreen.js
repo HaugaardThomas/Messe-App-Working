@@ -188,7 +188,14 @@ const HomeScreen = () => {
               </Text>
             </View>
             <View style={styles.seeAllContainer}>
-              <Text style={styles.seeAllText}>Se Alle</Text>
+              <TouchableOpacity 
+              onPress={() => {
+                navigation.navigate("VirksomhederScreen");
+              }}
+              >
+                <Text style={styles.seeAllText}>Se Alle</Text>
+              </TouchableOpacity>
+              
             </View>
           </View>
 
@@ -232,7 +239,13 @@ const HomeScreen = () => {
               </Text>
             </View>
             <View style={styles.seeAllContainer}>
+            <TouchableOpacity 
+              onPress={() => {
+                navigation.navigate("ProgramScreen");
+              }}
+              >
               <Text style={styles.seeAllText}>Se Alle</Text>
+              </TouchableOpacity>
             </View>
           </View>
 

@@ -124,7 +124,7 @@ const VirksomhederScreen = () => {
       <SafeAreaView style={styles.safeAreaViewContainer}>
         <View style={styles.mainContainer}>
         <View style={styles.bookMainTitleContainer}> 
-          <Text style={[styles.bookMainTitle, {color: theme.textColor}]}>Book et møde</Text>
+          <Text style={[styles.bookMainTitle, {color: theme.textColor}]}>Stande & Virksomheder</Text>
         </View>
           <TextInput
             autoCapitalize="none"
@@ -216,7 +216,7 @@ const windowHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   bottomSpacer: {
-    marginTop: 350, 
+    marginTop: 230, 
   },
   scrollViewContent: {
     flexGrow: 1,

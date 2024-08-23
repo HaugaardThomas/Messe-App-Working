@@ -24,6 +24,7 @@ import {
   import StandeModal from "../components/standeModal";
   import NotificationModal from "../components/notificationModal";
   import BookMeetingModal from "../components/bookMeetingModal";
+  import ProgramModal from "../components/programModal";
   
    // CONTEXT
    import { ThemeContext } from "../context/ThemeContext";
@@ -39,15 +40,14 @@ import {
     // DARKMODE
     const { theme, toggleTheme } = useContext(ThemeContext); 
   
-    const [modalVisible, setModalVisible] = useState(false);  
-    const [selectedStandItem, setSelectedStandItem] = useState({});
+    const [programModalVisible, setProgramModalVisible] = useState(true);  
+    const [selectedProgramItem, setSelectedProgramItem] = useState({});
   
     const [query, setQuery] = useState("");
     const [data, setData] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [filteredData, setFilteredData] = useState(data);
     const [loading, setLoading] = useState(true);
-    const [virksomhedId, setVirksomhedId] = useState(null);
   
     const [testVisible, setTestVisible] = useState(true);
   
@@ -73,10 +73,6 @@ import {
           setData(updatedData);
           setFilteredData(updatedData);
           setLoading(false);
-  
-          if (data.length > 0) {
-            setVirksomhedId(data[0].virksomhed);
-          }
           
         })
         .catch((error) => console.error("Error:", error));
@@ -177,8 +173,8 @@ import {
         key={item._id}
         style={[styles.itemTouchContainer, {backgroundColor: theme.backgroundColor}]}
         onPress={() => {
-          setSelectedStandItem(item);
-          setModalVisible(true);
+            setSelectedProgramItem(item);
+          setProgramModalVisible(true);
         }}
       >
           <ImageBackground  imageStyle={{ borderRadius: 15}} style={styles.imageItemBackground} source={{ uri: item.image}}>
@@ -205,11 +201,10 @@ import {
   
          
           </View>
-          <StandeModal    
-          modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-            selectedStandItem={selectedStandItem}
-            setSelectedStandItem={setSelectedStandItem}/>
+          <ProgramModal    
+           programModalVisible={programModalVisible}
+           setProgramModalVisible={setProgramModalVisible}
+           selectedProgramItem={selectedProgramItem}/>
            <NotificationModal notificationModalVisible={notificationModalVisible} setNotificationModalVisible={setNotificationModalVisible} />
            <BookMeetingModal testVisible={testVisible} setTestVisible={setTestVisible}/>
         </SafeAreaView>

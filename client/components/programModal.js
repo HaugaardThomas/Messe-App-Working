@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     Dimensions,
     Image,
+    ScrollView
   } from "react-native";
   import React, { useContext, useEffect, useState } from "react";
   import Modal from 'react-native-modal';
@@ -35,13 +36,13 @@ import {
         >
             <View style={[styles.centeredView, {backgroundColor: theme.backgroundColor}]}>
                 <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
-  
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
                 <View style={styles.goBackContainer}>
               <TouchableOpacity onPress={() => setProgramModalVisible(!programModalVisible)}>
               <Ionicons  name="chevron-back" size={24} color={theme.textColor} />
               </TouchableOpacity>
             </View>
-            
+       
             <View style={styles.infoMainContainer}>
               <View>
                 <View style={styles.speakerContainer}>
@@ -76,8 +77,8 @@ import {
               
   
             </View>
-
-  
+           
+     
             <View style={styles.titleContainer}>
                 <Text style={styles.titleText}>{selectedProgramItem.title}</Text>
             </View>
@@ -86,10 +87,10 @@ import {
             <View style={styles.bodyContainer}>
                 <Text style={styles.bodyText}>{selectedProgramItem.body}</Text>
             </View>
-                     
-              
+            
+ 
+            </ScrollView>
                 </View>
-  
             </View>
         </Modal>
     );
@@ -110,8 +111,8 @@ import {
       alignItems: "center",
     },
     modalView: {
-      width: '100%',
-      height: '100%',
+       width: '100%',
+       height: '100%',
       paddingHorizontal: 35,
       paddingTop: 50,
       shadowColor: "#000",
@@ -234,6 +235,5 @@ import {
             fontSize: 18,
             width: "100%",
           },
-        
   });
   

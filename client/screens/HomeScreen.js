@@ -161,7 +161,7 @@ const HomeScreen = () => {
               Velkommen til👋
             </Text>
             <Text style={[styles.messeNavn, { color: theme.textColor }]}>
-              Green Talk
+              Byg og bæredygtighed
             </Text>
           </View>
           <TextInput

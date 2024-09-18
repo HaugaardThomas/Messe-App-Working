@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     ActivityIndicator,
     Dimensions,
+    ImageBackground,
   } from "react-native";
   import React, { useState, useEffect, useContext } from "react";
   import { useNavigation } from '@react-navigation/native';
@@ -184,18 +185,43 @@ const BookedeMeetingsScreen = ({calendarModalVisible, setCalendarModalVisible })
         keyExtractor={(item) => item._id.toString()}
         renderItem={({ item }) => (
         <TouchableOpacity
-        style={[styles.itemContainerTouch, {backgroundColor: theme.subBackgroundColor}]}
+        style={[styles.itemTouchContainer, {backgroundColor: theme.subBackgroundColor}]}
         onPress={() => {
-          setSelectedItem(item);
+          // setSelectedItem(item);
           // setModalVisible(true);
         }}
         >
-          <View style={styles.itemContainer}>
-            <Text style={[styles.itemText, {color: theme.textColor}]}>{item.virksomhed.name}</Text>
-          </View>
+          <ImageBackground
+                  imageStyle={{ borderRadius: 15 }}
+                  style={styles.imageItemBackground}
+                  // source={{ uri: item.image }}
+                >
+                  <View style={styles.itemMainFlexContainer}>
+                  <View style={styles.itemProgramTimeContainer}>
+                    <Text style={styles.itemProgramTimeText}>{item.appointmentTime}</Text>
+                  </View>
+                  <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("StandScreen", { selectedItem: item });
+                    setSelectedItem(item);
+                  }}
+                  >
+                  <View style={styles.itemFindStandButtonContainer}>
+                    <Text style={styles.itemFindStandButtonText}>Find Stand</Text>
+                  </View>
+                  </TouchableOpacity>
+                  </View>
+                  <View style={styles.itemTextNameContainer}>
+                    <Text style={[styles.itemTextName, { color: "white" }]}>
+                      {item.virksomhed.name}
+                    </Text>
+                  </View>
+                </ImageBackground>
           </TouchableOpacity>
         )}
       />
+
+
       
             </View>
 
@@ -262,7 +288,79 @@ nameAndBookContainer: {
   itemContainerTouch: {
     padding: 15,
     borderRadius: 25,
-    backgroundColor: "red",
+  },
+  // LIST
+  list: {
+    marginTop: 10,
+  },
+  itemText: {
+    paddingTop: 5,
+    paddingBottom: 5,
+    borderRadius: 15,
+    overflow: "hidden",
+    fontSize: 20,
+  },
+  itemTouchContainer: {
+    marginTop: 15,
+    borderRadius: 15,
+    marginHorizontal: 5,
+    width: "100%",
+    height: windowHeight * 0.2,
+    // BOX SHADOW
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 1,
+    elevation: 5,
+  },
+  // IMAGE BACKGROUND
+  imageItemBackground: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "flex-end",
+    position: "relative", 
+  },
+  itemMainFlexContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    position: "absolute",
+    top: 10,
+    width: "100%",
+  },
+  itemProgramTimeContainer: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)", 
+    borderRadius: 5,
+    padding: 5,
+  },
+  itemProgramTimeText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  itemFindStandButtonContainer: {
+    backgroundColor: "black", 
+    borderRadius: 5,
+    padding: 5,
+    marginRight: 5,
+  },
+  itemFindStandButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  itemTextNameContainer: {
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+  },
+  itemTextName: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
  
 })

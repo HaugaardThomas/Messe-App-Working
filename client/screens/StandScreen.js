@@ -7,10 +7,16 @@ import BottomSheet from "../components/bottomSheet";
 
 import { Ionicons } from '@expo/vector-icons';
 
-
+import { useRoute } from '@react-navigation/native';
 
 
 const StandScreen = () => {
+  const route = useRoute();
+
+
+  const { selectedItem } = route.params || {};
+
+ 
 
     return (
         <>
@@ -27,6 +33,9 @@ const StandScreen = () => {
           </View>
           <View style={styles.bottomSheetTitleContainer}>
             <Text style={styles.bottomSheetTextTitle}>CONSECTETUR ADISCIPIT</Text>
+            {selectedItem && selectedItem.virksomhed && (
+              <Text>{selectedItem.virksomhed.name}</Text>
+            )}
           </View>
           <View style={styles.bottomSheetBreadTextContainer}>
             <Text style={styles.bottomSheetBreadText}>

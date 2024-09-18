@@ -302,8 +302,13 @@ const HomeScreen = () => {
                   style={styles.imageProgramBackground}
                   source={{ uri: item.image }}
                 >
+                  <View style={styles.itemMainFlexContainer}>
                   <View style={styles.itemProgramTimeContainer}>
                     <Text style={styles.itemProgramTimeText}>{item.time}</Text>
+                  </View>
+                  <View style={styles.itemProgramSceneContainer}>
+                    <Text style={styles.itemProgramSceneText}>Scene {item.scene}</Text>
+                  </View>
                   </View>
                   <View style={styles.itemProgramNameContainer}>
                     <Text style={[styles.itemProgramText, { color: "white" }]}>
@@ -465,6 +470,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  itemMainFlexContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    position: "absolute",
+    top: 10,
+    width: "100%",
+  },
   // PROGRAM
   programFlastList: {},
   itemProgramTouchContainer: {
@@ -490,14 +504,20 @@ const styles = StyleSheet.create({
     position: "relative", 
   },
   itemProgramTimeContainer: {
-    position: "absolute",
-    top: 10, 
-    left: 10, 
     backgroundColor: "rgba(0, 0, 0, 0.5)", 
     borderRadius: 5,
     padding: 5,
   },
   itemProgramTimeText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  itemProgramSceneContainer: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)", 
+    borderRadius: 5,
+    padding: 5,
+  },
+  itemProgramSceneText: {
     color: "white",
     fontWeight: "bold",
   },

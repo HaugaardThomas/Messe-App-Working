@@ -46,114 +46,160 @@ const BookMeetingModal = ({bookingModalVisible, setBookModalVisible, virksomhedI
        // DARKMODE
        const { theme, toggleTheme } = useContext(ThemeContext); 
 
+       const [isBookable, setIsBookable] = useState(true);
+
         // State for selected time
-  const [appointmentTime, setAppointmentTime] = useState("10:00-10:15");
-  const [responseMessage, setResponseMessage] = useState('');
+        const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
+        const [appointmentTime, setAppointmentTime] = useState('');
+        const [responseMessage, setResponseMessage] = useState('');
 
     // Hent user ID
-    useEffect(() => {
-      const fetchUserId = async () => {
+   // Hent user ID
+   useEffect(() => {
+    const fetchUserId = async () => {
+      try {
+        const storedUserId = await AsyncStorage.getItem("userID");
+        if (storedUserId) {
+          setUserId(storedUserId);
+        }
+      } catch (error) {
+        console.error("Error fetching username:", error);
+      }
+    };
+    fetchUserId();
+  }, []);
+
+  // Fetch available time slots for the selected virksomhed
+  useEffect(() => {
+
+
+    // const virksomhedId = "66ea99ccb75bcad86618e9ca";
+   
+    if (virksomhedId) {
+      const fetchTimeSlots = async () => {
         try {
-          const storedUserId = await AsyncStorage.getItem("userID");
-          if (storedUserId) {
-            setUserId(storedUserId);
+          const response = await fetch(`https://messe-app-server.onrender.com/users/virksomhed/${virksomhedId}/available-times`);
+          
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error("Error from server:", errorText);
+            throw new Error(`Server responded with status: ${response.status}`);
           }
+
+          const data = await response.json();
+          setAvailableTimeSlots(data.timeSlots);
         } catch (error) {
-          console.error("Error fetching username:", error);
+          console.error("Error fetching available time slots:", error);
         }
       };
-      fetchUserId();
-    }, []);
+  
+      fetchTimeSlots();
+    }
+  }, [virksomhedId]);
 
-    const makeAppointment = async () => {
+
+  // Book appointment
+  const makeAppointment = async () => {
+      if (!isBookable) return; // Prevent booking if slot is not available
+
+      // const virksomhedIdString = virksomhedId._id;
+      // virksomhedId = virksomhedId._id;
+
+      console.log("User ID", userId);
+      console.log("Virksomhed ID", virksomhedId);
+      console.log("Appointment tid", appointmentTime);
+
       try {
-        const response = await fetch('https://messe-app-server.onrender.com/appointment/set/appointment', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            userId,
-            virksomhedId,
-            appointmentTime,
-          }),
-        });
-    
-        const data = await response.json();
-        setResponseMessage(data.message);
-    
-       
-        setBookModalVisible(false);
-        setModalVisible(false);
-    
- 
-        navigation.navigate("BookedeMeetingsScreen", { showModal: true });
-    
+          const response = await fetch('https://messe-app-server.onrender.com/appointment/set/appointment', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  userId: await AsyncStorage.getItem("userID"),
+                  virksomhedId,
+                  appointmentTime,
+              }),
+          });
+
+          const data = await response.json();
+          setResponseMessage(data.message);
+          setBookModalVisible(false);
+          setModalVisible(false);
+          navigation.navigate("BookedeMeetingsScreen", { showModal: true });
       } catch (error) {
-        console.error("Error booking appointment:", error);
+          console.error("Error booking appointment:", error);
       }
-    }; 
+  };
+     // Handle appointment time selection
+const handleTimeChange = (selectedTime) => {
+  setAppointmentTime(selectedTime);
 
-       return (
-        <>
-          <Modal
-            // animationIn="slideInRight"
-            // animationInTiming={800}
-            // animationOut="slideOutRight"
-            // animationOutTiming={800}
-            backdropTransitionInTiming={800}
-            backdropTransitionOutTiming={800}
-            animationType="slide"
-            transparent={true}
-            isVisible={bookingModalVisible}
-            onRequestClose={() => {
-              setBookModalVisible(!bookingModalVisible);
-            }}
-            style={styles.cardModal}
-            onBackdropPress={() => {
-              setBookModalVisible(!bookingModalVisible);
-            }}
-          >
-        
-            {/* <View style={[styles.centeredView, { backgroundColor: 'rgba(0, 0, 0, 0.5)' }]}> */}
-              <View style={[styles.modalView, { backgroundColor: theme.subBackgroundColor }]}>
+  // Check if the selected time is booked or if the user selected the placeholder
+  if (selectedTime === 'Vælg Tid' || availableTimeSlots.find(slot => slot.time === selectedTime)?.isBooked) {
+      setIsBookable(false); // Disable booking
+  } else {
+      setIsBookable(true); // Enable booking for available time slots
+  }
+};
 
-              <View style={styles.goBackContainer}>
-                      <TouchableOpacity onPress={() => setBookModalVisible(!bookingModalVisible)}>
-                      {/* <AntDesign name="leftcircle" size={28} color={theme.textColor} /> */}
-                      <AntDesign name="closecircle" size={24} color={theme.textColor} />
-                      </TouchableOpacity>
-                  </View>
+return (
+  <>
+    <Modal
+      backdropTransitionInTiming={800}
+      backdropTransitionOutTiming={800}
+      animationType="slide"
+      transparent={true}
+      isVisible={bookingModalVisible}
+      onRequestClose={() => {
+        setBookModalVisible(!bookingModalVisible);
+      }}
+      style={styles.cardModal}
+      onBackdropPress={() => {
+        setBookModalVisible(!bookingModalVisible);
+      }}
+    >
+      <View style={[styles.modalView, { backgroundColor: theme.subBackgroundColor }]}>
+        <View style={styles.goBackContainer}>
+            <TouchableOpacity onPress={() => setBookModalVisible(!bookingModalVisible)}>
+              <AntDesign name="closecircle" size={24} color={theme.textColor} />
+            </TouchableOpacity>
+        </View>
 
-                <Text style={[styles.modalTitle, { color: theme.textColor }]}>Vælg en tid</Text>
-                <Picker
-              selectedValue={appointmentTime}
-              onValueChange={(itemValue, itemIndex) => setAppointmentTime(itemValue)}
-              style={styles.picker}
-            >
-               <Picker.Item label="10:00-10:15" value="10:00-10:15" color={theme.textColor} />
-              <Picker.Item  label="10:15-10:30" value="10:15-10:30" color={theme.textColor}/>
-              <Picker.Item label="10:30-10:45" value="10:30-10:45" color={theme.textColor}/>
-              <Picker.Item label="10:45-11:00" value="10:45-11:00" color={theme.textColor}/>
-              <Picker.Item label="11:00-11:15" value="11:00-11:15" color={theme.textColor}/>
-              <Picker.Item label="11:15-11:30" value="11:15-11:30" color={theme.textColor}/>
-              <Picker.Item label="11:30-11:45" value="11:30-11:45" color={theme.textColor}/>
-              <Picker.Item label="11:45-12:00" value="11:45-12:00" color={theme.textColor}/>
-              <Picker.Item label="12:00-12:15" value="12:00-12:15" color={theme.textColor}/>
-            </Picker>
-                
+        <Text style={[styles.modalTitle, { color: theme.textColor }]}>Vælg en tid</Text>
+
+        <Picker
+          selectedValue={appointmentTime}
+          onValueChange={handleTimeChange}  // Ensure this handler is called
+          style={styles.picker}
+        >
+          {/* Placeholder option */}
+          <Picker.Item label="Vælg Tid" value="Vælg Tid" color="gray" />
           
-                <TouchableOpacity style={[styles.standBookKnapTouchBook, {backgroundColor: theme.textColor}]}>
-                <Text onPress={makeAppointment} style={[styles.standBookTextBook, {color: theme.backgroundColor}]}>Book</Text>
-              </TouchableOpacity>
-              
-              </View>
-            {/* </View> */}
-         
-         <BookedMeetingPopupModal popUpModal={popUpModal} setPopUpModal={setPopUpModal} />
-          </Modal>
-        </>
-      )
+          {availableTimeSlots.map((slot) => (
+            <Picker.Item
+              key={slot.time} // Access the 'time' property for the key
+              label={slot.time} // Access the 'time' property for the label
+              value={slot.time} // Access the 'time' property for the value
+              color={slot.isBooked ? 'red' : 'black'} // If the slot is booked, show it in red
+            />
+          ))}
+        </Picker>
+
+        <TouchableOpacity 
+          disabled={!isBookable} // Disable button if the slot is not bookable or "Vælg Tid" is selected
+          style={[styles.standBookKnapTouchBook, { backgroundColor: isBookable ? theme.textColor : 'grey' }]}
+        >
+          <Text onPress={makeAppointment} style={[styles.standBookTextBook, { color: theme.backgroundColor }]}>
+            Book
+          </Text>
+        </TouchableOpacity>
+      </View>
+    
+      <BookedMeetingPopupModal popUpModal={popUpModal} setPopUpModal={setPopUpModal} />
+    </Modal>
+  </>
+);
     }
     
     export default BookMeetingModal;
@@ -230,4 +276,18 @@ const BookMeetingModal = ({bookingModalVisible, setBookModalVisible, virksomhedI
           paddingHorizontal: 60,
           fontSize: 18,
         },
+        picker: {
+          marginTop: 0,
+          paddingTop: 0,
+      },
+      standBookKnapTouchBook: {
+          borderRadius: 25,
+          alignItems: "center",
+      },
+      standBookTextBook: {
+          fontWeight: 'bold',
+          paddingVertical: 15,
+          paddingHorizontal: 60,
+          fontSize: 18,
+      },
     });

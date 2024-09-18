@@ -34,7 +34,9 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedStandItem }) => {
   const [bookingModalVisible, setBookModalVisible] = useState(false);
 
 
-  const virksomhedId = selectedStandItem.virksomhed;
+  const virksomhedId = typeof selectedStandItem.virksomhed === 'object' && selectedStandItem.virksomhed !== null 
+  ? selectedStandItem.virksomhed._id 
+  : selectedStandItem.virksomhed;
 
   useEffect(() => {
     console.log("virksomhedId", virksomhedId);

@@ -13,7 +13,7 @@ import {
     ImageBackground,
   } from "react-native";
   import React, { useState, useEffect, useContext } from "react";
-  import { useNavigation } from '@react-navigation/native';
+  import { useNavigation, useFocusEffect  } from '@react-navigation/native';
   import Modal from 'react-native-modal';
   
 
@@ -94,32 +94,34 @@ const BookedeMeetingsScreen = ({calendarModalVisible, setCalendarModalVisible })
 
 
 
-    useEffect(() => {
-      const fetchUserIdAndAppointments = async () => {
-        try {
-          const userId = await AsyncStorage.getItem("userID");
-          if (userId) {
-            fetch(`https://messe-app-server.onrender.com/appointment/appointments/user/${userId}`, {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                setAppointments(data);
+    useFocusEffect(
+      React.useCallback(() => {
+        const fetchUserIdAndAppointments = async () => {
+          try {
+            const userId = await AsyncStorage.getItem("userID");
+            if (userId) {
+              fetch(`https://messe-app-server.onrender.com/appointment/appointments/user/${userId}`, {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
               })
-              .catch((error) => console.error("Error:", error));
-          } else {
-            console.error("User ID not found");
+                .then((response) => response.json())
+                .then((data) => {
+                  setAppointments(data);
+                })
+                .catch((error) => console.error("Error:", error));
+            } else {
+              console.error("User ID not found");
+            }
+          } catch (error) {
+            console.error("Failed to fetch user ID:", error);
           }
-        } catch (error) {
-          console.error("Failed to fetch user ID:", error);
-        }
-      };
+        };
   
-      fetchUserIdAndAppointments();
-    }, []);
+        fetchUserIdAndAppointments();
+      }, [])
+    );
 
     // Hent username
   useEffect(() => {

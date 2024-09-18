@@ -21,7 +21,9 @@ import {
   // AsyncStorage
   import AsyncStorage from "@react-native-async-storage/async-storage";
 
-  
+  // Modal
+  import BookedMeetingPopupModal from "../components/bookedMeetingPopupModal";
+
   // Image
   import img1 from "../assets/images/Shop_transparent.png";
   import arrowCloseButton from "../assets/images/Arrow_close_button.png";
@@ -37,6 +39,9 @@ import {
 const BookMeetingModal = ({bookingModalVisible, setBookModalVisible, virksomhedId, setModalVisible }) => {
     const navigation = useNavigation();
     const [userId, setUserId] = useState('');
+
+    // Popup modal
+    const [popUpModal, setPopUpModal] = useState(false);
 
        // DARKMODE
        const { theme, toggleTheme } = useContext(ThemeContext); 
@@ -61,24 +66,33 @@ const BookMeetingModal = ({bookingModalVisible, setBookModalVisible, virksomhedI
     }, []);
 
     const makeAppointment = async () => {
-      const response = await fetch('https://messe-app-server.onrender.com/appointment/set/appointment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId,
-          virksomhedId,
-          appointmentTime,
-        }),
-      });
-  
-      const data = await response.json();
-      setResponseMessage(data.message);
-      setBookModalVisible(false);
-      setModalVisible(false);
-    };
-  
+      try {
+        const response = await fetch('https://messe-app-server.onrender.com/appointment/set/appointment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId,
+            virksomhedId,
+            appointmentTime,
+          }),
+        });
+    
+        const data = await response.json();
+        setResponseMessage(data.message);
+    
+       
+        setBookModalVisible(false);
+        setModalVisible(false);
+    
+ 
+        navigation.navigate("BookedeMeetingsScreen", { showModal: true });
+    
+      } catch (error) {
+        console.error("Error booking appointment:", error);
+      }
+    }; 
 
        return (
         <>
@@ -136,6 +150,7 @@ const BookMeetingModal = ({bookingModalVisible, setBookModalVisible, virksomhedI
               </View>
             {/* </View> */}
          
+         <BookedMeetingPopupModal popUpModal={popUpModal} setPopUpModal={setPopUpModal} />
           </Modal>
         </>
       )

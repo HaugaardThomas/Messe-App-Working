@@ -15,6 +15,7 @@ import LoginRegisterScreen from "../screens/LoginRegisterScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import BookStandScreen from "../screens/BookStandScreen";
 import ProgramScreen from "../screens/ProgramScreen";
+import BookedeMeetingsScreen from "../screens/BookedeMeetingsScreen";
 
 import ProfileScreen2 from "../screens/ProfileScreen2";
 
@@ -160,6 +161,24 @@ const TabNavigator = () => {
                 ),
               }}
             /> */}
+
+            <Tab.Screen
+              name="BookedeMeetingsScreen"
+              component={BookedeMeetingsScreen}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({ focused }) => (
+                  <View style={focused ? styles.iconBackground : {}}>
+                   <AntDesign 
+                   name="calendar" 
+                   size={22}
+                   color="white"
+                   style={styles.tabIcon} 
+                   />
+                  </View>
+                ),
+              }}
+            />
 
             <Tab.Screen
               name="ProfileScreen3"

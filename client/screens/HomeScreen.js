@@ -29,6 +29,8 @@ import ProgramModal from "../components/programModal";
 // CONTEXT
 import { ThemeContext } from "../context/ThemeContext";
 
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
 // ICONS
 import { Ionicons } from "@expo/vector-icons";
 
@@ -48,6 +50,8 @@ const HomeScreen = () => {
   const [filteredData, setFilteredData] = useState(data);
   const [loading, setLoading] = useState(true);
   const [virksomhedId, setVirksomhedId] = useState(null);
+
+  const [selectedLetter, setSelectedLetter] = useState(null);
 
   const [testVisible, setTestVisible] = useState(true);
 
@@ -101,13 +105,17 @@ const HomeScreen = () => {
 
   const handleSearch = (text) => {
     setQuery(text);
-    filterData(text);
-    filterPrograms(text);
+    filterData(text, selectedLetter);
   };
 
-  const filterData = (searchQuery) => {
-    let newData = [...data];
+  const handleLetterSelect = (letter) => {
+    setSelectedLetter(letter);
+    filterData(query, letter); 
+  };
 
+  const filterData = (searchQuery, selectedLetter) => {
+    let newData = [...data];
+  
     if (searchQuery) {
       const formattedQuery = searchQuery.toLowerCase();
       newData = newData.filter(
@@ -117,7 +125,16 @@ const HomeScreen = () => {
           item.virksomhed.name.toLowerCase().includes(formattedQuery)
       );
     }
-
+  
+    if (selectedLetter) {
+      newData = newData.filter(
+        (item) =>
+          item.virksomhed &&
+          item.virksomhed.name &&
+          item.virksomhed.name.toUpperCase().startsWith(selectedLetter)
+      );
+    }
+  
     setFilteredData(newData);
   };
 
@@ -136,10 +153,12 @@ const HomeScreen = () => {
     setFilteredPrograms(newPrograms);
   };
 
+
   return (
     <>
       <SafeAreaView style={styles.safeAreaViewContainer}>
         <View style={styles.mainContainer}>
+          <ScrollView style={styles.allContentScrollView} showsVerticalScrollIndicator={false}>
           <View style={styles.headerContainer}>
             <View style={styles.bellContainer}>
               <TouchableOpacity
@@ -164,22 +183,7 @@ const HomeScreen = () => {
               Byg og bæredygtighed
             </Text>
           </View>
-          <TextInput
-            autoCapitalize="none"
-            autoCorrect={false}
-            clearButtonMode="always"
-            value={query}
-            onChangeText={handleSearch}
-            placeholder="Search..."
-            placeholderTextColor={theme.textColor}
-            style={[
-              styles.searchInput,
-              {
-                backgroundColor: theme.subBackgroundColor,
-                color: theme.textColor,
-              },
-            ]}
-          />
+         
 
           <View style={styles.standVirksomhedTitleAllContainer}>
             <View style={styles.standeVirksomhedViewContainer}>
@@ -199,6 +203,33 @@ const HomeScreen = () => {
             </View>
           </View>
 
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.aToZFilterContainer}>
+            {alphabet.map((letter) => (
+              <TouchableOpacity key={letter} onPress={() => handleLetterSelect(letter)}>
+                <Text style={[styles.letterItem, { color: selectedLetter === letter ? 'blue' : theme.textColor }]}>
+                  {letter}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+
+          <TextInput
+            autoCapitalize="none"
+            autoCorrect={false}
+            clearButtonMode="always"
+            value={query}
+            onChangeText={handleSearch}
+            placeholder="Search..."
+            placeholderTextColor={theme.textColor}
+            style={[
+              styles.searchInput,
+              {
+                backgroundColor: theme.subBackgroundColor,
+                color: theme.textColor,
+              },
+            ]}
+          />
+
           <FlatList
             horizontal
             data={filteredData}
@@ -214,6 +245,7 @@ const HomeScreen = () => {
                   setModalVisible(true);
                 }}
               >
+              
                 <ImageBackground
                   imageStyle={{ borderRadius: 15 }}
                   style={styles.imageItemBackground}
@@ -230,6 +262,7 @@ const HomeScreen = () => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.scrollViewContent}
           />
+
 
        {/* Program Section */}
        <View style={styles.standVirksomhedTitleAllContainer}>
@@ -282,8 +315,10 @@ const HomeScreen = () => {
             )}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.scrollViewContent}
+            style={styles.programFlastList}
           />
-
+          <View style={styles.bottomSpaceMaker}></View>
+        </ScrollView>
         </View>
         <StandeModal
           modalVisible={modalVisible}
@@ -333,6 +368,10 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     paddingTop: 10,
   },
+  allContentScrollView: {},
+  bottomSpaceMaker: {
+    marginTop: 80,
+  },
   bellContainer: {},
   bellIcon: {},
   velkommenText: {
@@ -370,6 +409,17 @@ const styles = StyleSheet.create({
   seeAllText: {
     textDecorationLine: "underline",
   },
+
+    // A-Z Filter
+    aToZFilterContainer: {
+      flexDirection: "row",
+      marginVertical: 0,
+    },
+    letterItem: {
+      fontSize: 14,
+      padding: 10,
+      marginRight: 5,
+    },
   // LIST
   horizontalItemContainer: {},
   list: {
@@ -416,6 +466,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   // PROGRAM
+  programFlastList: {},
   itemProgramTouchContainer: {
     marginTop: 15,
     borderRadius: 15,
@@ -430,6 +481,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 1,
     elevation: 5,
+    marginBottom: 5,
   },
   imageProgramBackground: {
     width: "100%",

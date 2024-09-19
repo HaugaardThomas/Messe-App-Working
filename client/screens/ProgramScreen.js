@@ -31,6 +31,9 @@ import {
   
    // ICONS
    import { Ionicons } from '@expo/vector-icons';
+
+   // MOMENT
+   import moment from 'moment';
   
   const categories = ["All", "test1", "test2", "test3"];
   
@@ -40,7 +43,7 @@ import {
     // DARKMODE
     const { theme, toggleTheme } = useContext(ThemeContext); 
   
-    const [programModalVisible, setProgramModalVisible] = useState(true);  
+    const [programModalVisible, setProgramModalVisible] = useState(false);  
     const [selectedProgramItem, setSelectedProgramItem] = useState({});
   
     const [query, setQuery] = useState("");
@@ -49,7 +52,7 @@ import {
     const [filteredData, setFilteredData] = useState(data);
     const [loading, setLoading] = useState(true);
   
-    const [testVisible, setTestVisible] = useState(true);
+    const [testVisible, setTestVisible] = useState(false);
   
     const [notificationModalVisible, setNotificationModalVisible] = useState(false);
   
@@ -70,8 +73,15 @@ import {
             ...item,
             image: `https://messe-app-server.onrender.com${item.image}`
           }));
-          setData(updatedData);
-          setFilteredData(updatedData);
+
+          const sortedData = updatedData.sort((a, b) => {
+            const timeA = moment(a.time, 'HH:mm');
+            const timeB = moment(b.time, 'HH:mm');
+            return timeA - timeB;
+          });
+
+          setData(sortedData);
+          setFilteredData(sortedData);
           setLoading(false);
           
         })
@@ -119,6 +129,13 @@ import {
       <>
         <SafeAreaView style={styles.safeAreaViewContainer}>
           <View style={styles.mainContainer}>
+
+          <View style={styles.goBackContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+            <Ionicons  name="chevron-back" size={24} color={theme.textColor} />
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.bookMainTitleContainer}> 
             <Text style={[styles.bookMainTitle, {color: theme.textColor}]}>Program</Text>
           </View>
@@ -226,6 +243,9 @@ import {
       marginBottom: 50,
       paddingBottom: 50,
     },
+    goBackContainer: {
+      marginTop: 25,
+    },
     safeAreaViewContainer: {
       flex: 1,
       // backgroundColor: "white",
@@ -235,7 +255,7 @@ import {
       paddingRight: 35,
     },
     bookMainTitleContainer: {
-      marginTop: 50,
+      marginTop: 25,
     },
     bookMainTitle: {
       fontWeight: "bold",

@@ -13,8 +13,11 @@ import {
   Dimensions,
   ImageBackground,
 } from "react-native";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
+
+// MOMENT
+import moment from 'moment';
 
 // Image
 import img1 from "../assets/images/Shop_transparent.png";
@@ -57,8 +60,12 @@ const HomeScreen = () => {
 
   const [notificationModalVisible, setNotificationModalVisible] = useState(false);
 
+  // Program
   const [programs, setPrograms] = useState([]); 
   const [filteredPrograms, setFilteredPrograms] = useState(programs);
+  const flatListRef = useRef(null);
+
+
 
   useEffect(() => {
     // Fetch Messe data
@@ -98,10 +105,48 @@ const HomeScreen = () => {
           image: `https://messe-app-server.onrender.com${item.image}`,
         }));
         setPrograms(updatedData);
-        setFilteredPrograms(updatedData);
+        filterProgramsByTime(updatedData);
       })
       .catch((error) => console.error("Error:", error));
   }, []);
+
+   
+   const filterProgramsByTime = (programsList) => {
+    const currentTime = moment(); 
+
+     // Filter programs to include only those that are at or after the current time
+    const filtered = programsList.filter((program) => {
+      const programTime = moment(program.time, 'HH:mm'); 
+      return programTime.isSameOrAfter(currentTime);
+    });
+
+    const sorted = filtered.sort((a, b) => {
+      const timeA = moment(a.time, 'HH:mm');
+      const timeB = moment(b.time, 'HH:mm');
+      return timeA - timeB; 
+    });
+    
+    setFilteredPrograms(filtered);
+    scrollToCurrentProgram(filtered);
+  };
+
+  const scrollToCurrentProgram = (programList) => {
+    const currentTime = moment(); 
+    const closestIndex = programList.findIndex((program) => {
+      const programTime = moment(program.time, 'HH:mm');
+      return programTime.isSameOrAfter(currentTime);
+    });
+
+    if (closestIndex >= 0 && flatListRef.current) {
+      setTimeout(() => {
+        flatListRef.current.scrollToIndex({
+          animated: true,
+          index: closestIndex,
+          viewPosition: 0.5, 
+        });
+      }, 500); 
+    }
+  };
 
   const handleSearch = (text) => {
     setQuery(text);
@@ -284,6 +329,7 @@ const HomeScreen = () => {
 
           <FlatList
             horizontal
+            ref={flatListRef}
             data={filteredPrograms}
             keyExtractor={(item) => item._id}
             renderItem={({ item }) => (

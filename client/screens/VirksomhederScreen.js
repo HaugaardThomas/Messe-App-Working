@@ -123,6 +123,14 @@ const VirksomhederScreen = () => {
     <>
       <SafeAreaView style={styles.safeAreaViewContainer}>
         <View style={styles.mainContainer}>
+
+          
+        <View style={styles.goBackContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+            <Ionicons  name="chevron-back" size={24} color={theme.textColor} />
+            </TouchableOpacity>
+          </View>
+
         <View style={styles.bookMainTitleContainer}> 
           <Text style={[styles.bookMainTitle, {color: theme.textColor}]}>Stande & Virksomheder</Text>
         </View>
@@ -223,6 +231,9 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     paddingBottom: 50,
   },
+  goBackContainer: {
+    marginTop: 25,
+  },
   safeAreaViewContainer: {
     flex: 1,
     // backgroundColor: "white",
@@ -232,7 +243,7 @@ const styles = StyleSheet.create({
     paddingRight: 35,
   },
   bookMainTitleContainer: {
-    marginTop: 50,
+    marginTop: 25,
   },
   bookMainTitle: {
     fontWeight: "bold",

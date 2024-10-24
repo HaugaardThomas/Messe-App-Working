@@ -28,6 +28,7 @@ import {
  // ICONS 
  import { Ionicons } from '@expo/vector-icons';
 
+
   
 
 
@@ -119,11 +120,23 @@ const CalendarModal = ({calendarModalVisible, setCalendarModalVisible, user }) =
          <View style={[styles.centeredView, {backgroundColor: theme.backgroundColor}]}>
          <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
          
-         
+         <View style={styles.backBookMainContainer}>
           <View style={styles.goBackContainer}>
-            <TouchableOpacity onPress={() => setCalendarModalVisible(!calendarModalVisible)}>
-            <Ionicons  name="chevron-back" size={24} color={theme.textColor} />
+            <TouchableOpacity style={styles.goBackTouchContainer} onPress={() => setCalendarModalVisible(!calendarModalVisible)}>
+            <Ionicons  name="chevron-back" size={26} color={theme.textColor} />
             </TouchableOpacity>
+          </View>
+
+          <View style={styles.bookMeetingContainer}>
+                  <TouchableOpacity 
+                  onPress={() => {
+                    navigation.navigate("VirksomhederScreen");
+                    setCalendarModalVisible(false);
+                  }}
+                  >
+                  <Text style={[styles.bookMeetingText, {color: theme.textColor}]}>Book et møde</Text>
+                  </TouchableOpacity>
+                </View>
           </View>
            
 
@@ -131,17 +144,7 @@ const CalendarModal = ({calendarModalVisible, setCalendarModalVisible, user }) =
 
             <View style={styles.nameAndBookContainer}>
               <View>
-                <Text style={[styles.hejUserText, {color: theme.textColor}]}>Hej {user} 👋</Text>
-                </View>
-                <View style={styles.bookMeetingContainer}>
-                  <TouchableOpacity 
-                  onPress={() => {
-                    navigation.navigate("VirksomhederScreen");
-                    setCalendarModalVisible(false);
-                  }}
-                  >
-                  <Text style={styles.bookMeetingText}>Book et møde</Text>
-                  </TouchableOpacity>
+                <Text style={[styles.hejUserText, {color: theme.textColor}]}>Hej {user}</Text>
                 </View>
             </View>
                 <Text style={[styles.titleText, {color: theme.textColor}]}>Bookede Møder</Text>
@@ -155,7 +158,7 @@ const CalendarModal = ({calendarModalVisible, setCalendarModalVisible, user }) =
             onChangeText={handleSearch}
             placeholder="Search..."
             placeholderTextColor={theme.textColor}
-            style={[styles.searchInput, {backgroundColor: theme.subBackgroundColor, color: theme.textColor}]}
+            style={[styles.searchInput, {backgroundColor: theme.inputBackground, color: theme.textColor}]}
           />
             <View style={styles.flatlistContainer}>
             <FlatList
@@ -163,14 +166,22 @@ const CalendarModal = ({calendarModalVisible, setCalendarModalVisible, user }) =
         keyExtractor={(item) => item._id.toString()}
         renderItem={({ item }) => (
         <TouchableOpacity
-        style={[styles.itemContainerTouch, {backgroundColor: theme.subBackgroundColor}]}
+        style={[styles.itemContainerTouch, {backgroundColor: theme.inputBackground}]}
         onPress={() => {
           setSelectedItem(item);
           // setModalVisible(true);
         }}
         >
-          <View style={styles.itemContainer}>
+          <View style={styles.itemMainContainer}>
+            <View style={styles.itemImageContainer}>
+            <Image  />
+            </View>
+          <View style={styles.itemContentContainer}>
             <Text style={[styles.itemText, {color: theme.textColor}]}>{item.virksomhed.name}</Text>
+          </View>
+          <View style={styles.itemArrowRightContainer}>
+          <Ionicons name="chevron-forward" size={22} color="#005750" />
+          </View>
           </View>
           </TouchableOpacity>
         )}
@@ -225,17 +236,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   hejUserText: {
-    fontSize: 24,
+    fontSize: 22,
+    fontWeight: "500",
   },
   bookMeetingContainer: {
     justifyContent: "center",
   },
   bookMeetingText: {
-    color: "blue",
+    fontSize: 16,
   },
   titleText: {
     fontWeight: "bold",
-    fontSize: 32,
+    fontSize: 36,
     marginTop: 5,
   },
   searchInput: {
@@ -251,8 +263,29 @@ const styles = StyleSheet.create({
   },
   flatlistContainer: {},
   itemContainerTouch: {
-    padding: 15,
-    borderRadius: 25,
+    marginTop: 20,
+    borderRadius: 35,
+    height: 60,
+    justifyContent: "center",
+    paddingHorizontal: 15,
+  },
+  backBookMainContainer: {
+    marginTop: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  goBackTouchContainer: {
     backgroundColor: "red",
+    // borderRadius: 25,
+    width: 50,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 25,
+    backgroundColor: "#CCDDDC",
+  },
+  itemMainContainer: {
+      flexDirection: "row",
+    justifyContent: "space-between"
   },
 })

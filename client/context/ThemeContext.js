@@ -8,12 +8,13 @@ export const ThemeContext = createContext();
 const lightTheme = {
   backgroundColor: '#FFFFFF',
   subBackgroundColor: '#F4F4F4',
-  textColor: '#000000',
+  textColor: '#005750',
   switchTrackColor: '#767577',
   switchThumbColor: '#f4f3f4',
   iconColor: 'black',
   notSelected: 'red',
   modalBackground: "rgba(0, 0, 0, 0.5)",
+  inputBackground: "#F4F1E6",
 };
 
 const darkTheme = {
@@ -25,6 +26,7 @@ const darkTheme = {
   iconColor: 'white',
   notSelected: 'red',
   modalBackground: "#333333",
+  inputBackground: "#333333",
 };
 
 export const ThemeProvider = ({ children }) => {

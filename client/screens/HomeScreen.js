@@ -232,7 +232,7 @@ const HomeScreen = () => {
 
           <View style={styles.standVirksomhedTitleAllContainer}>
             <View style={styles.standeVirksomhedViewContainer}>
-              <Text style={styles.standeVirksomhedText}>
+              <Text style={[styles.standeVirksomhedText, { color: theme.textColor}]}>
                 Stande/Virksomheder
               </Text>
             </View>
@@ -242,7 +242,7 @@ const HomeScreen = () => {
                 navigation.navigate("VirksomhederScreen");
               }}
               >
-                <Text style={styles.seeAllText}>Se Alle</Text>
+                <Text style={[styles.seeAllText, {color: theme.textColor}]}>Se Alle</Text>
               </TouchableOpacity>
               
             </View>
@@ -269,7 +269,7 @@ const HomeScreen = () => {
             style={[
               styles.searchInput,
               {
-                backgroundColor: theme.subBackgroundColor,
+                backgroundColor: theme.inputBackground,
                 color: theme.textColor,
               },
             ]}
@@ -292,7 +292,6 @@ const HomeScreen = () => {
               >
               
                 <ImageBackground
-                  imageStyle={{ borderRadius: 15 }}
                   style={styles.imageItemBackground}
                   source={{ uri: item.image }}
                 >
@@ -312,7 +311,7 @@ const HomeScreen = () => {
        {/* Program Section */}
        <View style={styles.standVirksomhedTitleAllContainer}>
             <View style={styles.standeVirksomhedViewContainer}>
-              <Text style={styles.standeVirksomhedText}>
+              <Text style={[styles.standeVirksomhedText, {color: theme.textColor}]}>
                 Program/Talks
               </Text>
             </View>
@@ -322,7 +321,7 @@ const HomeScreen = () => {
                 navigation.navigate("ProgramScreen");
               }}
               >
-              <Text style={styles.seeAllText}>Se Alle</Text>
+              <Text style={[styles.seeAllText, {color: theme.textColor}]}>Se Alle</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -467,9 +466,10 @@ const styles = StyleSheet.create({
       marginVertical: 0,
     },
     letterItem: {
-      fontSize: 14,
+      fontSize: 16,
       padding: 10,
       marginRight: 5,
+      fontWeight: "600",
     },
   // LIST
   horizontalItemContainer: {},
@@ -506,11 +506,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   itemTextNameContainer: {
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    backgroundColor: "rgba(0, 87, 80, 0.6)",
     paddingVertical: 10,
     paddingHorizontal: 15,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
   },
   itemTextName: {
     fontSize: 16,
@@ -529,7 +527,6 @@ const styles = StyleSheet.create({
   programFlastList: {},
   itemProgramTouchContainer: {
     marginTop: 15,
-    borderRadius: 15,
     marginHorizontal: 5,
     width: 250,
     height: windowHeight * 0.2,
@@ -550,7 +547,7 @@ const styles = StyleSheet.create({
     position: "relative", 
   },
   itemProgramTimeContainer: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)", 
+    backgroundColor: "rgba(0, 87, 80, 0.6)",
     borderRadius: 5,
     padding: 5,
   },
@@ -559,7 +556,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   itemProgramSceneContainer: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)", 
+    backgroundColor: "rgba(0, 87, 80, 0.6)",
     borderRadius: 5,
     padding: 5,
   },
@@ -568,11 +565,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   itemProgramNameContainer: {
-    backgroundColor: "rgba(0, 0, 0, 0.4)", 
+    backgroundColor: "rgba(0, 87, 80, 0.6)",
     paddingVertical: 10,
     paddingHorizontal: 15,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
   },
   itemProgramText: {
     fontSize: 16,

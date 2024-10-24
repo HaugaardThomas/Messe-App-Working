@@ -147,41 +147,9 @@ import {
               onChangeText={handleSearch}
               placeholder="Search..."
               placeholderTextColor={theme.textColor}
-              style={[styles.searchInput, {backgroundColor: theme.subBackgroundColor, color: theme.textColor}]}
+              style={[styles.searchInput, {backgroundColor: theme.inputBackground, color: theme.textColor}]}
             />
-            {/* KATEGORI FILTER */}
-            {/* <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.categoryContainer}
-            >
-              {categories.map((category) => (
-                <TouchableOpacity
-                  key={category}
-                  style={[
-                    styles.categoryButton,
-                    selectedCategory === category &&
-                      styles.categoryButtonSelected,
-                  ]}
-                  onPress={() => selectCategory(category)}
-                >
-                  <Text
-                    style={[
-                      styles.categoryButtonText,
-                      selectedCategory === category &&
-                      {color: theme.textColor},
-                    ]}
-                  >
-                    {category}
-                  </Text>
-                  {selectedCategory === category && (
-                    <View style={styles.dotContainer}>
-                      <View style={[styles.selectedCategoryDot, {backgroundColor: theme.textColor}]} />
-                    </View>
-                  )}
-                </TouchableOpacity>
-              ))}
-            </ScrollView> */}
+      
   
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
             <View>
@@ -194,7 +162,10 @@ import {
           setProgramModalVisible(true);
         }}
       >
-          <ImageBackground  imageStyle={{ borderRadius: 15}} style={styles.imageItemBackground} source={{ uri: item.image}}>
+          <ImageBackground  
+          // imageStyle={{ borderRadius: 15}} 
+          style={styles.imageItemBackground} 
+          source={{ uri: item.image}}>
           <View style={styles.itemProgramTimeContainer}>
                     <Text style={styles.itemProgramTimeText}>{item.time}</Text>
                   </View>
@@ -272,7 +243,6 @@ import {
     },
     searchInput: {
       fontSize: 16,
-      backgroundColor: "#F4F4F4",
       borderRadius: 20,
       paddingLeft: 20,
       paddingRight: 20,
@@ -299,15 +269,6 @@ import {
       // width: "50%",
       width: "100%",
       height: windowHeight * 0.3,
-      // BOX SHADOW
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 1,
-      elevation: 5,
     },
     // IMAGE BACKGROUND
     imageItemBackground: {
@@ -320,7 +281,7 @@ import {
         position: "absolute",
         top: 10, 
         left: 10, 
-        backgroundColor: "rgba(0, 0, 0, 0.5)", 
+        backgroundColor: "rgba(0, 87, 80, 0.6)",
         borderRadius: 5,
         padding: 5,
       },
@@ -329,27 +290,14 @@ import {
         fontWeight: "bold",
       },
       itemProgramNameContainer: {
-        backgroundColor: "rgba(0, 0, 0, 0.4)", 
+        backgroundColor: "rgba(0, 87, 80, 0.6)",
         paddingVertical: 10,
         paddingHorizontal: 15,
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
       },
       itemProgramText: {
         fontSize: 16,
         fontWeight: "bold",
       },
-        // itemTextNameContainer: {
-    //   backgroundColor: 'rgba(0, 0, 0, 0.4)', 
-    //   paddingVertical: 10,
-    //   paddingHorizontal: 15,
-    //   borderBottomLeftRadius: 15,
-    //   borderBottomRightRadius: 15,
-    // },
-    // itemTextName: {
-    //   fontSize: 16,
-    //   fontWeight: 'bold',
-    // },
     // Modal
     centeredView: {
       flex: 1,

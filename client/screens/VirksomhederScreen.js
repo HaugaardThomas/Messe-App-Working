@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
 
   },
   itemTextNameContainer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.4)', 
+    backgroundColor: "rgba(0, 87, 80, 0.6)", 
     paddingVertical: 10,
     paddingHorizontal: 15,
   },

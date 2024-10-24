@@ -31,7 +31,7 @@ import BookMeetingModal from "../components/bookMeetingModal";
  // ICONS
  import { Ionicons } from '@expo/vector-icons';
 
-const categories = ["All", "test1", "test2", "test3"];
+const categories = ["Alle", "test1", "test2", "test3"];
 
 const VirksomhederScreen = () => {
   const navigation = useNavigation();
@@ -44,7 +44,7 @@ const VirksomhederScreen = () => {
 
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("Alle");
   const [filteredData, setFilteredData] = useState(data);
   const [loading, setLoading] = useState(true);
   const [virksomhedId, setVirksomhedId] = useState(null);
@@ -102,7 +102,7 @@ const VirksomhederScreen = () => {
   const filterData = (searchQuery, category) => {
   let newData = [...data]; // Create a new array based on the original data
 
-  if (category !== "All") {
+  if (category !== "Alle") {
     newData = newData.filter((item) => item.category === category);
   }
 
@@ -142,7 +142,8 @@ const VirksomhederScreen = () => {
             onChangeText={handleSearch}
             placeholder="Search..."
             placeholderTextColor={theme.textColor}
-            style={[styles.searchInput, {backgroundColor: theme.subBackgroundColor, color: theme.textColor}]}
+            style={[styles.searchInput, {backgroundColor: theme.inputBackground, color: theme.textColor}]}
+
           />
           <ScrollView
             horizontal
@@ -188,9 +189,11 @@ const VirksomhederScreen = () => {
         setModalVisible(true);
       }}
     >
-        <ImageBackground  imageStyle={{ borderRadius: 15}} style={styles.imageItemBackground} source={{ uri: item.image}}>
+        <ImageBackground  
+        // imageStyle={{ borderRadius: 15}} 
+        style={styles.imageItemBackground} 
+        source={{ uri: item.image}}>
           <View style={styles.itemTextNameContainer}>
-          {/* <Text>{item.image}</Text> */}
             <Text style={[styles.itemTextName, {color: "white"}]}>
               {item.virksomhed.name}
             </Text>
@@ -275,13 +278,11 @@ const styles = StyleSheet.create({
   itemText: {
     paddingTop: 5,
     paddingBottom: 5,
-    borderRadius: 15,
     overflow: "hidden",
     fontSize: 20,
   },
   itemTouchContainer: {
     marginTop: 25,
-    borderRadius: 15,
     flexDirection: "column",
     flexWrap: "wrap",
     // width: "50%",
@@ -308,8 +309,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.4)', 
     paddingVertical: 10,
     paddingHorizontal: 15,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
   },
   itemTextName: {
     fontSize: 16,
@@ -372,8 +371,8 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    overflow: "hidden", // Ensure the image doesn't overflow the container
-    borderRadius: 15,  // Match the radius of the container for better visual appeal
+    overflow: "hidden",
+    
   },
   itemImage: {
     width: "100%",
@@ -406,8 +405,9 @@ const styles = StyleSheet.create({
     // backgroundColor: "white",
   },
   categoryButtonText: {
-    color: "lightgrey",
+    color: "rgba(0, 87, 80, 0.5)",
     fontSize: 17,
+    textDecorationLine: 'underline',
   },
   categoryButtonTextSelected: {
     //  color: "black",
@@ -419,12 +419,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   selectedCategoryDot: {
-    height: 5,
-    width: 5,
-    borderRadius: 50,
-    //backgroundColor: "black",
-    position: "absolute",
-    bottom: 0,
+    // height: 5,
+    // width: 5,
+    // borderRadius: 50,
+    // position: "absolute",
+    // bottom: 0,
   },
   // Find Stand knap
   standRedirectKnapContainer: {

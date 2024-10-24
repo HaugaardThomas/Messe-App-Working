@@ -343,7 +343,7 @@ const HomeScreen = () => {
                 }}
               >
                 <ImageBackground
-                  imageStyle={{ borderRadius: 15 }}
+             
                   style={styles.imageProgramBackground}
                   source={{ uri: item.image }}
                 >
@@ -530,14 +530,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     width: 250,
     height: windowHeight * 0.2,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 1,
-    elevation: 5,
+    // shadowColor: "#000",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 1,
+    // elevation: 5,
     marginBottom: 5,
   },
   imageProgramBackground: {

@@ -72,12 +72,15 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedStandItem }) => {
           }}
           style={styles.cardModal}
       >
-          <View style={[styles.centeredView, {backgroundColor: theme.backgroundColor}]}>
-              <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
+          <View style={[styles.centeredView, {backgroundColor: theme.textColor}]}>
+            <View style={styles.backDropImageBackground}>
+
+            </View>
+              <View style={[styles.modalView, {backgroundColor: "red"}]}>
 
               <View style={styles.goBackContainer}>
-            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-            <Ionicons  name="chevron-back" size={24} color={theme.textColor} />
+            <TouchableOpacity style={styles.goBackTouchContainer} onPress={() => setCalendarModalVisible(!calendarModalVisible)}>
+            <Ionicons  name="chevron-back" size={26} color={theme.textColor} />
             </TouchableOpacity>
           </View>
           
@@ -160,10 +163,20 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    backgroundColor: "red",
+    marginTop: 150,
+    borderRadius: 50,
   },
   // GO BACK
-  goBackContainer: {
-    marginTop: 25,
+  goBackTouchContainer: {
+    backgroundColor: "red",
+    // borderRadius: 25,
+    width: 50,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 25,
+    backgroundColor: "#CCDDDC",
   },
   // INFO
   infoMainContainer: {
@@ -244,5 +257,9 @@ const styles = StyleSheet.create({
           fontSize: 18,
           width: "100%",
         },
-      
+        backDropImageBackground: {
+          height: 300,
+          width: "100%",
+          backgroundColor: "white",
+        },
 });

@@ -114,7 +114,7 @@ const HomeScreen = () => {
    const filterProgramsByTime = (programsList) => {
     const currentTime = moment(); 
 
-     // Filter programs to include only those that are at or after the current time
+    // Filter programs så den viser programmer der ikke allerede er sket (efter current time)
     const filtered = programsList.filter((program) => {
       const programTime = moment(program.time, 'HH:mm'); 
       return programTime.isSameOrAfter(currentTime);

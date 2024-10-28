@@ -76,7 +76,7 @@ const BookedeMeetingsScreen = ({calendarModalVisible, setCalendarModalVisible })
       };
     
       const filterData = (searchQuery, category) => {
-      let newData = [...data]; // Create a new array based on the original data
+      let newData = [...data];
     
       if (category !== "All") {
         newData = newData.filter((item) => item.category === category);

@@ -9,6 +9,7 @@ const lightTheme = {
   backgroundColor: '#FFFFFF',
   subBackgroundColor: '#F4F4F4',
   textColor: '#005750',
+  textColor2: '#7FABA7',
   switchTrackColor: '#767577',
   switchThumbColor: '#f4f3f4',
   iconColor: 'black',

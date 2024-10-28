@@ -84,13 +84,13 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedStandItem }) => {
           <View style={styles.infoMainContainer}>
             <View>
               <View style={styles.navnTitleContainer}>
-              <Text style={styles.navnTitleText}>Navn</Text>
-              <Text style={styles.navnText}>Navnplaceholder{}</Text>
+              <Text style={[styles.navnTitleText, {color: theme.textColor2}]}>Navn</Text>
+              <Text style={[styles.navnText, {color: theme.textColor}]}>Navnplaceholder{}</Text>
               </View>
 
               <View style={styles.kategoriContainer}>
-              <Text style={styles.kategoriTitleText}>Kategori</Text>
-              <Text style={styles.kategoriText}>Grøn energi{}</Text>
+              <Text style={[styles.kategoriTitleText, {color: theme.textColor2}]}>Kategori</Text>
+              <Text style={[styles.kategoriText, {color: theme.textColor}]}>Grøn energi{}</Text>
               </View>
             </View>
 
@@ -101,12 +101,12 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedStandItem }) => {
           </View>
 
           <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>{selectedStandItem.title}</Text>
+              <Text style={[styles.titleText, {color: theme.textColor}]}>{selectedStandItem.title}</Text>
           </View>
 
           
           <View style={styles.bodyContainer}>
-              <Text style={styles.bodyText}>{selectedStandItem.body}</Text>
+              <Text style={[styles.bodyText, {color: theme.textColor}]}>{selectedStandItem.body}</Text>
           </View>
 
 

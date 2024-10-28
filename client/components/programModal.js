@@ -46,23 +46,23 @@ import {
             <View style={styles.infoMainContainer}>
               <View>
                 <View style={styles.speakerContainer}>
-                <Text style={styles.speakerTitleText}>Speaker</Text>
-                <Text style={styles.speakerText}>{selectedProgramItem.name}</Text>
+                <Text style={[styles.speakerTitleText, {color: theme.textColor2}]}>Speaker</Text>
+                <Text style={[styles.speakerText, {color: theme.textColor}]}>{selectedProgramItem.name}</Text>
                 </View>
   
                 <View style={styles.kategoriContainer}>
-                <Text style={styles.kategoriTitleText}>Kategori</Text>
-                <Text style={styles.kategoriText}>Placeholder{}</Text>
+                <Text style={[styles.kategoriTitleText, {color: theme.textColor2}]}>Kategori</Text>
+                <Text style={[styles.kategoriText, {color: theme.textColor}]}>Placeholder{}</Text>
                 </View>
 
                 <View style={styles.sceneTimeMainContainer}>
                 <View style={styles.sceneContainer}>
-                    <Text style={styles.sceneTitleText}>Scene</Text>
-                    <Text style={styles.sceneText}>{selectedProgramItem.scene}</Text>
+                    <Text style={[styles.sceneTitleText, {color: theme.textColor2}]}>Scene</Text>
+                    <Text style={[styles.sceneText, {color: theme.textColor}]}>{selectedProgramItem.scene}</Text>
                 </View>
                 <View style={styles.timeContainer}>
-                    <Text style={styles.timeTitleText}>Tid</Text>
-                    <Text style={styles.timeText}>{selectedProgramItem.time}</Text>
+                    <Text style={[styles.timeTitleText, {color: theme.textColor2}]}>Tid</Text>
+                    <Text style={[styles.timeText, {color: theme.textColor}]}>{selectedProgramItem.time}</Text>
                 </View>
                 </View>
 
@@ -70,9 +70,9 @@ import {
               </View>
               
               
-              <View>
+              {/* <View>
                 <Image style={styles.standImage}  source={{ uri: selectedProgramItem.image }}/>
-              </View>
+              </View> */}
 
               
   
@@ -80,12 +80,12 @@ import {
            
      
             <View style={styles.titleContainer}>
-                <Text style={styles.titleText}>{selectedProgramItem.title}</Text>
+                <Text style={[styles.titleText, {color: theme.textColor}]}>{selectedProgramItem.title}</Text>
             </View>
   
             
             <View style={styles.bodyContainer}>
-                <Text style={styles.bodyText}>{selectedProgramItem.body}</Text>
+                <Text style={[styles.bodyText, {color: theme.textColor}]}>{selectedProgramItem.body}</Text>
             </View>
             
  

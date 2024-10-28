@@ -177,6 +177,7 @@ const CalendarModal = ({calendarModalVisible, setCalendarModalVisible, user }) =
             <Image  />
             </View>
           <View style={styles.itemContentContainer}>
+            <Text style={styles.textAppointmentTime}>{item.appointmentTime}</Text>
             <Text style={[styles.itemText, {color: theme.textColor}]}>{item.virksomhed.name}</Text>
           </View>
           <View style={styles.itemArrowRightContainer}>
@@ -287,5 +288,14 @@ const styles = StyleSheet.create({
   itemMainContainer: {
       flexDirection: "row",
     justifyContent: "space-between"
+  },
+  textAppointmentTime: {
+    color: "#7FABA7",
+  },
+  itemText: {
+    fontWeight: "bold",
+  },
+  itemArrowRightContainer: {
+    justifyContent: "center",
   },
 })

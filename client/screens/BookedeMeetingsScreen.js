@@ -155,7 +155,7 @@ const BookedeMeetingsScreen = ({calendarModalVisible, setCalendarModalVisible })
  
        <View style={styles.nameAndBookContainer}>
               <View>
-                <Text style={[styles.hejUserText, {color: theme.textColor}]}>Hej {user} 👋</Text>
+                <Text style={[styles.hejUserText, {color: theme.textColor}]}>Hej {user} </Text>
                 </View>
                 <View style={styles.bookMeetingContainer}>
                   <TouchableOpacity 
@@ -164,7 +164,7 @@ const BookedeMeetingsScreen = ({calendarModalVisible, setCalendarModalVisible })
                     setCalendarModalVisible(false);
                   }}
                   >
-                  <Text style={styles.bookMeetingText}>Book et møde</Text>
+                  <Text style={[styles.bookMeetingText, {color: theme.textColor}]}>Book et møde</Text>
                   </TouchableOpacity>
                 </View>
             </View>
@@ -178,7 +178,7 @@ const BookedeMeetingsScreen = ({calendarModalVisible, setCalendarModalVisible })
             onChangeText={handleSearch}
             placeholder="Search..."
             placeholderTextColor={theme.textColor}
-            style={[styles.searchInput, {backgroundColor: theme.subBackgroundColor, color: theme.textColor}]}
+            style={[styles.searchInput, {backgroundColor: theme.inputBackground, color: theme.textColor}]}
           />
             <View style={styles.flatlistContainer}>
             <FlatList
@@ -194,7 +194,6 @@ const BookedeMeetingsScreen = ({calendarModalVisible, setCalendarModalVisible })
         }}
         >
           <ImageBackground
-                  imageStyle={{ borderRadius: 15 }}
                   style={styles.imageItemBackground}
                   // source={{ uri: item.image }}
                 >
@@ -268,7 +267,7 @@ nameAndBookContainer: {
     justifyContent: "center",
   },
   bookMeetingText: {
-    color: "blue",
+    fontSize: 16,
   },
   titleText: {
     fontWeight: "bold",
@@ -304,7 +303,7 @@ nameAndBookContainer: {
   },
   itemTouchContainer: {
     marginTop: 15,
-    borderRadius: 15,
+
     marginHorizontal: 5,
     width: "100%",
     height: windowHeight * 0.2,
@@ -335,7 +334,7 @@ nameAndBookContainer: {
     width: "100%",
   },
   itemProgramTimeContainer: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)", 
+    backgroundColor: "rgba(0, 87, 80, 0.6)",
     borderRadius: 5,
     padding: 5,
   },
@@ -344,7 +343,7 @@ nameAndBookContainer: {
     fontWeight: "bold",
   },
   itemFindStandButtonContainer: {
-    backgroundColor: "black", 
+    backgroundColor: "rgba(0, 87, 80, 0.6)",
     borderRadius: 5,
     padding: 5,
     marginRight: 5,
@@ -354,11 +353,9 @@ nameAndBookContainer: {
     fontWeight: "bold",
   },
   itemTextNameContainer: {
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    backgroundColor: "rgba(0, 87, 80, 0.6)",
     paddingVertical: 10,
     paddingHorizontal: 15,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
   },
   itemTextName: {
     fontSize: 16,

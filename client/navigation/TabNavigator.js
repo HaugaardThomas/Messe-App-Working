@@ -21,6 +21,8 @@ import ProfileScreen2 from "../screens/ProfileScreen2";
 
 import ProfileScreen3 from "../screens/ProfileScreen3";
 
+import ARScreen from "../screens/ARScreen";
+
 // Colors
 import Colors from "../colors/Colors";
 
@@ -175,6 +177,25 @@ const TabNavigator = () => {
                    color="white"
                    style={styles.tabIcon} 
                    />
+                  </View>
+                ),
+              }}
+            />
+
+            
+<Tab.Screen
+              name="ARScreen"
+              component={ARScreen}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({ focused }) => (
+                  <View style={focused ? styles.iconBackground : {}}>
+                    <Feather
+                      name="user"
+                      size={22}
+                      color="white"
+                      style={styles.tabIcon}
+                    />
                   </View>
                 ),
               }}

@@ -80,7 +80,7 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedStandItem }) => {
               <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
 
               <View style={styles.goBackContainer}>
-            <TouchableOpacity style={styles.goBackTouchContainer} onPress={() => setCalendarModalVisible(!calendarModalVisible)}>
+            <TouchableOpacity style={styles.goBackTouchContainer} onPress={() => setModalVisible(!modalVisible)}>
             <Ionicons  name="chevron-back" size={26} color={theme.textColor} />
             </TouchableOpacity>
           </View>

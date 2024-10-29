@@ -72,11 +72,12 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedStandItem }) => {
           }}
           style={styles.cardModal}
       >
-          <View style={[styles.centeredView, {backgroundColor: theme.textColor}]}>
-            <View style={styles.backDropImageBackground}>
+           <View style={[styles.backDropImageBackground, {backgroundColor: theme.textColor}]}>
 
-            </View>
-              <View style={[styles.modalView, {backgroundColor: "red"}]}>
+          </View>
+          <ImageBackground resizeMode="cover"  imageStyle={{ borderTopRightRadius: 50, borderTopLeftRadius: 50}}  source={{ uri: selectedStandItem.image }} style={[styles.centeredView, {backgroundColor: theme.textColor}]}>
+         
+              <View style={[styles.modalView, {backgroundColor: theme.backgroundColor}]}>
 
               <View style={styles.goBackContainer}>
             <TouchableOpacity style={styles.goBackTouchContainer} onPress={() => setCalendarModalVisible(!calendarModalVisible)}>
@@ -130,7 +131,7 @@ const StandeModal = ({ modalVisible, setModalVisible, selectedStandItem }) => {
                 <Text style={[styles.standBookTextBook, {color: theme.backgroundColor}]}>Book</Text>
               </TouchableOpacity>
             </View>
-          </View>
+          </ImageBackground>
           <BookMeetingModal bookingModalVisible={bookingModalVisible} setBookModalVisible={setBookModalVisible} virksomhedId={virksomhedId} setModalVisible={setModalVisible}  />
       </Modal>
   );
@@ -149,6 +150,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    width: windowWidth * 1,
+    height: windowHeight * 0.32,
+    
   },
   modalView: {
     width: '100%',
@@ -164,7 +168,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     backgroundColor: "red",
-    marginTop: 150,
+    marginTop: 450,
     borderRadius: 50,
   },
   // GO BACK
@@ -258,8 +262,7 @@ const styles = StyleSheet.create({
           width: "100%",
         },
         backDropImageBackground: {
-          height: 300,
+          height: 50,
           width: "100%",
-          backgroundColor: "white",
         },
 });

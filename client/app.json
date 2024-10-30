@@ -16,6 +16,12 @@
     ],
     "ios": {
       "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Allow $(PRODUCT_NAME) to access your photos",
+        "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos",
+        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to use your camera",
+        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to use your microphone"
+      },
       "bundleIdentifier": "com.thomashaugaard.messeapp"
     },
     "android": {
@@ -34,17 +40,7 @@
       }
     },
     "plugins": [
-      [
-        "@reactvision/react-viro",
-        {
-          "ios": {
-            "cameraUsagePermission": "$(PRODUCT_NAME) uses your camera for AR experiences. This is a custom InfoPlist string!",
-            "microphoneUsagePermission": "$(PRODUCT_NAME) uses your microphone for AR experiences. This is a custom InfoPlist string!",
-            "photosPermission": "$(PRODUCT_NAME) would like to read photos for AR experiences. This is a custom InfoPlist string!",
-            "savephotosPermission": "$(PRODUCT_NAME) would like to save photos to your library during AR experiences. This is a custom InfoPlist string!"
-          }
-        }
-      ]
+        "@reactvision/react-viro" 
     ]
   }
 }

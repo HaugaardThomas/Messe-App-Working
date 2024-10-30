@@ -94,19 +94,6 @@ const TabNavigator = () => {
           }}
         />
 
-        {/* <Tab.Screen name="ProfileScreen2" component={ProfileScreen2}
-            options={{
-              headerShown: false,
-              tabBarIcon: ({ focused, color, size }) => (
-                <View style={focused ? styles.iconBackground : {}}>
-                  <Feather name="user" size={22} color="white"
-                    style={styles.tabIcon}
-                  />
-                </View>
-              ),
-            }}
-          /> */}
-
         {isLoggedIn ? (
           <>
             <Tab.Screen
@@ -146,24 +133,6 @@ const TabNavigator = () => {
               }}
             />
 
-            {/* <Tab.Screen
-              name="ProfileScreen"
-              component={ProfileScreen}
-              options={{
-                headerShown: false,
-                tabBarIcon: ({ focused }) => (
-                  <View style={focused ? styles.iconBackground : {}}>
-                    <Feather
-                      name="user"
-                      size={22}
-                      color="white"
-                      style={styles.tabIcon}
-                    />
-                  </View>
-                ),
-              }}
-            /> */}
-
             <Tab.Screen
               name="BookedeMeetingsScreen"
               component={BookedeMeetingsScreen}
@@ -183,23 +152,6 @@ const TabNavigator = () => {
             />
 
             
-<Tab.Screen
-              name="ARScreen"
-              component={ARScreen}
-              options={{
-                headerShown: false,
-                tabBarIcon: ({ focused }) => (
-                  <View style={focused ? styles.iconBackground : {}}>
-                    <Feather
-                      name="user"
-                      size={22}
-                      color="white"
-                      style={styles.tabIcon}
-                    />
-                  </View>
-                ),
-              }}
-            />
 
             <Tab.Screen
               name="ProfileScreen3"
@@ -245,6 +197,25 @@ const TabNavigator = () => {
           component={BookStandScreen}
           options={{
             tabBarButton: () => null,
+            tabBarVisible: false,
+            headerShown: false,
+          }}
+        />
+
+<Tab.Screen
+          name="ARScreen"
+          component={ARScreen}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <View style={focused ? styles.iconBackground : {}}>
+                <Feather
+                  name="user"
+                  size={22}
+                  color="white"
+                  style={styles.tabIcon}
+                />
+              </View>
+            ),
             tabBarVisible: false,
             headerShown: false,
           }}

@@ -4,27 +4,53 @@ import {
   ViroText,
   ViroPolyline,
   ViroTrackingStateConstants,
+  ViroARImageMarker,
+  ViroARTrackingTargets,
 } from "@reactvision/react-viro";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
+
+// 1. Create a tracking target for the QR code
+ViroARTrackingTargets.createTargets({
+  qrCode: {
+    source: require('./res/qr_code.jpg'), // Replace with the actual path to your QR code image
+    orientation: 'Up', // Assuming the QR code is upright
+    physicalWidth: 0.2, // Physical width of the QR code in meters
+  },
+});
 
 const HelloWorldSceneAR = () => {
   const [text, setText] = useState("Initializing AR...");
   const [qrCodeDetected, setQRCodeDetected] = useState(false); // Track QR code detection
 
+  // State to store QR code's position and rotation if needed
+  const [qrCodePosition, setQRCodePosition] = useState({ x: 0, y: 0, z: 0 });
+  const [qrCodeRotation, setQRCodeRotation] = useState({ x: 0, y: 0, z: 0 });
+
   // Function to handle AR tracking initialization
   function onInitialized(state, reason) {
     if (state === ViroTrackingStateConstants.TRACKING_NORMAL) {
       setText("AR Tracking Active");
-      setQRCodeDetected(true); // Simulate QR code detection as origin
     } else if (state === ViroTrackingStateConstants.TRACKING_UNAVAILABLE) {
       setText("AR Tracking Unavailable");
     }
   }
 
+  // Function called when the QR code is detected
+  function onAnchorFound(anchor) {
+    setQRCodeDetected(true);
+    const { position, rotation } = anchor;
+    setQRCodePosition({ x: position[0], y: position[1], z: position[2] });
+    setQRCodeRotation({ x: rotation[0], y: rotation[1], z: rotation[2] });
+  }
+
+  // Function called when the QR code is no longer detected
+  function onAnchorRemoved() {
+    setQRCodeDetected(false);
+  }
+
   // Hardcoded data for testing
   const hardcodedData = {
-    qrCodePosition: { x: 0, y: 0, z: 0 }, // Simulating the QR code as the origin
     waypoints: [
       { id: 'waypoint_1', name: 'Meeting Room', coordinates: { x: 5, y: 0, z: -3 } },
       { id: 'waypoint_2', name: 'Office', coordinates: { x: -2, y: 0, z: -4 } },
@@ -37,58 +63,74 @@ const HelloWorldSceneAR = () => {
   // Scaling factor to convert floor plan units to AR units
   const scaleFactor = 0.1;
 
-  // Translate floor plan coordinates to AR coordinates relative to QR code
-  const translateToARCoordinates = (qrCodePosition, markerPosition) => ({
-    x: qrCodePosition.x + markerPosition.x * scaleFactor,
-    y: qrCodePosition.y,
-    z: qrCodePosition.z + markerPosition.z * scaleFactor,
-  });
-
   return (
     <ViroARScene onTrackingUpdated={onInitialized}>
+      {/* Display tracking status */}
       <ViroText
         text={text}
         scale={[0.5, 0.5, 0.5]}
-        position={[0, 0, -5]}
+        position={[0, 0, -1]}
         style={styles.helloWorldTextStyle}
       />
 
-      {/* Render waypoints only after QR code is detected */}
-      {qrCodeDetected && hardcodedData.waypoints.map((waypoint) => {
-        const position = translateToARCoordinates(hardcodedData.qrCodePosition, waypoint.coordinates);
-        return (
-          <ViroText
-            key={waypoint.id}
-            text={waypoint.name}
-            position={[position.x, position.y, position.z]}
-            scale={[0.5, 0.5, 0.5]}
-            style={styles.markerTextStyle}
-          />
-        );
-      })}
-
-      {/* Render connectors only after QR code is detected */}
-      {qrCodeDetected && hardcodedData.connectors.map((connector) => {
-        const start = hardcodedData.waypoints.find((w) => w.id === connector.waypointStartId);
-        const end = hardcodedData.waypoints.find((w) => w.id === connector.waypointEndId);
-
-        if (start && end) {
-          const startPos = translateToARCoordinates(hardcodedData.qrCodePosition, start.coordinates);
-          const endPos = translateToARCoordinates(hardcodedData.qrCodePosition, end.coordinates);
-
+      {/* 2. Use ViroARImageMarker to detect the QR code */}
+      <ViroARImageMarker
+        target={'qrCode'}
+        onAnchorFound={onAnchorFound}
+        onAnchorRemoved={onAnchorRemoved}
+        pauseUpdates={false} // Keep tracking active even if the QR code is out of view
+      >
+        {/* 3. Render waypoints and connectors as children of the QR code marker */}
+        {qrCodeDetected && hardcodedData.waypoints.map((waypoint) => {
+          // Convert waypoint coordinates using the scale factor
+          const position = [
+            waypoint.coordinates.x * scaleFactor,
+            waypoint.coordinates.y * scaleFactor,
+            waypoint.coordinates.z * scaleFactor,
+          ];
           return (
-            <ViroPolyline
-              key={connector.id}
-              points={[
-                [startPos.x, startPos.y, startPos.z],
-                [endPos.x, endPos.y, endPos.z]
-              ]}
-              thickness={0.05}
+            <ViroText
+              key={waypoint.id}
+              text={waypoint.name}
+              position={position}
+              scale={[0.5, 0.5, 0.5]}
+              style={styles.markerTextStyle}
             />
           );
-        }
-        return null;
-      })}
+        })}
+
+        {/* Render connectors between waypoints */}
+        {qrCodeDetected && hardcodedData.connectors.map((connector) => {
+          const start = hardcodedData.waypoints.find((w) => w.id === connector.waypointStartId);
+          const end = hardcodedData.waypoints.find((w) => w.id === connector.waypointEndId);
+
+          if (start && end) {
+            const startPos = [
+              start.coordinates.x * scaleFactor,
+              start.coordinates.y * scaleFactor,
+              start.coordinates.z * scaleFactor,
+            ];
+            const endPos = [
+              end.coordinates.x * scaleFactor,
+              end.coordinates.y * scaleFactor,
+              end.coordinates.z * scaleFactor,
+            ];
+
+            return (
+              <ViroPolyline
+                key={connector.id}
+                points={[
+                  startPos,
+                  endPos
+                ]}
+                thickness={0.05}
+                materials={['line']}
+              />
+            );
+          }
+          return null;
+        })}
+      </ViroARImageMarker>
     </ViroARScene>
   );
 };
@@ -120,5 +162,12 @@ const styles = StyleSheet.create({
     color: "#00ff00",
     textAlignVertical: "center",
     textAlign: "center",
+  },
+});
+
+// Add a material for the polyline (optional)
+ViroMaterials.createMaterials({
+  line: {
+    diffuseColor: '#ff0000',
   },
 });

@@ -41,13 +41,6 @@ const ArMenuModal = ({}) => {
         // DARKMODE
        const { theme, toggleTheme } = useContext(ThemeContext); 
 
-
-
-
-   
-
-    
-
        return (
         <>
           <Modal

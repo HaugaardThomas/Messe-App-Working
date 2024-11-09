@@ -10,20 +10,20 @@ import {
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 
-// 1. Create a tracking target for the QR code
+// QR kode tracking
 ViroARTrackingTargets.createTargets({
   qrCode: {
-    source: require('./res/qr_code.jpg'), // Replace with the actual path to your QR code image
-    orientation: 'Up', // Assuming the QR code is upright
-    physicalWidth: 0.2, // Physical width of the QR code in meters
+    source: require('./res/qr_code.jpg'),
+    orientation: 'Up', 
+    physicalWidth: 0.2,
   },
 });
 
 const HelloWorldSceneAR = () => {
   const [text, setText] = useState("Initializing AR...");
-  const [qrCodeDetected, setQRCodeDetected] = useState(false); // Track QR code detection
+  const [qrCodeDetected, setQRCodeDetected] = useState(false);
 
-  // State to store QR code's position and rotation if needed
+  // Gemmer QR kodens position og rotation
   const [qrCodePosition, setQRCodePosition] = useState({ x: 0, y: 0, z: 0 });
   const [qrCodeRotation, setQRCodeRotation] = useState({ x: 0, y: 0, z: 0 });
 
@@ -148,7 +148,9 @@ export default () => {
 };
 
 const styles = StyleSheet.create({
-  f1: { flex: 1 },
+  f1: { 
+    flex: 1 
+  },
   helloWorldTextStyle: {
     fontFamily: "Arial",
     fontSize: 30,

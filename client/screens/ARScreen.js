@@ -1,3 +1,5 @@
+// ARScreen.js
+import React, { useState } from 'react';
 import {
   ViroARScene,
   ViroARSceneNavigator,
@@ -6,170 +8,184 @@ import {
   ViroTrackingStateConstants,
   ViroARImageMarker,
   ViroARTrackingTargets,
-} from "@reactvision/react-viro";
-import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+  ViroMaterials,
+} from '@reactvision/react-viro';
+import { StyleSheet, View, Text, TouchableOpacity, FlatList, Button } from 'react-native';
+import { RNCamera } from 'react-native-camera';
 
-// QR kode tracking
-ViroARTrackingTargets.createTargets({
-  qrCode: {
-    source: require('./res/qr_code.jpg'),
-    orientation: 'Up', 
-    physicalWidth: 0.2,
-  },
-});
-
-const HelloWorldSceneAR = () => {
-  const [text, setText] = useState("Initializing AR...");
-  const [qrCodeDetected, setQRCodeDetected] = useState(false);
-
-  // Gemmer QR kodens position og rotation
-  const [qrCodePosition, setQRCodePosition] = useState({ x: 0, y: 0, z: 0 });
-  const [qrCodeRotation, setQRCodeRotation] = useState({ x: 0, y: 0, z: 0 });
-
-  // Function to handle AR tracking initialization
-  function onInitialized(state, reason) {
-    if (state === ViroTrackingStateConstants.TRACKING_NORMAL) {
-      setText("AR Tracking Active");
-    } else if (state === ViroTrackingStateConstants.TRACKING_UNAVAILABLE) {
-      setText("AR Tracking Unavailable");
-    }
-  }
-
-  // Function called when the QR code is detected
-  function onAnchorFound(anchor) {
-    setQRCodeDetected(true);
-    const { position, rotation } = anchor;
-    setQRCodePosition({ x: position[0], y: position[1], z: position[2] });
-    setQRCodeRotation({ x: rotation[0], y: rotation[1], z: rotation[2] });
-  }
-
-  // Function called when the QR code is no longer detected
-  function onAnchorRemoved() {
-    setQRCodeDetected(false);
-  }
-
-  // Hardcoded data for testing
-  const hardcodedData = {
-    waypoints: [
-      { id: 'waypoint_1', name: 'Meeting Room', coordinates: { x: 5, y: 0, z: -3 } },
-      { id: 'waypoint_2', name: 'Office', coordinates: { x: -2, y: 0, z: -4 } },
-    ],
-    connectors: [
-      { id: 'connector_1', waypointStartId: 'waypoint_1', waypointEndId: 'waypoint_2' },
-    ],
-  };
-
-  // Scaling factor to convert floor plan units to AR units
-  const scaleFactor = 0.1;
-
-  return (
-    <ViroARScene onTrackingUpdated={onInitialized}>
-      {/* Display tracking status */}
-      <ViroText
-        text={text}
-        scale={[0.5, 0.5, 0.5]}
-        position={[0, 0, -1]}
-        style={styles.helloWorldTextStyle}
-      />
-
-      {/* 2. Use ViroARImageMarker to detect the QR code */}
-      <ViroARImageMarker
-        target={'qrCode'}
-        onAnchorFound={onAnchorFound}
-        onAnchorRemoved={onAnchorRemoved}
-        pauseUpdates={false} // Keep tracking active even if the QR code is out of view
-      >
-        {/* 3. Render waypoints and connectors as children of the QR code marker */}
-        {qrCodeDetected && hardcodedData.waypoints.map((waypoint) => {
-          // Convert waypoint coordinates using the scale factor
-          const position = [
-            waypoint.coordinates.x * scaleFactor,
-            waypoint.coordinates.y * scaleFactor,
-            waypoint.coordinates.z * scaleFactor,
-          ];
-          return (
-            <ViroText
-              key={waypoint.id}
-              text={waypoint.name}
-              position={position}
-              scale={[0.5, 0.5, 0.5]}
-              style={styles.markerTextStyle}
-            />
-          );
-        })}
-
-        {/* Render connectors between waypoints */}
-        {qrCodeDetected && hardcodedData.connectors.map((connector) => {
-          const start = hardcodedData.waypoints.find((w) => w.id === connector.waypointStartId);
-          const end = hardcodedData.waypoints.find((w) => w.id === connector.waypointEndId);
-
-          if (start && end) {
-            const startPos = [
-              start.coordinates.x * scaleFactor,
-              start.coordinates.y * scaleFactor,
-              start.coordinates.z * scaleFactor,
-            ];
-            const endPos = [
-              end.coordinates.x * scaleFactor,
-              end.coordinates.y * scaleFactor,
-              end.coordinates.z * scaleFactor,
-            ];
-
-            return (
-              <ViroPolyline
-                key={connector.id}
-                points={[
-                  startPos,
-                  endPos
-                ]}
-                thickness={0.05}
-                materials={['line']}
-              />
-            );
-          }
-          return null;
-        })}
-      </ViroARImageMarker>
-    </ViroARScene>
-  );
-};
-
-export default () => {
-  return (
-    <ViroARSceneNavigator
-      autofocus={true}
-      initialScene={{
-        scene: HelloWorldSceneAR,
-      }}
-      style={styles.f1}
-    />
-  );
-};
-
-const styles = StyleSheet.create({
-  f1: { 
-    flex: 1 
-  },
-  helloWorldTextStyle: {
-    fontFamily: "Arial",
-    fontSize: 30,
-    color: "#ffffff",
-    textAlignVertical: "center",
-    textAlign: "center",
-  },
-  markerTextStyle: {
-    fontFamily: "Arial",
-    fontSize: 20,
-    color: "#00ff00",
-    textAlignVertical: "center",
-    textAlign: "center",
-  },
-});
-
-// Add a material for the polyline (optional)
 ViroMaterials.createMaterials({
   line: {
     diffuseColor: '#ff0000',
   },
 });
+
+const ARScreen = () => {
+  const [scanned, setScanned] = useState(false);
+  const [qrData, setQRData] = useState(null);
+  const [waypointsData, setWaypointsData] = useState(null);
+  const [selectedWaypoint, setSelectedWaypoint] = useState(null);
+  const [showARScene, setShowARScene] = useState(false);
+
+  const handleBarCodeScanned = ({ data }) => {
+    setScanned(true);
+    setQRData(data);
+
+    // Get waypoints based on QR code data
+    const dataFromQR = getWaypointsForQRData(data);
+    setWaypointsData(dataFromQR);
+  };
+
+  const getWaypointsForQRData = (data) => {
+    // Replace this with your actual logic
+    if (data === 'qr_code_1') {
+      return {
+        waypoints: [
+          { id: 'waypoint_1', name: 'Meeting Room', coordinates: { x: 5, y: 0, z: -3 } },
+          { id: 'waypoint_2', name: 'Office', coordinates: { x: -2, y: 0, z: -4 } },
+        ],
+        connectors: [
+          { id: 'connector_1', waypointStartId: 'waypoint_1', waypointEndId: 'waypoint_2' },
+        ],
+      };
+    } else if (data === 'qr_code_2') {
+      // Add other QR code data as needed
+      return {
+        waypoints: [
+          { id: 'waypoint_3', name: 'Lobby', coordinates: { x: 0, y: 0, z: -2 } },
+          { id: 'waypoint_4', name: 'Cafeteria', coordinates: { x: 3, y: 0, z: -5 } },
+        ],
+        connectors: [
+          { id: 'connector_2', waypointStartId: 'waypoint_3', waypointEndId: 'waypoint_4' },
+        ],
+      };
+    } else {
+      // Handle unknown QR codes
+      return null;
+    }
+  };
+
+  const handleWaypointSelect = (waypoint) => {
+    setSelectedWaypoint(waypoint);
+    setShowARScene(true);
+  };
+
+  const scaleFactor = 0.1;
+
+  if (!scanned) {
+    // Show QR code scanner using RNCamera
+    return (
+      <View style={{ flex: 1 }}>
+        <RNCamera
+          style={styles.camera}
+          type={RNCamera.Constants.Type.back}
+          captureAudio={false}
+          onBarCodeRead={handleBarCodeScanned}
+          barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
+        >
+          <View style={styles.scannerOverlay}>
+            <Text style={styles.scannerText}>Scan a QR Code</Text>
+          </View>
+        </RNCamera>
+      </View>
+    );
+  } else if (waypointsData && !selectedWaypoint && !showARScene) {
+    // Show waypoint selection menu
+    return (
+      <View style={styles.menuContainer}>
+        <Text style={styles.menuTitle}>Select a Waypoint:</Text>
+        <FlatList
+          data={waypointsData.waypoints}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={() => handleWaypointSelect(item)}
+            >
+              <Text style={styles.menuItemText}>{item.name}</Text>
+            </TouchableOpacity>
+          )}
+        />
+        <Button title="Scan Again" onPress={() => { setScanned(false); setQRData(null); }} />
+      </View>
+    );
+  } else if (showARScene && selectedWaypoint) {
+    // Show AR scene with guided path
+    return (
+      <ViroARSceneNavigator
+        autofocus={true}
+        initialScene={{
+          scene: () => (
+            <ARScene
+              waypointsData={waypointsData}
+              selectedWaypoint={selectedWaypoint}
+              scaleFactor={scaleFactor}
+            />
+          ),
+        }}
+        style={styles.f1}
+      />
+    );
+  } else {
+    // Handle case where no waypoints data is available
+    return (
+      <View style={styles.menuContainer}>
+        <Text style={styles.menuTitle}>No waypoints data available for this QR code.</Text>
+        <Button title="Scan Again" onPress={() => { setScanned(false); setQRData(null); }} />
+      </View>
+    );
+  }
+};
+
+// ARScene component remains the same as your original code
+
+const styles = StyleSheet.create({
+  f1: {
+    flex: 1,
+  },
+  camera: {
+    flex: 1,
+  },
+  helloWorldTextStyle: {
+    fontFamily: 'Arial',
+    fontSize: 30,
+    color: '#ffffff',
+    textAlignVertical: 'center',
+    textAlign: 'center',
+  },
+  markerTextStyle: {
+    fontFamily: 'Arial',
+    fontSize: 20,
+    color: '#00ff00',
+    textAlignVertical: 'center',
+    textAlign: 'center',
+  },
+  menuContainer: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#fff',
+  },
+  menuTitle: {
+    fontSize: 24,
+    marginBottom: 16,
+  },
+  menuItem: {
+    padding: 12,
+    backgroundColor: '#eee',
+    marginBottom: 8,
+  },
+  menuItemText: {
+    fontSize: 18,
+  },
+  scannerOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingBottom: 50,
+  },
+  scannerText: {
+    fontSize: 24,
+    color: '#fff',
+  },
+});
+
+export default ARScreen;

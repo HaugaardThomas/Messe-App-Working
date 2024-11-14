@@ -1,17 +1,12 @@
 // ARScreen.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+ import { Camera, CameraType } from 'expo-camera';
 import {
   ViroARScene,
   ViroARSceneNavigator,
-  ViroText,
-  ViroPolyline,
-  ViroTrackingStateConstants,
-  ViroARImageMarker,
-  ViroARTrackingTargets,
   ViroMaterials,
 } from '@reactvision/react-viro';
 import { StyleSheet, View, Text, TouchableOpacity, FlatList, Button } from 'react-native';
-import { RNCamera } from 'react-native-camera';
 
 ViroMaterials.createMaterials({
   line: {
@@ -20,13 +15,22 @@ ViroMaterials.createMaterials({
 });
 
 const ARScreen = () => {
+  const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [qrData, setQRData] = useState(null);
   const [waypointsData, setWaypointsData] = useState(null);
   const [selectedWaypoint, setSelectedWaypoint] = useState(null);
   const [showARScene, setShowARScene] = useState(false);
 
-  const handleBarCodeScanned = ({ data }) => {
+  // Request camera permission
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
+
+  const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     setQRData(data);
 
@@ -36,7 +40,6 @@ const ARScreen = () => {
   };
 
   const getWaypointsForQRData = (data) => {
-    // Replace this with your actual logic
     if (data === 'qr_code_1') {
       return {
         waypoints: [
@@ -48,7 +51,6 @@ const ARScreen = () => {
         ],
       };
     } else if (data === 'qr_code_2') {
-      // Add other QR code data as needed
       return {
         waypoints: [
           { id: 'waypoint_3', name: 'Lobby', coordinates: { x: 0, y: 0, z: -2 } },
@@ -59,7 +61,6 @@ const ARScreen = () => {
         ],
       };
     } else {
-      // Handle unknown QR codes
       return null;
     }
   };
@@ -71,25 +72,40 @@ const ARScreen = () => {
 
   const scaleFactor = 0.1;
 
+  if (hasPermission === null) {
+    return (
+      <View style={styles.centered}>
+        <Text>Requesting camera permission...</Text>
+      </View>
+    );
+  }
+  if (hasPermission === false) {
+    return (
+      <View style={styles.centered}>
+        <Text>No access to camera.</Text>
+        <Button title="Allow Camera" onPress={() => Camera.requestCameraPermissionsAsync()} />
+      </View>
+    );
+  }
+
   if (!scanned) {
-    // Show QR code scanner using RNCamera
     return (
       <View style={{ flex: 1 }}>
-        <RNCamera
-          style={styles.camera}
-          type={RNCamera.Constants.Type.back}
-          captureAudio={false}
-          onBarCodeRead={handleBarCodeScanned}
-          barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
+        <Camera
+          style={{ flex: 1 }}
+          type={CameraType.back}
+          onBarCodeScanned={handleBarCodeScanned}
+          barCodeScannerSettings={{
+            barCodeTypes: [BarCodeType.qr],
+          }}
         >
           <View style={styles.scannerOverlay}>
             <Text style={styles.scannerText}>Scan a QR Code</Text>
           </View>
-        </RNCamera>
+        </Camera>
       </View>
     );
   } else if (waypointsData && !selectedWaypoint && !showARScene) {
-    // Show waypoint selection menu
     return (
       <View style={styles.menuContainer}>
         <Text style={styles.menuTitle}>Select a Waypoint:</Text>
@@ -105,11 +121,16 @@ const ARScreen = () => {
             </TouchableOpacity>
           )}
         />
-        <Button title="Scan Again" onPress={() => { setScanned(false); setQRData(null); }} />
+        <Button
+          title="Scan Again"
+          onPress={() => {
+            setScanned(false);
+            setQRData(null);
+          }}
+        />
       </View>
     );
   } else if (showARScene && selectedWaypoint) {
-    // Show AR scene with guided path
     return (
       <ViroARSceneNavigator
         autofocus={true}
@@ -126,17 +147,30 @@ const ARScreen = () => {
       />
     );
   } else {
-    // Handle case where no waypoints data is available
     return (
       <View style={styles.menuContainer}>
         <Text style={styles.menuTitle}>No waypoints data available for this QR code.</Text>
-        <Button title="Scan Again" onPress={() => { setScanned(false); setQRData(null); }} />
+        <Button
+          title="Scan Again"
+          onPress={() => {
+            setScanned(false);
+            setQRData(null);
+          }}
+        />
       </View>
     );
   }
 };
 
-// ARScene component remains the same as your original code
+// Define ARScene component if needed
+const ARScene = ({ waypointsData, selectedWaypoint, scaleFactor }) => {
+  // Placeholder for ARScene content
+  return (
+    <ViroARScene>
+      {/* Your AR code goes here */}
+    </ViroARScene>
+  );
+};
 
 const styles = StyleSheet.create({
   f1: {
@@ -177,14 +211,20 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   scannerOverlay: {
-    flex: 1,
-    justifyContent: 'flex-end',
+    position: 'absolute',
+    bottom: 50,
+    left: 0,
+    right: 0,
     alignItems: 'center',
-    paddingBottom: 50,
   },
   scannerText: {
     fontSize: 24,
     color: '#fff',
+  },
+  centered: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

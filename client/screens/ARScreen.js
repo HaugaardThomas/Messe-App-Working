@@ -32,6 +32,7 @@ const ARScreen = () => {
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
+    console.log('Scanned QR Code Data:', data);
     setScanned(true);
     setQRData(data);
 
@@ -41,7 +42,7 @@ const ARScreen = () => {
   };
 
   const getWaypointsForQRData = (data) => {
-    if (data === 'qr_code_1') {
+    if (data === 'https://qr.link/HFvW1G') {
       return {
         waypoints: [
           { id: 'waypoint_1', name: 'Meeting Room', coordinates: { x: 5, y: 0, z: -3 } },

@@ -1,6 +1,6 @@
 // ARScreen.js
 import React, { useState, useEffect } from 'react';
- import { Camera, CameraType } from 'expo-camera';
+ import { Camera, CameraType, CameraView } from 'expo-camera';
 import {
   ViroARScene,
   ViroARSceneNavigator,
@@ -20,7 +20,8 @@ const ARScreen = () => {
   const [qrData, setQRData] = useState(null);
   const [waypointsData, setWaypointsData] = useState(null);
   const [selectedWaypoint, setSelectedWaypoint] = useState(null);
-  const [showARScene, setShowARScene] = useState(false);
+  const [showARScene, setShowARScene] = useState(false); 
+
 
   // Request camera permission
   useEffect(() => {
@@ -91,18 +92,15 @@ const ARScreen = () => {
   if (!scanned) {
     return (
       <View style={{ flex: 1 }}>
-        <Camera
-          style={{ flex: 1 }}
-          type={CameraType.back}
-          onBarCodeScanned={handleBarCodeScanned}
-          barCodeScannerSettings={{
-            barCodeTypes: [BarCodeType.qr],
-          }}
+        <CameraView
+        style={{ flex: 1 }}
+          barcodeScannerEnabled
+          onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
         >
           <View style={styles.scannerOverlay}>
             <Text style={styles.scannerText}>Scan a QR Code</Text>
           </View>
-        </Camera>
+        </CameraView>
       </View>
     );
   } else if (waypointsData && !selectedWaypoint && !showARScene) {

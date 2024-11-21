@@ -48,8 +48,7 @@
           "recordAudioAndroid": true
         }
       ],
-      "@reactvision/react-viro",
-      "expo-asset"
+      "@reactvision/react-viro"
     ]
   }
 }

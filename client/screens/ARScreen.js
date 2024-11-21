@@ -5,6 +5,7 @@ import {
   ViroARScene,
   ViroARSceneNavigator,
   ViroMaterials,
+  ViroText,
 } from '@reactvision/react-viro';
 import { StyleSheet, View, Text, TouchableOpacity, FlatList, Button } from 'react-native';
 
@@ -42,7 +43,7 @@ const ARScreen = () => {
   };
 
   const getWaypointsForQRData = (data) => {
-    if (data === 'https://qr.link/HFvW1G') {
+    if (data === 'https://qr.link/oXjACN') {
       return {
         waypoints: [
           { id: 'waypoint_1', name: 'Meeting Room', coordinates: { x: 5, y: 0, z: -3 } },
@@ -166,7 +167,10 @@ const ARScene = ({ waypointsData, selectedWaypoint, scaleFactor }) => {
   // Placeholder for ARScene content
   return (
     <ViroARScene>
-      {/* Your AR code goes here */}
+      <ViroText 
+       text="Hello World"
+       position={[0, 0, -5]}
+      />
     </ViroARScene>
   );
 };

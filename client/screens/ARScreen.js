@@ -1,234 +1,67 @@
-// ARScreen.js
-import React, { useState, useEffect } from 'react';
- import { Camera, CameraType, CameraView } from 'expo-camera';
 import {
   ViroARScene,
   ViroARSceneNavigator,
-  ViroMaterials,
   ViroText,
-} from '@reactvision/react-viro';
-import { StyleSheet, View, Text, TouchableOpacity, FlatList, Button } from 'react-native';
+  ViroTrackingStateConstants,
+} from "@reactvision/react-viro";
+import React, { useState } from "react";
+import { StyleSheet } from "react-native";
 
-ViroMaterials.createMaterials({
-  line: {
-    diffuseColor: '#ff0000',
-  },
-});
-
-const ARScreen = () => {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
-  const [qrData, setQRData] = useState(null);
-  const [waypointsData, setWaypointsData] = useState(null);
-  const [selectedWaypoint, setSelectedWaypoint] = useState(null);
-  const [showARScene, setShowARScene] = useState(false); 
+const HelloWorldSceneAR = () => {
+  const [text, setText] = useState("Initializing AR...");
 
 
-  // Request camera permission
-  useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
-  }, []);
-
-  const handleBarCodeScanned = ({ type, data }) => {
-    console.log('Scanned QR Code Data:', data);
-    setScanned(true);
-    setQRData(data);
-
-    // Get waypoints based on QR code data
-    const dataFromQR = getWaypointsForQRData(data);
-    setWaypointsData(dataFromQR);
-  };
-
-  const getWaypointsForQRData = (data) => {
-    if (data === 'https://qr.link/oXjACN') {
-      return {
-        waypoints: [
-          { id: 'waypoint_1', name: 'Meeting Room', coordinates: { x: 5, y: 0, z: -3 } },
-          { id: 'waypoint_2', name: 'Office', coordinates: { x: -2, y: 0, z: -4 } },
-        ],
-        connectors: [
-          { id: 'connector_1', waypointStartId: 'waypoint_1', waypointEndId: 'waypoint_2' },
-        ],
-      };
-    } else if (data === 'qr_code_2') {
-      return {
-        waypoints: [
-          { id: 'waypoint_3', name: 'Lobby', coordinates: { x: 0, y: 0, z: -2 } },
-          { id: 'waypoint_4', name: 'Cafeteria', coordinates: { x: 3, y: 0, z: -5 } },
-        ],
-        connectors: [
-          { id: 'connector_2', waypointStartId: 'waypoint_3', waypointEndId: 'waypoint_4' },
-        ],
-      };
-    } else {
-      return null;
+  function onInitialized(state, reason) {
+    if (state === ViroTrackingStateConstants.TRACKING_NORMAL) {
+      setText("Hello World!");
+    } else if (state === ViroTrackingStateConstants.TRACKING_UNAVAILABLE) {
+      // Handle loss of tracking
     }
-  };
-
-  const handleWaypointSelect = (waypoint) => {
-    setSelectedWaypoint(waypoint);
-    setShowARScene(true);
-  };
-
-  const scaleFactor = 0.1;
-
-  if (hasPermission === null) {
-    return (
-      <View style={styles.centered}>
-        <Text>Requesting camera permission...</Text>
-      </View>
-    );
-  }
-  if (hasPermission === false) {
-    return (
-      <View style={styles.centered}>
-        <Text>No access to camera.</Text>
-        <Button title="Allow Camera" onPress={() => Camera.requestCameraPermissionsAsync()} />
-      </View>
-    );
   }
 
-  if (!scanned) {
-    return (
-      <View style={{ flex: 1 }}>
-        <CameraView
-        style={{ flex: 1 }}
-          barcodeScannerEnabled
-          onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
-        >
-          <View style={styles.scannerOverlay}>
-            <Text style={styles.scannerText}>Scan a QR Code</Text>
-          </View>
-        </CameraView>
-      </View>
-    );
-  } else if (waypointsData && !selectedWaypoint && !showARScene) {
-    return (
-      <View style={styles.menuContainer}>
-        <Text style={styles.menuTitle}>Select a Waypoint:</Text>
-        <FlatList
-          data={waypointsData.waypoints}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.menuItem}
-              onPress={() => handleWaypointSelect(item)}
-            >
-              <Text style={styles.menuItemText}>{item.name}</Text>
-            </TouchableOpacity>
-          )}
-        />
-        <Button
-          title="Scan Again"
-          onPress={() => {
-            setScanned(false);
-            setQRData(null);
-          }}
-        />
-      </View>
-    );
-  } else if (showARScene && selectedWaypoint) {
-    return (
-      <ViroARSceneNavigator
-        autofocus={true}
-        initialScene={{
-          scene: () => (
-            <ARScene
-              waypointsData={waypointsData}
-              selectedWaypoint={selectedWaypoint}
-              scaleFactor={scaleFactor}
-            />
-          ),
-        }}
-        style={styles.f1}
-      />
-    );
-  } else {
-    return (
-      <View style={styles.menuContainer}>
-        <Text style={styles.menuTitle}>No waypoints data available for this QR code.</Text>
-        <Button
-          title="Scan Again"
-          onPress={() => {
-            setScanned(false);
-            setQRData(null);
-          }}
-        />
-      </View>
-    );
-  }
-};
 
-// Define ARScene component if needed
-const ARScene = ({ waypointsData, selectedWaypoint, scaleFactor }) => {
-  // Placeholder for ARScene content
+
+
+
+
+
+
+
+
+
+
+
   return (
-    <ViroARScene>
-      <ViroText 
-       text="Hello World"
-       position={[0, 0, -5]}
+    <ViroARScene onTrackingUpdated={onInitialized}>
+      <ViroText
+        text={text}
+        scale={[0.5, 0.5, 0.5]}
+        position={[0, 0, -1]}
+        style={styles.helloWorldTextStyle}
       />
     </ViroARScene>
   );
 };
 
-const styles = StyleSheet.create({
-  f1: {
-    flex: 1,
-  },
-  camera: {
-    flex: 1,
-  },
+export default () => {
+  return (
+    <ViroARSceneNavigator
+      autofocus={true}
+      initialScene={{
+        scene: HelloWorldSceneAR,
+      }}
+      style={styles.f1}
+    />
+  );
+};
+
+var styles = StyleSheet.create({
+  f1: { flex: 1 },
   helloWorldTextStyle: {
-    fontFamily: 'Arial',
+    fontFamily: "Arial",
     fontSize: 30,
-    color: '#ffffff',
-    textAlignVertical: 'center',
-    textAlign: 'center',
-  },
-  markerTextStyle: {
-    fontFamily: 'Arial',
-    fontSize: 20,
-    color: '#00ff00',
-    textAlignVertical: 'center',
-    textAlign: 'center',
-  },
-  menuContainer: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#fff',
-  },
-  menuTitle: {
-    fontSize: 24,
-    marginBottom: 16,
-  },
-  menuItem: {
-    padding: 12,
-    backgroundColor: '#eee',
-    marginBottom: 8,
-  },
-  menuItemText: {
-    fontSize: 18,
-  },
-  scannerOverlay: {
-    position: 'absolute',
-    bottom: 50,
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-  },
-  scannerText: {
-    fontSize: 24,
-    color: '#fff',
-  },
-  centered: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    color: "#ffffff",
+    textAlignVertical: "center",
+    textAlign: "center",
   },
 });
-
-export default ARScreen;

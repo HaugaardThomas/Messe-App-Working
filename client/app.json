@@ -1,54 +1,15 @@
 {
   "expo": {
-    "name": "client",
-    "slug": "client",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "infoPlist": {
-        "NSPhotoLibraryUsageDescription": "Allow $(PRODUCT_NAME) to access your photos",
-        "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos",
-        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to use your camera",
-        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to use your microphone"
-      },
-      "bundleIdentifier": "com.thomashaugaard.messeapp"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.thomashaugaard.messeapp"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
     "extra": {
       "eas": {
-        "projectId": "17d1ea66-c1fd-4614-b9e0-734fb99e38ab"
+        "projectId": "de612648-ea68-4966-b62c-5aeb6929e12b"
       }
     },
-    "plugins": [
-      [
-        "expo-camera",
-        {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
-          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
-          "recordAudioAndroid": true
-        }
-      ],
-      "@reactvision/react-viro"
-    ]
+    "ios": {
+      "bundleIdentifier": "com.ggpvprammer22.client"
+    },
+    "android": {
+      "package": "com.ggpvprammer22.client"
+    }
   }
 }
